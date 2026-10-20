@@ -1,0 +1,316 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Send,
+  MessageSquareHeart,
+  Sparkles,
+  Lock,
+  CheckCircle2,
+  RefreshCw,
+  Heart,
+  Smile,
+} from "lucide-react";
+import confetti from "canvas-confetti";
+
+export interface SecretMessage {
+  id: string;
+  recipient: string;
+  category: string;
+  message: string;
+  createdAt: string;
+  isRead?: boolean;
+}
+
+export const INITIAL_MESSAGES: SecretMessage[] = [
+  {
+    id: "msg-1",
+    recipient: "Semua Anak Ristek 💙",
+    category: "Apresiasi Hangat 💙",
+    message:
+      "Makasih banyak untuk 1 tahun yang luar biasa guys! Nggak nyangka kita bisa selesain semua proker tanpa ada yang tumbang. Kalian keluarga terbaik di Fasilkom!",
+    createdAt: "2026-10-21T10:00:00.000Z",
+    isRead: false,
+  },
+  {
+    id: "msg-2",
+    recipient: "Kadep & Sekdep Ristek 👑",
+    category: "Apresiasi Hangat 💙",
+    message:
+      "Terima kasih Kak Kadep dan Kak Sekdep yang selalu sabar bimbing kami saat panik deadline rapat pleno. Maaf kalau sering ngaret gmeet ya kak hehe.",
+    createdAt: "2026-10-21T11:30:00.000Z",
+    isRead: false,
+  },
+  {
+    id: "msg-3",
+    recipient: "Divisi Web & Application 💻",
+    category: "Pesan Lucu / Roasting 🤣",
+    message:
+      "Buat anak-anak web dev, tolong setelah demis jam tidurnya dinormalkan ya. Jangan commit repo jam 3 pagi lagi, mata kalian udah mirip panda!",
+    createdAt: "2026-10-21T14:15:00.000Z",
+    isRead: false,
+  },
+];
+
+export default function SecretAppreciationForm() {
+  const [recipientOption, setRecipientOption] = useState("Semua Anak Ristek 💙");
+  const [customRecipient, setCustomRecipient] = useState("");
+  const [category, setCategory] = useState("Apresiasi Hangat 💙");
+  const [message, setMessage] = useState("");
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [messageCount, setMessageCount] = useState(3);
+
+  const recipientOptions = [
+    "Semua Anak Ristek 💙",
+    "Kadep & Sekdep Ristek 👑",
+    "Divisi Web & Application 💻",
+    "Divisi Research & Technology 🔬",
+    "Divisi Creative & Media 🎨",
+    "Ketik Nama Staf Lainnya ✍️",
+  ];
+
+  const categories = [
+    { label: "Apresiasi Hangat 💙", color: "hover:border-blue-400" },
+    { label: "Kesan Pertama 🥺", color: "hover:border-pink-400" },
+    { label: "Pesan Lucu / Roasting 🤣", color: "hover:border-amber-400" },
+    { label: "Harapan Masa Depan ✨", color: "hover:border-emerald-400" },
+  ];
+
+  // Sync count from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("ristek_secret_messages");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setMessageCount(parsed.length);
+      } else {
+        localStorage.setItem("ristek_secret_messages", JSON.stringify(INITIAL_MESSAGES));
+        setMessageCount(INITIAL_MESSAGES.length);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+
+    const finalRecipient =
+      recipientOption === "Ketik Nama Staf Lainnya ✍️"
+        ? customRecipient.trim() || "Teman Ristek"
+        : recipientOption;
+
+    const newMessage: SecretMessage = {
+      id: `msg-${Date.now()}`,
+      recipient: finalRecipient,
+      category,
+      message: message.trim(),
+      createdAt: new Date().toISOString(),
+      isRead: false,
+    };
+
+    try {
+      const currentStored = localStorage.getItem("ristek_secret_messages");
+      const list: SecretMessage[] = currentStored ? JSON.parse(currentStored) : INITIAL_MESSAGES;
+      const updated = [newMessage, ...list];
+      localStorage.setItem("ristek_secret_messages", JSON.stringify(updated));
+      setMessageCount(updated.length);
+
+      // Confetti explosion
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.7 },
+        colors: ["#38BDF8", "#F59E0B", "#EC4899", "#10B981"],
+      });
+    } catch {
+      // ignore
+    }
+
+    setIsSubmitted(true);
+  };
+
+  const handleReset = () => {
+    setMessage("");
+    setCustomRecipient("");
+    setIsSubmitted(false);
+  };
+
+  return (
+    <section id="secret-form" className="py-20 px-4 sm:px-6 max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-950/60 border border-pink-800/60 text-xs font-mono text-pink-300 mb-3">
+          <Lock className="w-3.5 h-3.5 text-pink-400" />
+          <span>100% ANONYMOUS &bull; END-TO-END NOSTALGIC</span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Secret Appreciation Form
+        </h2>
+        <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+          Tuliskan pesan, terima kasih, unek-unek kocak, atau kesan terpendammu
+          tanpa nama pengirim. Pesan ini akan dibacakan di sesi khusus jam 11.00!
+        </p>
+
+        {/* Counter vault pill */}
+        <div className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-slate-400 bg-slate-900/80 px-3 py-1 rounded-full border border-slate-800">
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+          <span>
+            Brankas Rahasia: <strong className="text-amber-400">{messageCount}</strong> pesan tersimpan
+          </span>
+        </div>
+      </div>
+
+      {/* Main Container */}
+      <div className="bg-[#0B1228] border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+        {/* Decorative corner glows */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-pink-500/10 rounded-full blur-[90px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[90px] pointer-events-none" />
+
+        <AnimatePresence mode="wait">
+          {!isSubmitted ? (
+            <motion.form
+              key="form"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onSubmit={handleSubmit}
+              className="space-y-6 relative z-10"
+            >
+              {/* Recipient Dropdown */}
+              <div>
+                <label className="block text-xs font-mono font-semibold text-slate-300 mb-2">
+                  1. Untuk Siapa Pesan Ini? (Recipient)
+                </label>
+                <select
+                  value={recipientOption}
+                  onChange={(e) => setRecipientOption(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-pink-400 transition-colors cursor-pointer"
+                >
+                  {recipientOptions.map((opt, i) => (
+                    <option key={i} value={opt} className="bg-slate-900 text-white">
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+
+                {recipientOption === "Ketik Nama Staf Lainnya ✍️" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-3"
+                  >
+                    <input
+                      type="text"
+                      value={customRecipient}
+                      onChange={(e) => setCustomRecipient(e.target.value)}
+                      placeholder="Masukkan nama staf atau nama panggilan..."
+                      className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-pink-400"
+                      required
+                    />
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Mood Category Pills */}
+              <div>
+                <label className="block text-xs font-mono font-semibold text-slate-300 mb-2">
+                  2. Kategori / Mood Pesan
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  {categories.map((cat, i) => {
+                    const isSelected = category === cat.label;
+                    return (
+                      <button
+                        type="button"
+                        key={i}
+                        onClick={() => setCategory(cat.label)}
+                        className={`p-2.5 rounded-xl border text-xs font-medium transition-all text-center cursor-pointer ${
+                          isSelected
+                            ? "bg-pink-950/60 border-pink-400 text-pink-200 shadow-md shadow-pink-950/40"
+                            : "bg-slate-900/80 border-slate-800 text-slate-300 hover:border-slate-700"
+                        }`}
+                      >
+                        {cat.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Message Textarea */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="block text-xs font-mono font-semibold text-slate-300">
+                    3. Isi Pesan / Kesan (100% Rahasia)
+                  </label>
+                  <span className="text-[11px] font-mono text-slate-500">
+                    {message.length}/1000 karakter
+                  </span>
+                </div>
+                <textarea
+                  rows={5}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  maxLength={1000}
+                  placeholder="Tuliskan apapun dari lubuk hatimu... Kenangan pertama ketemu, terima kasih atas bantuan proker, pesan roasting lucu, atau harapan buat dia di masa depan!"
+                  required
+                  className="w-full px-4 py-3 rounded-2xl bg-slate-900/90 border border-slate-700 text-white text-sm focus:outline-none focus:border-pink-400 transition-colors resize-none placeholder:text-slate-500 leading-relaxed font-sans"
+                />
+              </div>
+
+              {/* Privacy disclaimer */}
+              <div className="flex items-center gap-2 text-xs font-mono text-slate-400 bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
+                <Lock className="w-4 h-4 text-emerald-400 shrink-0" />
+                <span>
+                  Tidak ada identitas, nama, atau data pribadi yang disimpan. Aman & terenkripsi cinta!
+                </span>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-pink-600 via-rose-600 to-amber-500 hover:from-pink-500 hover:to-amber-400 text-white font-bold text-sm shadow-xl shadow-pink-600/25 flex items-center justify-center gap-2 hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer"
+              >
+                <Send className="w-4 h-4" />
+                <span>Kirim Pesan Anonim Sekarang 💌</span>
+              </button>
+            </motion.form>
+          ) : (
+            <motion.div
+              key="success"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              className="py-8 text-center space-y-4"
+            >
+              <div className="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-400/40 flex items-center justify-center mx-auto shadow-lg shadow-emerald-500/20">
+                <CheckCircle2 className="w-8 h-8" />
+              </div>
+
+              <h3 className="text-2xl font-bold text-white">
+                Pesan Rahasiamu Berhasil Terkirim! 🎉
+              </h3>
+              <p className="text-sm text-slate-300 max-w-md mx-auto leading-relaxed">
+                Pesan ini telah masuk ke brankas rahasia panitia dan siap
+                dibacakan pada sesi acara jam <strong>11.00 – 11.30 WIB</strong>.
+              </p>
+
+              <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  onClick={handleReset}
+                  className="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-mono font-semibold flex items-center gap-2 transition-all cursor-pointer"
+                >
+                  <RefreshCw className="w-4 h-4 text-amber-400" />
+                  <span>Kirim Pesan Lagi untuk yang Lain 💌</span>
+                </button>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+}
