@@ -9,7 +9,7 @@ import SectionHeading from "@/components/SectionHeading";
 export interface RistekMember2026 {
   name: string;
   role: string;
-  division: "pimpinan" | "pti" | "akademik";
+  division: "pimpinan" | "pti" | "akademik" | "tamu";
   divisionName: string;
   instagram: string;
   seat: string;
@@ -192,7 +192,14 @@ function generateUniqueSeat(name: string, division: Division): string {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
   }
   const num = (Math.abs(hash) % 20) + 10; // 10 - 29
-  const prefix = division === "pti" ? "PTI" : division === "akademik" ? "AKD" : "LEAD";
+  const prefix =
+    division === "pti"
+      ? "PTI"
+      : division === "akademik"
+      ? "AKD"
+      : division === "pimpinan"
+      ? "LEAD"
+      : "TMU";
   return `${prefix}-${num}`;
 }
 
@@ -200,12 +207,14 @@ const DIVISION_LABEL: Record<Division, string> = {
   pimpinan: "Pimpinan RISTEK",
   pti: "Divisi PTI",
   akademik: "Divisi Akademik",
+  tamu: "Tamu",
 };
 
 const SEAT_COLOR: Record<string, string> = {
   PTI: "text-blue",
   AKD: "text-rose",
   LEAD: "text-gold",
+  TMU: "text-gold",
   PIM: "text-gold",
   VIP: "text-gold",
 };
@@ -217,7 +226,7 @@ export default function BoardingPassGenerator() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [isCustom, setIsCustom] = useState(false);
   const [customName, setCustomName] = useState("");
-  const [customDivision, setCustomDivision] = useState<Division>("pti");
+  const [customDivision, setCustomDivision] = useState<Division>("tamu");
   const [customRole, setCustomRole] = useState("Tamu Farewell Ristek 2026");
   const [customIg, setCustomIg] = useState("");
 
@@ -299,9 +308,9 @@ export default function BoardingPassGenerator() {
                       onChange={(e) => setCustomDivision(e.target.value as Division)}
                       className={`${fieldClass} cursor-pointer`}
                     >
+                      <option value="tamu">Tamu</option>
                       <option value="pti">Divisi PTI</option>
                       <option value="akademik">Divisi Akademik</option>
-                      <option value="pimpinan">Tamu / Pimpinan</option>
                     </select>
                   </label>
                   <label className="block">

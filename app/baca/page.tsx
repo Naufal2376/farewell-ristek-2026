@@ -105,10 +105,10 @@ export default function LiveReadPage() {
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(() => {});
+      document.documentElement.requestFullscreen().catch(() => { });
       setIsFullscreen(true);
     } else {
-      document.exitFullscreen().catch(() => {});
+      document.exitFullscreen().catch(() => { });
       setIsFullscreen(false);
     }
   };
@@ -208,8 +208,8 @@ export default function LiveReadPage() {
             {status === "error"
               ? loadError
               : messages.length === 0
-              ? "Belum ada pesan masuk."
-              : `Tidak ada pesan untuk “${searchQuery}”.`}
+                ? "Belum ada pesan masuk."
+                : `Tidak ada pesan untuk “${searchQuery}”.`}
           </p>
         ) : (
           <AnimatePresence mode="wait">
@@ -227,7 +227,7 @@ export default function LiveReadPage() {
                     <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">Untuk</p>
                     <h2 className="mt-2 font-extrabold tracking-tight text-4xl sm:text-6xl leading-tight">{currentMessage.recipient}</h2>
                   </div>
-                  <span className="font-mono text-sm text-muted tabular-nums pt-1">
+                  <span className="font-mono whitespace-nowrap text-sm text-muted tabular-nums pt-1">
                     {currentIndex + 1} / {filteredMessages.length}
                   </span>
                 </div>
