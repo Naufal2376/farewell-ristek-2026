@@ -85,7 +85,7 @@ export default function RistekWrapped() {
       {/* Section Header */}
       <div className="text-center mb-14">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 font-mono text-xs mb-3">
-          <Sparkles className="w-3.5 h-3.5 animate-spin" />
+          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
           <span>STATISTIK PERJALANAN SATU PERIODE</span>
         </div>
         <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">

@@ -131,7 +131,7 @@ export const RISTEK_MEMORIES_24: RistekMemoryItem[] = [
     title: "10. UX Exhibition Ristek",
     tag: "PROKER 04 HIMSI",
     badge: "🎨 Karya Masterpiece",
-    date: "Mei 2026",
+    date: "Awal Mei 2026",
     caption:
       "Proker kebanggaan Ristek! Pelatihan komprehensif prinsip UI/UX design dan pameran prototyping aplikasi web interaktif yang menuai banyak pujian.",
     rotation: "rotate-3",
@@ -143,7 +143,7 @@ export const RISTEK_MEMORIES_24: RistekMemoryItem[] = [
     title: "11. Evaluasi 3 Bulan (Kuartal 1)",
     tag: "EVAL 3 BULAN",
     badge: "📊 Review & Curhat",
-    date: "Juni 2026",
+    date: "Mei 2026",
     caption:
       "Review triwulan pertama. Evaluasi kinerja divisi, refleksi jujur kendala proker, dan saling menyemangati agar tetap solid sampai akhir periode.",
     rotation: "-rotate-2",
@@ -155,7 +155,7 @@ export const RISTEK_MEMORIES_24: RistekMemoryItem[] = [
     title: "12. LADDER (Upgrading Skill Ristek)",
     tag: "LADDER",
     badge: "⚡ Level Up",
-    date: "Juni 2026",
+    date: "Mei 2026",
     caption:
       "Program upgrading internal untuk menaikkan tangga skill kepemimpinan, teknis komputasi, dan problem solving demi kesiapan profesional staf Ristek.",
     rotation: "rotate-1",
@@ -167,7 +167,7 @@ export const RISTEK_MEMORIES_24: RistekMemoryItem[] = [
     title: "13. Arcade, Karaoke & BTS Taking DIES",
     tag: "HEALING TIME",
     badge: "🎤 Seru Pecah",
-    date: "Juni 2026",
+    date: "Mei 2026",
     caption:
       "Momen paling heboh! Main arcade bareng di Timezone, karaoke nyanyi lagu galau sekencang-kencangnya, sambil take video BTS untuk Dies Natalis.",
     rotation: "-rotate-3",
@@ -176,12 +176,12 @@ export const RISTEK_MEMORIES_24: RistekMemoryItem[] = [
   },
   {
     id: 14,
-    title: "14. Perayaan Dies Natalis HIMSI",
+    title: "14. Perayaan Dies Natalis HIMSI (25 Mei)",
     tag: "DIES NATALIS",
     badge: "🎂 Milad HIMSI",
-    date: "Juli 2026",
+    date: "25 Mei 2026",
     caption:
-      "Perayaan hari lahir HIMSI Fasilkom Unsri yang megah dan berkesan. Potong tumpeng, pentas kebersamaan, dan euforia bangga berhimpun.",
+      "Perayaan hari lahir resmi HIMSI Fasilkom Unsri pada 25 Mei! Potong tumpeng meriah, pentas kebersamaan, dan euforia bangga berhimpun.",
     rotation: "rotate-2",
     imageUrl:
       "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80",
@@ -191,7 +191,7 @@ export const RISTEK_MEMORIES_24: RistekMemoryItem[] = [
     title: "15. SSMKP (Sharing Magang & KP)",
     tag: "PROKER RISTEK",
     badge: "🚀 Tips Lolos Magang",
-    date: "Juli 2026",
+    date: "Juni / Juli 2026",
     caption:
       "Sharing Session Magang & Kerja Praktik bersama alumni Ristek untuk membimbing adik tingkat mempersiapkan CV, portfolio, dan tes teknikal.",
     rotation: "-rotate-1",
@@ -492,91 +492,94 @@ export default function PolaroidGallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedPhotoIndex(null)}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 sm:p-6"
+            className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto"
           >
             <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              initial={{ scale: 0.94, opacity: 0, y: 15 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.94, opacity: 0, y: 15 }}
+              transition={{ type: "spring", damping: 26, stiffness: 320 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-w-3xl w-full bg-[#0D1429] border border-amber-500/30 rounded-3xl p-5 sm:p-7 shadow-2xl shadow-amber-950/40 flex flex-col"
+              className="relative max-w-lg sm:max-w-xl w-full max-h-[88vh] bg-[#0C1226] border border-amber-500/40 rounded-2xl sm:rounded-3xl p-3.5 sm:p-4 shadow-2xl shadow-black/80 flex flex-col overflow-hidden my-auto"
             >
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedPhotoIndex(null)}
-                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-slate-900/80 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
-                aria-label="Tutup foto"
-              >
-                <X className="w-5 h-5" />
-              </button>
-
-              {/* Prev / Next controls */}
-              <button
-                onClick={handlePrevPhoto}
-                className="absolute left-2 sm:-left-12 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-slate-900/90 border border-amber-500/40 text-amber-300 hover:scale-110 active:scale-95 transition-all shadow-xl z-20 cursor-pointer"
-                aria-label="Foto sebelumnya"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-
-              <button
-                onClick={handleNextPhoto}
-                className="absolute right-2 sm:-right-12 top-1/2 -translate-y-1/2 p-2.5 rounded-full bg-slate-900/90 border border-amber-500/40 text-amber-300 hover:scale-110 active:scale-95 transition-all shadow-xl z-20 cursor-pointer"
-                aria-label="Foto selanjutnya"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-
-              {/* Big High-Res Image Display */}
-              <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shadow-inner">
+              {/* Image Container with Restrained Height & Overlaid Controls */}
+              <div className="relative w-full h-44 sm:h-56 md:h-64 rounded-xl sm:rounded-2xl overflow-hidden bg-slate-950 border border-slate-800 shrink-0">
                 <Image
                   src={currentModalPhoto.imageUrl}
                   alt={currentModalPhoto.title}
                   fill
                   unoptimized
-                  sizes="100vw"
+                  sizes="(max-width: 768px) 100vw, 600px"
                   className="object-cover"
                   priority
                 />
+
+                {/* Overlaid Prev Button */}
+                <button
+                  onClick={handlePrevPhoto}
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-black/90 border border-white/25 text-white backdrop-blur-md transition-all cursor-pointer hover:scale-110 active:scale-95 z-20 shadow-lg"
+                  aria-label="Foto sebelumnya"
+                >
+                  <ChevronLeft className="w-5 h-5 text-amber-300" />
+                </button>
+
+                {/* Overlaid Next Button */}
+                <button
+                  onClick={handleNextPhoto}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-black/90 border border-white/25 text-white backdrop-blur-md transition-all cursor-pointer hover:scale-110 active:scale-95 z-20 shadow-lg"
+                  aria-label="Foto selanjutnya"
+                >
+                  <ChevronRight className="w-5 h-5 text-amber-300" />
+                </button>
+
+                {/* Overlaid Close Button */}
+                <button
+                  onClick={() => setSelectedPhotoIndex(null)}
+                  className="absolute top-2.5 right-2.5 z-20 p-1.5 rounded-full bg-black/65 hover:bg-black/90 border border-white/25 text-white backdrop-blur-md transition-all cursor-pointer hover:scale-105 active:scale-95 shadow-md"
+                  aria-label="Tutup foto"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
 
-              {/* Modal Info Bar */}
-              <div className="mt-4 pt-3 flex flex-col gap-2">
-                <div className="flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-amber-400/20 border border-amber-400/40 text-amber-300 text-xs font-mono font-bold">
-                      {currentModalPhoto.tag}
-                    </span>
-                    <span className="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 text-xs font-mono">
-                      {currentModalPhoto.badge}
+              {/* Modal Info Bar with Scrollable Content if Needed */}
+              <div className="mt-3 overflow-y-auto flex-1 flex flex-col justify-between pr-1">
+                <div>
+                  <div className="flex flex-wrap items-center justify-between gap-1.5 mb-1.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="px-2 py-0.5 rounded-md bg-amber-400/20 border border-amber-400/40 text-amber-300 text-[10px] sm:text-[11px] font-mono font-bold">
+                        {currentModalPhoto.tag}
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700 text-slate-300 text-[10px] sm:text-[11px] font-mono">
+                        {currentModalPhoto.badge}
+                      </span>
+                    </div>
+                    <span className="text-[10px] sm:text-[11px] font-mono text-slate-400">
+                      {currentModalPhoto.date} &bull; #{currentModalPhoto.id} / 24
                     </span>
                   </div>
-                  <span className="text-xs font-mono text-slate-400">
-                    {currentModalPhoto.date} &bull; Momen {currentModalPhoto.id} dari 24
-                  </span>
+
+                  <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+                    {currentModalPhoto.title}
+                  </h3>
+
+                  <p className="mt-1 text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                    {currentModalPhoto.caption}
+                  </p>
                 </div>
 
-                <h3 className="text-xl sm:text-2xl font-black text-white">
-                  {currentModalPhoto.title}
-                </h3>
-
-                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-sans">
-                  {currentModalPhoto.caption}
-                </p>
-
                 {/* Modal footer like action */}
-                <div className="mt-2 pt-3 border-t border-slate-800 flex items-center justify-between">
+                <div className="mt-3 pt-2.5 border-t border-slate-800/80 flex items-center justify-between">
                   <button
                     onClick={(e) => handleLike(e, currentModalPhoto.id)}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold text-xs shadow-lg shadow-rose-500/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-400 hover:to-pink-400 text-white font-bold text-xs shadow-md shadow-rose-500/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
                   >
-                    <Heart className="w-4 h-4 fill-white" />
+                    <Heart className="w-3.5 h-3.5 fill-white" />
                     <span>Beri Cinta ({likes[currentModalPhoto.id] || 0})</span>
                   </button>
 
-                  <span className="text-xs font-mono text-slate-400">
-                    Tekan panah atau tombol untuk lihat foto lainnya
+                  <span className="text-[10px] sm:text-[11px] font-mono text-slate-400">
+                    Klik panah di foto untuk geser
                   </span>
                 </div>
               </div>

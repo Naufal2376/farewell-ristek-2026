@@ -5,7 +5,6 @@ import SplashScreen from "@/components/SplashScreen";
 import AudioPlayer from "@/components/AudioPlayer";
 import Navbar from "@/components/Navbar";
 import HeroCountdown from "@/components/HeroCountdown";
-import PartyTicker from "@/components/PartyTicker";
 import PartyAtmosphere from "@/components/PartyAtmosphere";
 import RistekWrapped from "@/components/RistekWrapped";
 import TimelineRundown from "@/components/TimelineRundown";
@@ -41,9 +40,6 @@ export default function Home() {
       <main id="top" className="flex-1 flex flex-col relative z-10">
         {/* 4. Hero Section with Real-Time Countdown to 24 Okt 2026 09:00 WIB & Floating Emblem */}
         <HeroCountdown />
-
-        {/* Celebratory Running Party Ticker Marquee */}
-        <PartyTicker />
 
         {/* 5. Ristek Wrapped (Statistik Lucu & Rekap Periode) */}
         <RistekWrapped />
