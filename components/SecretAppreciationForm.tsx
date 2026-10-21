@@ -90,7 +90,7 @@ export default function SecretAppreciationForm() {
                         type="text"
                         value={recipient}
                         onChange={(e) => setRecipient(e.target.value)}
-                        placeholder="Kak Fahri, Calista, semua anak PTI, …"
+                        placeholder="Pimpinan, Staff, Doi, Keluarga Ristek, Atau Siapapun..."
                         maxLength={100}
                         required
                         className="w-full px-4 py-3 rounded-xl bg-bg/60 border border-line focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted/60"

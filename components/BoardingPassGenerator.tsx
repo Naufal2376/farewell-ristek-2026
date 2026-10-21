@@ -185,22 +185,12 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
 
 type Division = RistekMember2026["division"];
 
-// Nomor kursi tetap untuk nama yang diketik sendiri, dibedakan per divisi.
-function generateUniqueSeat(name: string, division: Division): string {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) {
-    hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  }
-  const num = (Math.abs(hash) % 20) + 10; // 10 - 29
-  const prefix =
-    division === "pti"
-      ? "PTI"
-      : division === "akademik"
-      ? "AKD"
-      : division === "pimpinan"
-      ? "LEAD"
-      : "TMU";
-  return `${prefix}-${num}`;
+// Prefix divisi untuk nomor kursi
+function getSeatPrefix(division: Division): string {
+  if (division === "pti") return "PTI";
+  if (division === "akademik") return "AKD";
+  if (division === "pimpinan") return "LEAD";
+  return "TMU";
 }
 
 const DIVISION_LABEL: Record<Division, string> = {
@@ -229,6 +219,7 @@ export default function BoardingPassGenerator() {
   const [customDivision, setCustomDivision] = useState<Division>("tamu");
   const [customRole, setCustomRole] = useState("Tamu Farewell Ristek 2026");
   const [customIg, setCustomIg] = useState("");
+  const [customSeatNum, setCustomSeatNum] = useState<number>(18);
 
   const member = RISTEK_MEMBERS_2026[selectedIndex];
   const activeName = isCustom ? customName || "Nama kamu" : member.name;
@@ -236,9 +227,10 @@ export default function BoardingPassGenerator() {
   const activeDivisionName = isCustom ? DIVISION_LABEL[customDivision] : member.divisionName;
   const activeIg = isCustom ? customIg : member.instagram;
 
+  // Nomor kursi: tetap dan tidak berubah per huruf saat mengetik nama
   const activeSeat = useMemo(
-    () => (isCustom ? generateUniqueSeat(customName || "Tamu", customDivision) : member.seat),
-    [isCustom, customName, customDivision, member.seat]
+    () => (isCustom ? `${getSeatPrefix(customDivision)}-${customSeatNum}` : member.seat),
+    [isCustom, customDivision, customSeatNum, member.seat]
   );
 
   const groups: { label: string; division: Division }[] = [
@@ -265,6 +257,7 @@ export default function BoardingPassGenerator() {
                   onChange={(e) => {
                     if (e.target.value === "custom") {
                       setIsCustom(true);
+                      setCustomSeatNum(Math.floor(Math.random() * 20) + 10);
                     } else {
                       setIsCustom(false);
                       setSelectedIndex(Number(e.target.value));
@@ -343,7 +336,7 @@ export default function BoardingPassGenerator() {
           {/* Tiket */}
           <div className="lg:col-span-7 flex justify-center">
             <motion.div
-              key={activeName + activeSeat}
+              key={isCustom ? "custom" : member.name}
               initial={{ opacity: 0, y: 10, rotateX: 8 }}
               animate={{ opacity: 1, y: 0, rotateX: 0 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
