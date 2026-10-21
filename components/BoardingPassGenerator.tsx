@@ -2,6 +2,8 @@
 
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { Plane } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 
 export interface RistekMember2026 {
@@ -202,8 +204,15 @@ const DIVISION_LABEL: Record<Division, string> = {
   akademik: "Divisi Akademik",
 };
 
+const SEAT_COLOR: Record<string, string> = {
+  PTI: "text-blue",
+  AKD: "text-rose",
+  BPH: "text-gold",
+  VIP: "text-gold",
+};
+
 const fieldClass =
-  "w-full px-3.5 py-2.5 bg-surface border border-line text-fg focus:outline-none focus:border-accent";
+  "w-full px-4 py-3 rounded-xl bg-surface border border-line text-fg focus:outline-none focus:border-gold/60 transition-colors";
 
 export default function BoardingPassGenerator() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -231,154 +240,170 @@ export default function BoardingPassGenerator() {
   ];
 
   return (
-    <section id="boarding-pass" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-line">
-      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-        <div className="lg:col-span-5">
-          <SectionHeading index="04" label="Boarding pass" title="Ambil tiketmu">
-            Pilih namamu, nomor kursimu sudah diacak per divisi. Screenshot
-            tiketnya buat story, jangan lupa tag @himsi.ristek.
-          </SectionHeading>
+    <section id="boarding-pass" className="px-4 sm:px-6 py-20 sm:py-28">
+      <div className="max-w-6xl mx-auto">
+        <SectionHeading index="04" label="Boarding pass" title="Ambil tiketmu">
+          Pilih namamu, nomor kursi sudah diacak per divisi. Screenshot tiketnya
+          buat story, jangan lupa tag @himsi.ristek.
+        </SectionHeading>
 
-          <div className="space-y-4">
-            <label className="block">
-              <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Nama</span>
-              <select
-                value={isCustom ? "custom" : selectedIndex}
-                onChange={(e) => {
-                  if (e.target.value === "custom") {
-                    setIsCustom(true);
-                  } else {
-                    setIsCustom(false);
-                    setSelectedIndex(Number(e.target.value));
-                  }
-                }}
-                className={`${fieldClass} cursor-pointer`}
-              >
-                {groups.map((g) => (
-                  <optgroup key={g.division} label={g.label}>
-                    {RISTEK_MEMBERS_2026.map((m, idx) =>
-                      m.division === g.division ? (
-                        <option key={m.name} value={idx}>
-                          {m.name}
-                        </option>
-                      ) : null
-                    )}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="lg:col-span-5">
+            <div className="space-y-4 rounded-2xl glass p-5 sm:p-6">
+              <label className="block">
+                <span className="block text-sm font-medium text-muted mb-1.5">Nama</span>
+                <select
+                  value={isCustom ? "custom" : selectedIndex}
+                  onChange={(e) => {
+                    if (e.target.value === "custom") {
+                      setIsCustom(true);
+                    } else {
+                      setIsCustom(false);
+                      setSelectedIndex(Number(e.target.value));
+                    }
+                  }}
+                  className={`${fieldClass} cursor-pointer`}
+                >
+                  {groups.map((g) => (
+                    <optgroup key={g.division} label={g.label}>
+                      {RISTEK_MEMBERS_2026.map((m, idx) =>
+                        m.division === g.division ? (
+                          <option key={m.name} value={idx}>
+                            {m.name}
+                          </option>
+                        ) : null
+                      )}
+                    </optgroup>
+                  ))}
+                  <optgroup label="Lainnya">
+                    <option value="custom">Tamu / ketik nama sendiri</option>
                   </optgroup>
-                ))}
-                <optgroup label="Lainnya">
-                  <option value="custom">Tamu / ketik nama sendiri</option>
-                </optgroup>
-              </select>
-            </label>
+                </select>
+              </label>
 
-            {isCustom && (
-              <div className="space-y-4">
-                <label className="block">
-                  <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Nama lengkap / panggilan</span>
-                  <input
-                    type="text"
-                    value={customName}
-                    onChange={(e) => setCustomName(e.target.value)}
-                    maxLength={26}
-                    className={fieldClass}
-                  />
-                </label>
-                <label className="block">
-                  <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Kursi di area</span>
-                  <select
-                    value={customDivision}
-                    onChange={(e) => setCustomDivision(e.target.value as Division)}
-                    className={`${fieldClass} cursor-pointer`}
-                  >
-                    <option value="pti">Divisi PTI</option>
-                    <option value="akademik">Divisi Akademik</option>
-                    <option value="bph">Tamu / BPH</option>
-                  </select>
-                </label>
-                <label className="block">
-                  <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Peran</span>
-                  <input
-                    type="text"
-                    value={customRole}
-                    onChange={(e) => setCustomRole(e.target.value)}
-                    placeholder="Demisioner Ristek, tamu, dll."
-                    maxLength={36}
-                    className={fieldClass}
-                  />
-                </label>
-                <label className="block">
-                  <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Instagram (opsional)</span>
-                  <input
-                    type="text"
-                    value={customIg}
-                    onChange={(e) => setCustomIg(e.target.value)}
-                    placeholder="@username"
-                    maxLength={24}
-                    className={fieldClass}
-                  />
-                </label>
-              </div>
-            )}
+              {isCustom && (
+                <div className="space-y-4">
+                  <label className="block">
+                    <span className="block text-sm font-medium text-muted mb-1.5">Nama lengkap / panggilan</span>
+                    <input
+                      type="text"
+                      value={customName}
+                      onChange={(e) => setCustomName(e.target.value)}
+                      maxLength={26}
+                      className={fieldClass}
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="block text-sm font-medium text-muted mb-1.5">Kursi di area</span>
+                    <select
+                      value={customDivision}
+                      onChange={(e) => setCustomDivision(e.target.value as Division)}
+                      className={`${fieldClass} cursor-pointer`}
+                    >
+                      <option value="pti">Divisi PTI</option>
+                      <option value="akademik">Divisi Akademik</option>
+                      <option value="bph">Tamu / BPH</option>
+                    </select>
+                  </label>
+                  <label className="block">
+                    <span className="block text-sm font-medium text-muted mb-1.5">Peran</span>
+                    <input
+                      type="text"
+                      value={customRole}
+                      onChange={(e) => setCustomRole(e.target.value)}
+                      placeholder="Demisioner Ristek, tamu, dll."
+                      maxLength={36}
+                      className={fieldClass}
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="block text-sm font-medium text-muted mb-1.5">Instagram (opsional)</span>
+                    <input
+                      type="text"
+                      value={customIg}
+                      onChange={(e) => setCustomIg(e.target.value)}
+                      placeholder="@username"
+                      maxLength={24}
+                      className={fieldClass}
+                    />
+                  </label>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Tiket */}
-        <div className="lg:col-span-7 flex justify-center lg:pt-16">
-          <div className="hud-corners w-full max-w-xl flex flex-col sm:flex-row border border-line bg-surface">
-            <div className="flex-1 p-6 sm:p-7">
-              <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-muted">
-                <div className="flex items-center gap-2">
-                  <Image src="/logo.png" alt="" width={32} height={32} />
-                  <span className="text-fg">Boarding pass</span>
-                </div>
-                <span className="tabular-nums">24.10.2026</span>
-              </div>
+          {/* Tiket */}
+          <div className="lg:col-span-7 flex justify-center">
+            <motion.div
+              key={activeName + activeSeat}
+              initial={{ opacity: 0, y: 10, rotateX: 8 }}
+              animate={{ opacity: 1, y: 0, rotateX: 0 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className="ring-orbit w-full max-w-xl rounded-3xl"
+            >
+              <div className="relative flex flex-col sm:flex-row rounded-3xl overflow-hidden bg-gradient-to-br from-surface-2 via-surface to-bg border border-line shadow-2xl shadow-black/50">
+                <div aria-hidden="true" className="absolute -top-20 -left-10 w-64 h-64 rounded-full bg-gold/10 blur-3xl" />
 
-              <div className="mt-6 flex items-end justify-between gap-3">
-                <div>
-                  <p className="font-display font-semibold text-3xl sm:text-4xl leading-none">IDL</p>
-                  <p className="mt-1 font-mono text-[11px] text-muted">Fasilkom Unsri</p>
-                </div>
-                <div className="flex-1 mb-3 border-t border-dashed border-line-strong relative">
-                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-surface px-2 font-mono text-[10px] uppercase tracking-wider text-accent whitespace-nowrap">
-                    one-way
-                  </span>
-                </div>
-                <div className="text-right">
-                  <p className="font-display font-semibold text-3xl sm:text-4xl leading-none text-accent">???</p>
-                  <p className="mt-1 font-mono text-[11px] text-muted">Bab selanjutnya</p>
-                </div>
-              </div>
+                <div className="relative flex-1 p-6 sm:p-7">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <Image src="/logo.png" alt="" width={34} height={34} />
+                      <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Boarding pass</span>
+                    </div>
+                    <span className="font-mono text-[11px] text-muted tabular-nums">24.10.2026</span>
+                  </div>
 
-              <dl className="mt-7 grid grid-cols-2 gap-x-4 gap-y-4 text-sm">
-                <div className="col-span-2">
-                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Penumpang</dt>
-                  <dd className="mt-0.5 font-display font-semibold text-2xl leading-tight truncate">{activeName}</dd>
-                </div>
-                <div className="col-span-2 sm:col-span-1">
-                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Peran</dt>
-                  <dd className="mt-0.5 leading-snug">{activeRole}</dd>
-                </div>
-                <div className="col-span-2 sm:col-span-1">
-                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Instagram</dt>
-                  <dd className="mt-0.5 font-mono">{activeIg || "–"}</dd>
-                </div>
-              </dl>
-            </div>
+                  <div className="mt-6 flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-3xl sm:text-4xl font-extrabold leading-none">IDL</p>
+                      <p className="mt-1.5 text-xs text-muted">Fasilkom Unsri</p>
+                    </div>
+                    <div className="flex-1 flex items-center gap-2 text-gold">
+                      <span className="h-px flex-1 bg-gradient-to-r from-transparent to-gold/60" />
+                      <Plane className="w-5 h-5 shrink-0" />
+                      <span className="h-px flex-1 bg-gradient-to-r from-gold/60 to-transparent" />
+                    </div>
+                    <div className="text-right">
+                      <p className="text-3xl sm:text-4xl font-extrabold leading-none text-gold-shine">NXT</p>
+                      <p className="mt-1.5 text-xs text-muted">Bab selanjutnya</p>
+                    </div>
+                  </div>
 
-            {/* Sobekan */}
-            <div className="sm:w-44 bg-accent text-bg p-6 flex sm:flex-col justify-between items-center sm:items-start border-t sm:border-t-0 sm:border-l border-dashed border-bg/40">
-              <div>
-                <p className="font-mono text-[11px] uppercase tracking-wider opacity-70">Kursi</p>
-                <p className="mt-1 font-display font-bold text-3xl leading-none tabular-nums whitespace-nowrap">{activeSeat}</p>
+                  <dl className="mt-7 grid grid-cols-2 gap-x-4 gap-y-4">
+                    <div className="col-span-2">
+                      <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Penumpang</dt>
+                      <dd className="mt-0.5 text-2xl font-bold leading-tight truncate">{activeName}</dd>
+                    </div>
+                    <div className="col-span-2 sm:col-span-1">
+                      <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Peran</dt>
+                      <dd className="mt-0.5 text-sm leading-snug">{activeRole}</dd>
+                    </div>
+                    <div className="col-span-2 sm:col-span-1">
+                      <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Instagram</dt>
+                      <dd className="mt-0.5 text-sm font-mono text-blue">{activeIg || "–"}</dd>
+                    </div>
+                  </dl>
+                </div>
+
+                {/* Sobekan */}
+                <div className="relative sm:w-44 p-6 flex sm:flex-col justify-between items-center sm:items-start gap-4 border-t sm:border-t-0 sm:border-l border-dashed border-line-strong bg-white/[0.02]">
+                  <span aria-hidden="true" className="absolute -top-3 -left-3 sm:-left-3 w-6 h-6 rounded-full bg-bg" />
+                  <span aria-hidden="true" className="absolute -bottom-3 -left-3 hidden sm:block w-6 h-6 rounded-full bg-bg" />
+                  <div>
+                    <p className="font-mono text-[11px] uppercase tracking-wider text-muted">Kursi</p>
+                    <p className={`mt-1 font-mono text-3xl font-bold leading-none tabular-nums whitespace-nowrap ${SEAT_COLOR[activeSeat.slice(0, 3)] ?? "text-gold"}`}>
+                      {activeSeat}
+                    </p>
+                  </div>
+                  <div className="text-right sm:text-left">
+                    <p className="font-mono text-[11px] uppercase tracking-wider text-muted">Area</p>
+                    <p className="text-sm font-semibold leading-snug">{activeDivisionName}</p>
+                    <p className="mt-3 font-mono text-[11px] uppercase tracking-wider text-muted">Boarding</p>
+                    <p className="text-sm font-semibold tabular-nums">09.00 WIB</p>
+                  </div>
+                </div>
               </div>
-              <div className="text-right sm:text-left">
-                <p className="font-mono text-[11px] uppercase tracking-wider opacity-70">Area</p>
-                <p className="font-semibold leading-snug">{activeDivisionName}</p>
-                <p className="mt-3 font-mono text-[11px] uppercase tracking-wider opacity-70">Boarding</p>
-                <p className="font-semibold tabular-nums">09.00 WIB</p>
-              </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

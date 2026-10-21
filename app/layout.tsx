@@ -1,20 +1,14 @@
 import type { Metadata } from "next";
-import { Chakra_Petch, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const jakarta = Plus_Jakarta_Sans({
-  variable: "--font-jakarta",
+const geistSans = Geist({
+  variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const chakra = Chakra_Petch({
-  variable: "--font-chakra",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-});
-
-const jetbrains = JetBrains_Mono({
-  variable: "--font-jetbrains",
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -43,7 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${jakarta.variable} ${chakra.variable} ${jetbrains.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-bg text-fg font-sans">
         {children}

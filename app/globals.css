@@ -1,27 +1,28 @@
 @import "tailwindcss";
 
 /*
- * Tema gelap "tech" Ristek: hitam kebiruan + emas dari logo.
- * Satu warna aksen saja (emas); sisanya netral.
+ * Navy pekat + emas dari logo sebagai warna utama, biru sebagai aksen tech.
+ * Rose hanya dipakai untuk kursi Divisi Akademik di tiket.
  */
 @theme {
-  --color-bg: #070a12;
-  --color-surface: #0c111c;
-  --color-surface-2: #121927;
-  --color-line: #1f2838;
-  --color-line-strong: #2d384c;
-  --color-fg: #e7eaf1;
-  --color-muted: #8a93a8;
-  --color-accent: #d6a94e;
-  --color-accent-soft: #f0d08c;
-  --color-accent-dim: #3a2f17;
-  --color-danger: #f2877a;
+  --color-bg: #060914;
+  --color-surface: #0b1124;
+  --color-surface-2: #111a33;
+  --color-line: rgb(148 163 184 / 0.14);
+  --color-line-strong: rgb(148 163 184 / 0.26);
+  --color-fg: #eef2fa;
+  --color-muted: #94a3b8;
+  --color-gold: #fbbf24;
+  --color-gold-soft: #fde68a;
+  --color-gold-deep: #d97706;
+  --color-blue: #60a5fa;
+  --color-rose: #fb7185;
+  --color-danger: #f87171;
 }
 
 @theme inline {
-  --font-sans: var(--font-jakarta);
-  --font-display: var(--font-chakra);
-  --font-mono: var(--font-jetbrains);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
 }
 
 html {
@@ -30,49 +31,81 @@ html {
 }
 
 body {
-  background-color: var(--color-bg);
-  /* Grid tipis ala blueprint, satu-satunya tekstur latar. */
-  background-image:
-    linear-gradient(rgba(231, 234, 241, 0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(231, 234, 241, 0.025) 1px, transparent 1px);
-  background-size: 48px 48px;
+  background: var(--color-bg);
   color: var(--color-fg);
 }
 
 ::selection {
-  background-color: var(--color-accent);
+  background-color: var(--color-gold);
   color: var(--color-bg);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-gold);
   outline-offset: 2px;
 }
 
-/* Sudut bingkai ala viewfinder/HUD. */
-.hud-corners {
-  position: relative;
+/* Kartu kaca: dipakai hampir di semua panel. */
+.glass {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.015));
+  border: 1px solid var(--color-line);
+  backdrop-filter: blur(12px);
 }
-.hud-corners::before,
-.hud-corners::after {
+
+/* Teks emas berkilau, khusus judul utama. */
+.text-gold-shine {
+  background: linear-gradient(100deg, #fde68a 0%, #fbbf24 35%, #fff7d6 50%, #fbbf24 65%, #d97706 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 6s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%, 100% { background-position: 100% 0; }
+  50% { background-position: 0% 0; }
+}
+
+/* Border bercahaya yang berputar pelan, untuk satu elemen fokus per layar. */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.ring-orbit {
+  position: relative;
+  isolation: isolate;
+}
+.ring-orbit::before {
   content: "";
   position: absolute;
-  width: 18px;
-  height: 18px;
-  border-color: var(--color-accent);
-  pointer-events: none;
+  inset: -1.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--angle), transparent 0deg, #fbbf24 70deg, #60a5fa 140deg, transparent 220deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: orbit 6s linear infinite;
+  z-index: -1;
 }
-.hud-corners::before {
-  top: -1px;
-  left: -1px;
-  border-top: 2px solid;
-  border-left: 2px solid;
+
+@keyframes orbit {
+  to { --angle: 360deg; }
 }
-.hud-corners::after {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 2px solid;
-  border-right: 2px solid;
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
 @keyframes blink {
@@ -88,6 +121,9 @@ body {
   html {
     scroll-behavior: auto;
   }
+  .text-gold-shine,
+  .ring-orbit::before,
+  .animate-marquee,
   .animate-blink {
     animation: none;
   }

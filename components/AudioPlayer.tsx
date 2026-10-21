@@ -77,11 +77,11 @@ export default function AudioPlayer({ autoPlayTrigger }: AudioPlayerProps) {
       </div>
 
       {/* Floating Audio Controller */}
-      <div className="fixed bottom-4 right-4 z-40 flex items-center gap-1 bg-surface border border-line text-fg pl-1.5 pr-3 py-1.5 max-w-[260px]">
+      <div className="fixed bottom-4 right-4 z-40 flex items-center gap-1 glass bg-bg/70 rounded-full shadow-lg shadow-black/40 text-fg pl-1.5 pr-3 py-1.5 max-w-[260px]">
         <button
           onClick={togglePlay}
           aria-label={isPlaying ? "Jeda musik" : "Putar musik"}
-          className="w-8 h-8 shrink-0 bg-accent text-bg hover:bg-accent-soft flex items-center justify-center cursor-pointer"
+          className="w-8 h-8 shrink-0 rounded-full bg-gold text-bg hover:bg-gold-soft flex items-center justify-center cursor-pointer"
         >
           {isPlaying ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current ml-0.5" />}
         </button>

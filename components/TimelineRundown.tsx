@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { ArrowUpRight, Check } from "lucide-react";
+import { ArrowUpRight, Check, MapPin } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
+import SpotlightCard from "@/components/ui/SpotlightCard";
+import Reveal from "@/components/ui/Reveal";
 
 interface ScheduleItem {
   time: string;
@@ -106,105 +108,116 @@ export default function TimelineRundown() {
   };
 
   return (
-    <section id="rundown" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-line">
+    <section id="rundown" className="px-4 sm:px-6 py-20 sm:py-28">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading index="02" label="Rundown" title="Jadwal & lokasi">
-          Sabtu, 24 Oktober 2026. Sesi bertanda [!] butuh persiapan dari rumah.
+        <SectionHeading index="02" label="Rundown" title="Lokasi & rundown acara">
+          Sabtu, 24 Oktober 2026. Dua sesi bertanda emas butuh persiapan dari rumah.
         </SectionHeading>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-start">
-          {/* Rundown */}
-          <ol className="lg:col-span-7 border-l border-line">
-            {schedule.map((item) => (
-              <li key={item.time} className="relative pl-6 sm:pl-8 pb-7 last:pb-0">
-                <span
-                  aria-hidden="true"
-                  className={`absolute -left-[5px] top-1.5 w-[9px] h-[9px] ${
-                    item.highlight ? "bg-accent" : "bg-bg border border-line-strong"
-                  }`}
-                />
-                <time className="font-mono text-sm text-accent tabular-nums">{item.time} WIB</time>
-                <h3 className="mt-1 font-display font-semibold text-xl leading-snug">{item.title}</h3>
-                <p className="mt-1 text-muted leading-relaxed">{item.description}</p>
-                {item.highlight && (
-                  <p className="mt-2 inline-block font-mono text-xs uppercase tracking-wider text-accent border border-accent/40 bg-accent-dim px-2 py-1">
-                    [!] {item.highlight}
-                  </p>
-                )}
-              </li>
-            ))}
-            <li className="relative pl-6 sm:pl-8">
-              <span aria-hidden="true" className="absolute -left-[5px] top-1.5 w-[9px] h-[9px] bg-line-strong" />
-              <time className="font-mono text-sm text-muted tabular-nums">15.00 WIB</time>
-              <p className="mt-1 text-muted">Selesai.</p>
-            </li>
-          </ol>
-
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Lokasi & checklist */}
-          <aside className="lg:col-span-5 space-y-8">
-            <div className="border border-line bg-surface">
-              <div className="p-5">
-                <p className="font-mono text-[11px] uppercase tracking-wider text-muted">Lokasi</p>
-                <p className="mt-2 font-semibold">Auditorium / Ruang Rapat Fasilkom Unsri</p>
+          <aside className="lg:col-span-5 space-y-5 lg:sticky lg:top-24">
+            <Reveal>
+              <SpotlightCard className="p-5 sm:p-6">
+                <h3 className="flex items-center gap-2 font-bold text-lg">
+                  <MapPin className="w-5 h-5 text-gold" />
+                  Lokasi
+                </h3>
+                <p className="mt-3 font-semibold">Auditorium / Ruang Rapat Fasilkom Unsri</p>
                 <p className="text-sm text-muted">Fakultas Ilmu Komputer, Universitas Sriwijaya, Indralaya</p>
-                <p className="mt-2 font-mono text-[11px] text-muted">-3.2195, 104.6512</p>
-              </div>
-              <div className="aspect-[4/3] w-full overflow-hidden border-y border-line">
-                <iframe
-                  title="Peta Fasilkom Unsri Indralaya"
-                  src="https://maps.google.com/maps?q=-3.219504,104.6511614&z=17&output=embed"
-                  className="w-full h-full invert-[0.9] hue-rotate-180 contrast-[0.9]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-              </div>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=-3.219504,104.6511614"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between px-5 py-3 font-mono text-sm text-accent hover:bg-surface-2 transition-colors"
-              >
-                Buka rute di Google Maps
-                <ArrowUpRight className="w-4 h-4" />
-              </a>
-            </div>
+                <div className="mt-4 aspect-[16/10] w-full overflow-hidden rounded-xl border border-line">
+                  <iframe
+                    title="Peta Fasilkom Unsri Indralaya"
+                    src="https://maps.google.com/maps?q=-3.219504,104.6511614&z=17&output=embed"
+                    className="w-full h-full invert-[0.92] hue-rotate-180 saturate-[0.6] contrast-[0.9]"
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                  />
+                </div>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=-3.219504,104.6511614"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-line hover:border-gold/50 hover:text-gold text-sm font-medium transition-colors"
+                >
+                  Buka rute di Google Maps
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+              </SpotlightCard>
+            </Reveal>
 
-            <div className="border border-line bg-surface p-5">
-              <p className="font-mono text-[11px] uppercase tracking-wider text-muted">Checklist</p>
-              <h3 className="mt-2 font-display font-semibold text-xl">Yang perlu dibawa</h3>
-              <p className="mt-1 text-sm text-muted">Centang yang sudah siap. Tersimpan di HP-mu sendiri.</p>
-              <ul className="mt-4 divide-y divide-line">
-                {checklistItems.map((item) => {
-                  const checked = !!checklist[item.id];
-                  return (
-                    <li key={item.id}>
-                      <button
-                        type="button"
-                        role="checkbox"
-                        aria-checked={checked}
-                        onClick={() => toggleChecklist(item.id)}
-                        className="w-full text-left py-3 flex items-start gap-3 cursor-pointer"
-                      >
-                        <span
-                          className={`mt-0.5 w-5 h-5 shrink-0 border flex items-center justify-center transition-colors ${
-                            checked ? "bg-accent border-accent text-bg" : "border-line-strong"
+            <Reveal delay={0.08}>
+              <SpotlightCard className="p-5 sm:p-6">
+                <h3 className="font-bold text-lg">Checklist bawaan</h3>
+                <p className="mt-1 text-sm text-muted">Centang yang sudah siap. Tersimpan di HP-mu sendiri.</p>
+                <ul className="mt-4 space-y-2">
+                  {checklistItems.map((item) => {
+                    const checked = !!checklist[item.id];
+                    return (
+                      <li key={item.id}>
+                        <button
+                          type="button"
+                          role="checkbox"
+                          aria-checked={checked}
+                          onClick={() => toggleChecklist(item.id)}
+                          className={`w-full text-left p-3 rounded-xl border flex items-start gap-3 transition-colors cursor-pointer ${
+                            checked ? "border-gold/40 bg-gold/5" : "border-line hover:border-line-strong"
                           }`}
                         >
-                          {checked && <Check className="w-3.5 h-3.5" strokeWidth={3} />}
-                        </span>
-                        <span>
-                          <span className={`block font-medium ${checked ? "line-through text-muted" : ""}`}>
-                            {item.label}
+                          <span
+                            className={`mt-0.5 w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-colors ${
+                              checked ? "bg-gold border-gold text-bg" : "border-line-strong"
+                            }`}
+                          >
+                            {checked && <Check className="w-3.5 h-3.5" strokeWidth={3} />}
                           </span>
-                          <span className="block text-sm text-muted">{item.sub}</span>
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+                          <span>
+                            <span className={`block font-medium ${checked ? "line-through text-muted" : ""}`}>
+                              {item.label}
+                            </span>
+                            <span className="block text-sm text-muted">{item.sub}</span>
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </SpotlightCard>
+            </Reveal>
           </aside>
+
+          {/* Rundown */}
+          <ol className="lg:col-span-7 relative pl-7 sm:pl-9">
+            <span aria-hidden="true" className="absolute left-[9px] sm:left-[13px] top-2 bottom-2 w-px bg-gradient-to-b from-gold/60 via-line-strong to-transparent" />
+            {schedule.map((item, i) => (
+              <li key={item.time} className="relative pb-4 last:pb-0">
+                <span
+                  aria-hidden="true"
+                  className={`absolute -left-7 sm:-left-9 top-6 ml-[3px] sm:ml-[7px] w-3.5 h-3.5 rounded-full border-2 ${
+                    item.highlight
+                      ? "bg-gold border-gold shadow-[0_0_14px_rgb(251_191_36/0.7)]"
+                      : "bg-bg border-line-strong"
+                  }`}
+                />
+                <Reveal delay={Math.min(i * 0.04, 0.2)}>
+                  <SpotlightCard
+                    className={`p-5 sm:p-6 ${item.highlight ? "!border-gold/40 bg-gold/[0.04]" : ""}`}
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <time className="font-mono text-sm text-gold tabular-nums">{item.time} WIB</time>
+                      {item.highlight && (
+                        <span className="font-mono text-[11px] uppercase tracking-wider text-gold bg-gold/10 border border-gold/30 rounded-full px-2.5 py-1">
+                          {item.highlight}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="mt-2 text-lg sm:text-xl font-bold leading-snug">{item.title}</h3>
+                    <p className="mt-1 text-muted leading-relaxed">{item.description}</p>
+                  </SpotlightCard>
+                </Reveal>
+              </li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>

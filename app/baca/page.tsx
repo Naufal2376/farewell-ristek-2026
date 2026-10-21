@@ -14,6 +14,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import type { SecretMessage } from "@/lib/secret-message";
+import Backdrop from "@/components/ui/Backdrop";
 
 const PASSCODE_KEY = "ristek_baca_passcode";
 
@@ -114,11 +115,12 @@ export default function LiveReadPage() {
 
   const readCount = messages.filter((m) => m.isRead).length;
   const btn =
-    "inline-flex items-center gap-1.5 px-4 py-2.5 border border-line hover:border-accent text-sm font-mono transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default";
+    "inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl glass hover:border-line-strong text-sm transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default";
 
   if (!passcode) {
     return (
       <div className="min-h-screen text-fg flex items-center justify-center p-6">
+        <Backdrop />
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -126,8 +128,8 @@ export default function LiveReadPage() {
           }}
           className="w-full max-w-sm"
         >
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">/baca · presenter</p>
-          <h1 className="mt-2 font-display font-semibold text-3xl">Secret appreciation</h1>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">/baca · presenter</p>
+          <h1 className="mt-2 font-extrabold tracking-tight text-3xl">Secret appreciation</h1>
           <p className="mt-2 text-muted">Halaman presenter. Masukkan passcode panitia.</p>
           <input
             type="password"
@@ -135,7 +137,7 @@ export default function LiveReadPage() {
             onChange={(e) => setPasscodeInput(e.target.value)}
             autoFocus
             aria-label="Passcode"
-            className="mt-6 w-full px-4 py-3 bg-surface border border-line font-mono focus:outline-none focus:border-accent"
+            className="mt-6 w-full px-4 py-3 rounded-xl bg-surface border border-line font-mono focus:outline-none focus:border-gold/60"
           />
           {loadError && (
             <p role="alert" className="mt-3 text-sm text-danger">
@@ -145,7 +147,7 @@ export default function LiveReadPage() {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="mt-4 w-full py-3 bg-accent text-bg font-semibold hover:bg-accent-soft transition-colors cursor-pointer disabled:opacity-60"
+            className="mt-4 w-full py-3 rounded-xl bg-gradient-to-b from-gold-soft to-gold text-bg font-bold transition-colors cursor-pointer disabled:opacity-60"
           >
             {status === "loading" ? "Memuat…" : "Buka"}
           </button>
@@ -156,13 +158,14 @@ export default function LiveReadPage() {
 
   return (
     <div className="min-h-screen text-fg flex flex-col p-4 sm:p-8">
+      <Backdrop />
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <Link href="/" className="p-2 -ml-2 text-muted hover:text-fg" aria-label="Kembali ke halaman utama">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
-            <h1 className="font-display font-semibold text-xl">Secret appreciation</h1>
+            <h1 className="font-extrabold tracking-tight text-xl">Secret appreciation</h1>
             <p className="font-mono text-xs text-muted tabular-nums">
               {readCount} dari {messages.length} sudah dibaca
               {status === "error" && <span className="text-danger"> · {loadError}</span>}
@@ -171,7 +174,7 @@ export default function LiveReadPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <label className="flex items-center gap-2 px-3 py-2 border border-line text-sm font-mono">
+          <label className="flex items-center gap-2 px-3 py-2 rounded-xl glass text-sm">
             <Search className="w-4 h-4 text-muted" />
             <input
               type="text"
@@ -187,13 +190,13 @@ export default function LiveReadPage() {
           <button
             onClick={() => loadMessages(passcode)}
             disabled={status === "loading"}
-            className="p-2.5 border border-line hover:border-accent disabled:opacity-50"
+            className="p-2.5 rounded-xl glass hover:border-line-strong disabled:opacity-50"
             aria-label="Muat pesan terbaru"
             title="Muat pesan terbaru"
           >
             <RefreshCw className={`w-4 h-4 ${status === "loading" ? "animate-spin" : ""}`} />
           </button>
-          <button onClick={toggleFullscreen} className="p-2.5 border border-line hover:border-accent" aria-label="Layar penuh">
+          <button onClick={toggleFullscreen} className="p-2.5 rounded-xl glass hover:border-line-strong" aria-label="Layar penuh">
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
         </div>
@@ -217,12 +220,12 @@ export default function LiveReadPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.3 }}
-                className="w-full max-w-4xl hud-corners border border-line bg-surface p-8 sm:p-14"
+                className="ring-orbit w-full max-w-4xl rounded-3xl glass bg-surface/60 p-8 sm:p-14"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Untuk</p>
-                    <h2 className="mt-2 font-display font-semibold text-4xl sm:text-6xl leading-tight">{currentMessage.recipient}</h2>
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">Untuk</p>
+                    <h2 className="mt-2 font-extrabold tracking-tight text-4xl sm:text-6xl leading-tight">{currentMessage.recipient}</h2>
                   </div>
                   <span className="font-mono text-sm text-muted tabular-nums pt-1">
                     {currentIndex + 1} / {filteredMessages.length}
@@ -240,7 +243,7 @@ export default function LiveReadPage() {
                       type="checkbox"
                       checked={!!currentMessage.isRead}
                       onChange={toggleReadStatus}
-                      className="w-4 h-4 accent-[#d6a94e]"
+                      className="w-4 h-4 accent-[#fbbf24]"
                     />
                     Sudah dibaca
                   </label>
@@ -259,7 +262,7 @@ export default function LiveReadPage() {
         <button
           onClick={handleShuffle}
           disabled={filteredMessages.length <= 1}
-          className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-bg font-semibold hover:bg-accent-soft transition-colors cursor-pointer disabled:opacity-40"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-b from-gold-soft to-gold text-bg font-bold transition-colors cursor-pointer disabled:opacity-40"
         >
           <Shuffle className="w-4 h-4" />
           Acak

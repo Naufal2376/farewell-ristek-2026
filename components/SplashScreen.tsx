@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import confetti from "canvas-confetti";
 
 interface SplashScreenProps {
@@ -11,26 +12,27 @@ interface SplashScreenProps {
 }
 
 const LINES = [
-  { prompt: true, text: "git log --oneline ristek-2026 | wc -l" },
-  { prompt: false, text: "1 periode, 20 orang, 24 momen" },
-  { prompt: true, text: 'git tag -a farewell -m "terima kasih, Ristek"' },
-];
+  { kind: "cmd", text: "git log --oneline ristek-2026 | wc -l" },
+  { kind: "out", text: "1 periode · 20 orang · 24 momen" },
+  { kind: "cmd", text: 'git tag -a farewell -m "terima kasih, Ristek"' },
+  { kind: "ok", text: "undangan siap dibuka" },
+] as const;
 
 export default function SplashScreen({ onOpen, isOpen }: SplashScreenProps) {
   const [visible, setVisible] = useState(0);
 
   useEffect(() => {
-    const timers = LINES.map((_, i) => setTimeout(() => setVisible(i + 1), 450 + i * 650));
+    const timers = LINES.map((_, i) => setTimeout(() => setVisible(i + 1), 400 + i * 550));
     return () => timers.forEach(clearTimeout);
   }, []);
 
   const handleLaunch = () => {
     try {
       confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.7 },
-        colors: ["#d6a94e", "#f0d08c", "#e7eaf1"],
+        particleCount: 110,
+        spread: 90,
+        origin: { y: 0.65 },
+        colors: ["#fbbf24", "#fde68a", "#60a5fa", "#eef2fa"],
         disableForReducedMotion: true,
       });
     } catch {
@@ -44,37 +46,50 @@ export default function SplashScreen({ onOpen, isOpen }: SplashScreenProps) {
       {isOpen && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-bg p-5"
+          exit={{ opacity: 0, scale: 1.03, filter: "blur(8px)" }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-bg p-4 sm:p-6 overflow-hidden"
         >
-          <div className="w-full max-w-lg">
-            <div className="flex items-center gap-4">
-              <Image src="/logo.png" alt="Logo Ristek" width={84} height={84} priority />
-              <div>
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">HIMSI Fasilkom Unsri</p>
-                <h1 className="font-display font-semibold text-3xl sm:text-4xl leading-tight">
-                  Farewell Ristek <span className="text-accent">2026</span>
-                </h1>
-              </div>
+          <div aria-hidden="true" className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[520px] h-[520px] rounded-full bg-gold/15 blur-[140px]" />
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full max-w-xl"
+          >
+            <div className="flex flex-col items-center text-center">
+              <Image src="/logo.png" alt="Logo Ristek" width={112} height={112} priority className="drop-shadow-[0_0_30px_rgb(251_191_36/0.25)]" />
+              <p className="mt-2 font-mono text-xs uppercase tracking-[0.25em] text-muted">HIMSI Fasilkom Unsri</p>
+              <h1 className="mt-2 text-4xl sm:text-5xl font-extrabold tracking-tight">
+                Farewell <span className="text-gold-shine">Ristek 2026</span>
+              </h1>
             </div>
 
-            <div className="mt-8 border border-line bg-surface font-mono text-[13px] leading-relaxed">
-              <div className="flex items-center justify-between border-b border-line px-4 py-2 text-[11px] text-muted">
-                <span>~/ristek</span>
-                <span>bash</span>
+            <div className="mt-8 rounded-2xl glass overflow-hidden shadow-2xl shadow-black/50">
+              <div className="flex items-center gap-2 px-4 py-2.5 border-b border-line">
+                <span className="w-2.5 h-2.5 rounded-full bg-line-strong" />
+                <span className="w-2.5 h-2.5 rounded-full bg-line-strong" />
+                <span className="w-2.5 h-2.5 rounded-full bg-line-strong" />
+                <span className="ml-2 font-mono text-[11px] text-muted">~/ristek-2026</span>
               </div>
-              <div className="px-4 py-4 min-h-[7.5rem] space-y-1.5">
+              <div className="p-4 sm:p-5 font-mono text-[12.5px] sm:text-[13px] leading-relaxed min-h-[8.5rem] space-y-1.5">
                 {LINES.slice(0, visible).map((l) => (
-                  <p key={l.text} className={l.prompt ? "text-fg" : "text-muted"}>
-                    {l.prompt && <span className="text-accent">$ </span>}
+                  <motion.p
+                    key={l.text}
+                    initial={{ opacity: 0, x: -4 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    className={l.kind === "cmd" ? "text-fg" : l.kind === "ok" ? "text-gold" : "text-muted"}
+                  >
+                    {l.kind === "cmd" && <span className="text-blue">❯ </span>}
+                    {l.kind === "ok" && "✓ "}
                     {l.text}
-                  </p>
+                  </motion.p>
                 ))}
                 {visible >= LINES.length && (
                   <p>
-                    <span className="text-accent">$ </span>
-                    <span className="inline-block w-[0.6em] h-[1.1em] align-text-bottom bg-accent animate-blink" />
+                    <span className="text-blue">❯ </span>
+                    <span className="inline-block w-[0.55em] h-[1.1em] align-text-bottom bg-gold animate-blink" />
                   </p>
                 )}
               </div>
@@ -82,14 +97,13 @@ export default function SplashScreen({ onOpen, isOpen }: SplashScreenProps) {
 
             <button
               onClick={handleLaunch}
-              className="mt-6 w-full py-3.5 bg-accent text-bg font-semibold hover:bg-accent-soft transition-colors cursor-pointer"
+              className="group mt-6 w-full flex items-center justify-center gap-2 py-4 rounded-2xl bg-gradient-to-b from-gold-soft to-gold text-bg font-bold text-base shadow-[0_10px_40px_-10px_rgb(251_191_36/0.6)] hover:shadow-[0_10px_50px_-8px_rgb(251_191_36/0.8)] transition-shadow cursor-pointer"
             >
               Buka undangan
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
-            <p className="mt-3 text-center font-mono text-[11px] text-muted">
-              Musik akan diputar setelah undangan dibuka.
-            </p>
-          </div>
+            <p className="mt-3 text-center text-xs text-muted">Musik akan diputar setelah undangan dibuka.</p>
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

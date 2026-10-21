@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { MotionConfig } from "framer-motion";
 import SplashScreen from "@/components/SplashScreen";
 import AudioPlayer from "@/components/AudioPlayer";
 import Navbar from "@/components/Navbar";
@@ -11,6 +12,8 @@ import PolaroidGallery from "@/components/PolaroidGallery";
 import BoardingPassGenerator from "@/components/BoardingPassGenerator";
 import SecretAppreciationForm from "@/components/SecretAppreciationForm";
 import Footer from "@/components/Footer";
+import Backdrop from "@/components/ui/Backdrop";
+import MemberMarquee from "@/components/MemberMarquee";
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
@@ -22,21 +25,25 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen flex flex-col overflow-x-hidden">
-      <SplashScreen isOpen={showSplash} onOpen={handleOpenInvitation} />
-      <AudioPlayer autoPlayTrigger={autoPlayAudio} />
-      <Navbar />
+    <MotionConfig reducedMotion="user">
+      <div className="relative min-h-screen flex flex-col overflow-x-hidden">
+        <Backdrop />
+        <SplashScreen isOpen={showSplash} onOpen={handleOpenInvitation} />
+        <AudioPlayer autoPlayTrigger={autoPlayAudio} />
+        <Navbar />
 
-      <main id="top" className="flex-1 flex flex-col">
-        <HeroCountdown />
-        <RistekWrapped />
-        <TimelineRundown />
-        <PolaroidGallery />
-        <BoardingPassGenerator />
-        <SecretAppreciationForm />
-      </main>
+        <main id="top" className="flex-1 flex flex-col">
+          <HeroCountdown />
+          <MemberMarquee />
+          <RistekWrapped />
+          <TimelineRundown />
+          <PolaroidGallery />
+          <BoardingPassGenerator />
+          <SecretAppreciationForm />
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+    </MotionConfig>
   );
 }
