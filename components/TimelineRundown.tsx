@@ -17,7 +17,9 @@ import {
   Camera,
   Utensils,
   Trophy,
+  PartyPopper,
 } from "lucide-react";
+import confetti from "canvas-confetti";
 
 interface ScheduleItem {
   time: string;
@@ -50,9 +52,18 @@ export default function TimelineRundown() {
 
   const toggleChecklist = (key: string) => {
     setChecklist((prev) => {
-      const updated = { ...prev, [key]: !prev[key] };
+      const isChecking = !prev[key];
+      const updated = { ...prev, [key]: isChecking };
       try {
         localStorage.setItem("ristek_farewell_checklist", JSON.stringify(updated));
+        if (isChecking) {
+          confetti({
+            particleCount: 40,
+            spread: 50,
+            origin: { y: 0.7 },
+            colors: ["#F59E0B", "#10B981", "#38BDF8"],
+          });
+        }
       } catch {
         // ignore
       }
@@ -118,14 +129,19 @@ export default function TimelineRundown() {
   ];
 
   return (
-    <section id="rundown" className="py-20 px-4 sm:px-6 max-w-6xl mx-auto">
+    <section id="rundown" className="py-20 px-4 sm:px-6 max-w-6xl mx-auto relative">
       {/* Section Header */}
       <div className="text-center mb-14">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Detail Lokasi & Rundown Acara
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-300 font-mono text-xs mb-3">
+          <PartyPopper className="w-3.5 h-3.5 text-amber-400" />
+          <span>TIME TABLE & VENUE INFO</span>
+        </div>
+        <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+          Detail Lokasi & Rundown Acara 🎉
         </h2>
-        <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-          Pastikan hadir tepat waktu ya! Perhatikan dua sesi bertanda highlight khusus.
+        <p className="mt-3 text-slate-300 text-sm sm:text-base max-w-xl mx-auto">
+          Pastikan hadir tepat waktu ya! Perhatikan dua sesi bertanda highlight khusus:
+          Secret Appreciation Reveal & Tukar Kado Impian.
         </p>
       </div>
 
@@ -133,7 +149,9 @@ export default function TimelineRundown() {
         {/* Left Column: Venue Card & Preparation Checklist (5 cols) */}
         <div className="lg:col-span-5 space-y-6">
           {/* Location & Time Info Card */}
-          <div className="p-6 rounded-2xl bg-[#0B1228] border border-slate-800 shadow-xl shadow-blue-950/20">
+          <div className="p-6 rounded-3xl bg-[#090E21] border border-slate-800 shadow-xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full blur-[50px] pointer-events-none" />
+
             <h3 className="text-base font-bold text-white mb-4 flex items-center gap-2">
               <MapPin className="w-5 h-5 text-rose-400" />
               <span>Lokasi & Waktu Acara</span>
@@ -144,15 +162,7 @@ export default function TimelineRundown() {
                 <Calendar className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                 <div>
                   <div className="font-semibold text-white">Sabtu, 24 Oktober 2026</div>
-                  <div className="text-slate-400 text-xs font-mono">H-2 menuju momen kenangan</div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <Clock className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                <div>
-                  <div className="font-semibold text-white">09.00 – 15.00 WIB</div>
-                  <div className="text-slate-400 text-xs font-mono">Diharapkan hadir 15 menit sebelum acara</div>
+                  <div className="text-amber-400 text-xs font-mono font-medium">09.00 – 15.00 WIB</div>
                 </div>
               </div>
 
@@ -160,13 +170,13 @@ export default function TimelineRundown() {
                 <MapPin className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
                 <div>
                   <div className="font-semibold text-white">Auditorium / Ruang Rapat Fasilkom Unsri</div>
-                  <div className="text-slate-400 text-xs">Kampus Fasilkom Universitas Sriwijaya, Indralaya</div>
+                  <div className="text-slate-400 text-xs">Fakultas Ilmu Komputer Universitas Sriwijaya, Indralaya</div>
                 </div>
               </div>
             </div>
 
             {/* Embedded Interactive Google Maps View */}
-            <div className="mt-4 w-full h-44 rounded-xl overflow-hidden border border-slate-700/80 shadow-inner relative bg-slate-900">
+            <div className="mt-4 w-full h-44 rounded-2xl overflow-hidden border border-slate-700/80 shadow-inner relative bg-slate-900">
               <iframe
                 title="Google Maps Lokasi Fasilkom Unsri"
                 src="https://maps.google.com/maps?q=Fakultas+Ilmu+Komputer+Universitas+Sriwijaya+Indralaya&t=&z=16&ie=UTF8&iwloc=&output=embed"
@@ -184,20 +194,20 @@ export default function TimelineRundown() {
                 href="https://maps.google.com/?q=Fakultas+Ilmu+Komputer+Universitas+Sriwijaya"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-2.5 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-mono font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-mono font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer hover:text-amber-300"
               >
-                <span>Buka Rute Lengkap di Google Maps</span>
+                <span>Buka Rute di Google Maps</span>
                 <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
               </a>
             </div>
           </div>
 
           {/* Interactive Preparation Checklist Card */}
-          <div className="p-6 rounded-2xl bg-gradient-to-br from-amber-500/10 via-[#0B1228] to-[#090D1E] border border-amber-500/30 shadow-xl">
+          <div className="p-6 rounded-3xl bg-gradient-to-br from-amber-500/10 via-[#090E21] to-[#0B1228] border border-amber-500/30 shadow-xl">
             <div className="flex items-center gap-2 mb-3">
               <AlertCircle className="w-5 h-5 text-amber-400" />
               <h3 className="text-base font-bold text-white">
-                Checklist Persiapan Staf
+                Checklist Persiapan Staf Ristek
               </h3>
             </div>
             <p className="text-xs text-slate-400 mb-4 font-mono">
@@ -232,10 +242,10 @@ export default function TimelineRundown() {
                   <button
                     key={item.id}
                     onClick={() => toggleChecklist(item.id)}
-                    className={`w-full text-left p-3 rounded-xl border transition-all flex items-start gap-3 cursor-pointer ${
+                    className={`w-full text-left p-3.5 rounded-2xl border transition-all flex items-start gap-3 cursor-pointer ${
                       checked
                         ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-200"
-                        : "bg-slate-900/60 border-slate-800 text-slate-300 hover:border-slate-700"
+                        : "bg-slate-900/70 border-slate-800 text-slate-300 hover:border-amber-400/40"
                     }`}
                   >
                     <span className="shrink-0 mt-0.5">
@@ -249,7 +259,7 @@ export default function TimelineRundown() {
                       <div className={`font-semibold ${checked ? "line-through text-slate-400" : "text-white"}`}>
                         {item.label}
                       </div>
-                      <div className="text-[11px] text-slate-400 mt-0.5">
+                      <div className="text-[11px] text-slate-400 mt-0.5 font-mono">
                         {item.sub}
                       </div>
                     </div>
@@ -260,59 +270,56 @@ export default function TimelineRundown() {
           </div>
         </div>
 
-        {/* Right Column: Interactive Schedule Timeline (7 cols) */}
+        {/* Right Column: Timeline Steps (7 cols) */}
         <div className="lg:col-span-7">
-          <div className="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-2.5 sm:before:left-3 before:top-3 before:bottom-3 before:w-0.5 before:bg-gradient-to-b before:from-blue-500 before:via-amber-400 before:to-pink-500">
+          <div className="relative pl-6 sm:pl-8 border-l-2 border-amber-500/30 space-y-6">
             {schedule.map((item, idx) => (
               <motion.div
                 key={idx}
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: idx * 0.05 }}
-                className="relative group"
+                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                className={`relative p-5 sm:p-6 rounded-3xl border transition-all ${
+                  item.isHighlight
+                    ? `${item.highlightColor} shadow-xl shadow-pink-950/20`
+                    : "bg-[#090E21] border-slate-800 hover:border-amber-400/40"
+                }`}
               >
-                {/* Timeline node dot */}
+                {/* Node indicator */}
                 <div
-                  className={`absolute -left-6 sm:-left-8 top-1.5 w-5 h-5 rounded-full flex items-center justify-center border-2 transition-transform group-hover:scale-125 ${
+                  className={`absolute -left-[31px] sm:-left-[39px] top-6 w-5 h-5 rounded-full border-2 flex items-center justify-center ${
                     item.isHighlight
                       ? "bg-amber-400 border-amber-300 shadow-md shadow-amber-400/50"
-                      : "bg-[#0B1228] border-blue-400 text-blue-400"
+                      : "bg-[#080D1D] border-amber-500/50"
                   }`}
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                  <div
+                    className={`w-2 h-2 rounded-full ${
+                      item.isHighlight ? "bg-slate-950" : "bg-amber-400"
+                    }`}
+                  />
                 </div>
 
-                {/* Timeline Content Card */}
-                <div
-                  className={`p-4 sm:p-5 rounded-2xl border transition-all ${
-                    item.isHighlight
-                      ? "bg-gradient-to-r from-amber-500/10 via-[#0E1733] to-[#0A1024] border-amber-400/50 shadow-lg shadow-amber-500/10"
-                      : "bg-[#090E20]/90 border-slate-800 hover:border-slate-700"
-                  }`}
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <span className="text-xs font-mono font-bold text-amber-400 flex items-center gap-1.5">
-                      {item.icon}
-                      {item.time}
-                    </span>
-
-                    {item.isHighlight && (
-                      <span
-                        className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full border ${item.highlightColor}`}
-                      >
-                        {item.highlightTag}
-                      </span>
-                    )}
+                {/* Top tag for highlights */}
+                {item.isHighlight && item.highlightTag && (
+                  <div className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold tracking-wider mb-2.5 bg-amber-400/20 border border-amber-400/40 text-amber-300">
+                    {item.highlightTag}
                   </div>
+                )}
 
-                  <h4 className="text-sm sm:text-base font-bold text-white mb-1">
-                    {item.title}
-                  </h4>
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                    {item.description}
-                  </p>
+                <div className="flex items-center gap-2 text-xs font-mono font-semibold text-amber-400 mb-1.5">
+                  {item.icon}
+                  <span>{item.time}</span>
                 </div>
+
+                <h4 className="text-base sm:text-lg font-bold text-white mb-1.5">
+                  {item.title}
+                </h4>
+
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  {item.description}
+                </p>
               </motion.div>
             ))}
           </div>

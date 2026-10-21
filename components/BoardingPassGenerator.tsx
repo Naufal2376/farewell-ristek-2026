@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   Ticket,
@@ -9,6 +10,8 @@ import {
   Check,
   Plane,
   UserCheck,
+  PartyPopper,
+  Sparkles,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
@@ -246,15 +249,26 @@ export default function BoardingPassGenerator() {
     } else {
       setIsCustom(false);
       setSelectedIndex(Number(val));
+      try {
+        confetti({
+          particleCount: 30,
+          spread: 50,
+          origin: { y: 0.65 },
+          colors: ["#F59E0B", "#38BDF8", "#F43F5E", "#10B981"],
+        });
+      } catch {
+        // ignore
+      }
     }
   };
 
   const handleShare = () => {
     try {
       confetti({
-        particleCount: 60,
-        spread: 70,
-        origin: { y: 0.8 },
+        particleCount: 80,
+        spread: 80,
+        origin: { y: 0.75 },
+        colors: ["#F59E0B", "#FBBF24", "#38BDF8", "#F43F5E"],
       });
     } catch {
       // ignore
@@ -264,13 +278,17 @@ export default function BoardingPassGenerator() {
   };
 
   return (
-    <section id="boarding-pass" className="py-20 px-4 sm:px-6 max-w-5xl mx-auto">
+    <section id="boarding-pass" className="py-20 px-4 sm:px-6 max-w-5xl mx-auto relative">
       {/* Section Header */}
-      <div className="text-center mb-12">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Generator Kartu Akses / Boarding Pass
+      <div className="text-center mb-14">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-mono text-xs mb-3">
+          <PartyPopper className="w-3.5 h-3.5 text-amber-400" />
+          <span>EXCLUSIVE RISTEK 2026 ACCESS PASS ✈️</span>
+        </div>
+        <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+          Generator Kartu Akses / Boarding Pass 🎫
         </h2>
-        <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+        <p className="mt-3 text-slate-300 text-sm sm:text-base max-w-xl mx-auto">
           Pilih namamu dari daftar resmi pengurus Departemen Ristek HIMSI 2026.
           Nomor kursi telah diacak dan dibedakan khusus antara Divisi PTI dan Divisi Akademik!
         </p>
@@ -278,7 +296,7 @@ export default function BoardingPassGenerator() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
         {/* Left: Input Form Controls (5 cols) */}
-        <div className="lg:col-span-5 p-6 rounded-2xl bg-[#0B1228] border border-slate-800 shadow-xl space-y-4">
+        <div className="lg:col-span-5 p-6 rounded-3xl bg-[#090E21] border border-slate-800 shadow-xl space-y-4">
           <h3 className="text-sm font-bold text-white font-mono flex items-center gap-2">
             <UserCheck className="w-4 h-4 text-cyan-400" />
             <span>Pilih Profil Pengurus Ristek 2026</span>
@@ -438,13 +456,21 @@ export default function BoardingPassGenerator() {
             transition={{ duration: 0.3 }}
             className="w-full max-w-md bg-gradient-to-br from-[#0F172A] via-[#1E1B4B] to-[#0B0F19] text-white rounded-3xl border border-amber-400/40 shadow-2xl shadow-indigo-950/50 overflow-hidden relative"
           >
-            {/* Holographic Header Bar */}
-            <div className="px-6 py-4 bg-gradient-to-r from-blue-600 via-indigo-600 to-amber-500 flex items-center justify-between text-xs font-mono font-bold tracking-wider text-white">
-              <span className="flex items-center gap-1.5">
-                <Plane className="w-4 h-4" />
+            {/* Holographic Header Bar with Official Logo */}
+            <div className="px-5 py-3.5 bg-gradient-to-r from-blue-700 via-indigo-700 to-amber-500 flex items-center justify-between text-xs font-mono font-bold tracking-wider text-white">
+              <span className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-lg bg-black/40 p-0.5 flex items-center justify-center overflow-hidden border border-white/20">
+                  <Image
+                    src="/logo.png"
+                    alt="Logo Ristek"
+                    width={22}
+                    height={22}
+                    className="object-contain"
+                  />
+                </div>
                 <span>BOARDING PASS &bull; VIP ACCESS</span>
               </span>
-              <span className="bg-black/30 px-2 py-0.5 rounded text-[10px]">
+              <span className="bg-black/40 px-2.5 py-1 rounded-full text-[10px] text-amber-300 border border-amber-400/30">
                 {activeDivisionName.toUpperCase()}
               </span>
             </div>

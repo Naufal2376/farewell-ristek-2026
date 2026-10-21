@@ -110,23 +110,27 @@ export default function SecretAppreciationForm() {
   };
 
   return (
-    <section id="secret-form" className="py-20 px-4 sm:px-6 max-w-4xl mx-auto">
+    <section id="secret-form" className="py-20 px-4 sm:px-6 max-w-4xl mx-auto relative">
       {/* Header */}
-      <div className="text-center mb-12">
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-          Secret Appreciation Form
+      <div className="text-center mb-14">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 font-mono text-xs mb-3">
+          <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-spin" />
+          <span>100% ANONYMOUS • KELUARGA RISTEK 2026 💌</span>
+        </div>
+        <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
+          Secret Appreciation Form 💌
         </h2>
-        <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+        <p className="mt-3 text-slate-300 text-sm sm:text-base max-w-xl mx-auto">
           Tuliskan pesan, terima kasih, unek-unek kocak, atau kesan terpendammu
           tanpa nama pengirim. Bebas ditujukan untuk siapa saja dan akan dibacakan
           di sesi jam 11.00!
         </p>
 
         {/* Counter vault pill */}
-        <div className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-slate-400 bg-slate-900/80 px-3 py-1 rounded-full border border-slate-800">
+        <div className="mt-4 inline-flex items-center gap-2 text-xs font-mono text-slate-300 bg-slate-900/90 px-4 py-1.5 rounded-full border border-amber-500/30 shadow-md">
           <Sparkles className="w-3.5 h-3.5 text-amber-400" />
           <span>
-            Brankas Rahasia: <strong className="text-amber-400">{messageCount}</strong> pesan tersimpan
+            Brankas Rahasia: <strong className="text-amber-400 font-bold">{messageCount}</strong> pesan tersimpan
           </span>
         </div>
       </div>
