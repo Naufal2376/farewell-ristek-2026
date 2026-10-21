@@ -13,8 +13,8 @@ import {
   Award,
   Globe,
   Layout,
-  GraduationCap,
-  Laptop,
+  Code2,
+  Users,
 } from "lucide-react";
 
 interface StatItem {
@@ -28,7 +28,7 @@ interface StatItem {
 }
 
 export default function RistekWrapped() {
-  const [activeTab, setActiveTab] = useState<"stats" | "proker" | "awards">("stats");
+  const [activeTab, setActiveTab] = useState<"stats" | "highlights" | "awards">("stats");
 
   const stats: StatItem[] = [
     {
@@ -44,7 +44,7 @@ export default function RistekWrapped() {
       icon: <CheckCircle className="w-5 h-5 text-emerald-400" />,
       label: "Proker & Tech Projects",
       value: "100%",
-      subValue: "Semua roadmap terealisasi tanpa fatal merge conflict pada hati",
+      subValue: "8 Proker Internal Ristek & 12 Proker HIMSI tuntas dieksekusi",
       tag: "COMPILATION SUCCESS",
       color: "from-emerald-500/20 to-teal-500/5",
       borderGlow: "group-hover:border-emerald-400/50",
@@ -78,55 +78,46 @@ export default function RistekWrapped() {
     },
     {
       icon: <Heart className="w-5 h-5 text-pink-400" />,
-      label: "Kekeluargaan & Kenangan",
+      label: "Kekeluargaan 21 Anggota",
       value: "∞ / ∞",
-      subValue: "Satu periode berlalu, ikatan Ristek Unsri abadi selamanya",
+      subValue: "Fahri, Revanna, Naufal, Calista & 17 Staf hebat Ristek 2026",
       tag: "INFINITE LOVE",
       color: "from-pink-500/20 to-purple-500/5",
       borderGlow: "group-hover:border-pink-400/50",
     },
   ];
 
-  // Authentic prokers from himsiunsri.org/about/program-kerja
-  const prokers = [
-    {
-      icon: <Layout className="w-5 h-5 text-amber-400" />,
-      title: "SI FEST (Sistem Informasi Festival)",
-      description:
-        "Proker mega tahunan HIMSI: perancangan & pengembangan website resmi SI FEST, pendaftaran kompetisi nasional (UI/UX Design, KTI, BMC, Poster), turnamen E-sport, dan Seminar IT Nasional.",
-      badge: "MEGA PROKER",
-      status: "100% SUKSES",
-    },
+  const highlights = [
     {
       icon: <Globe className="w-5 h-5 text-blue-400" />,
-      title: "Pengembangan Website Resmi himsiunsri.org",
-      description:
-        "Rancang bangun, deployment, dan pemeliharaan portal utama organisasi HIMSI FASILKOM UNSRI sebagai sarana informasi dan publikasi digital.",
-      badge: "INFRASTRUCTURE",
-      status: "TERLAKSANA",
+      title: "Revamp Web HIMSI 2026",
+      description: "Berhasil meluncurkan kembali wajah baru website resmi HIMSI Fasilkom Unsri dengan arsitektur modern.",
+      metric: "PRODUKSI LIVE",
     },
     {
-      icon: <GraduationCap className="w-5 h-5 text-emerald-400" />,
-      title: "Pusat Informasi Akademik & Beasiswa",
-      description:
-        "Pengelolaan pusat edukasi, beasiswa, info lomba IT tingkat nasional, dan peluang magang bagi seluruh mahasiswa Jurusan Sistem Informasi.",
-      badge: "AKADEMIK & RISET",
-      status: "AKTIF BERJALAN",
+      icon: <Layout className="w-5 h-5 text-amber-400" />,
+      title: "UX Exhibition Ristek 2026",
+      description: "Memfasilitasi ratusan mahasiswa untuk belajar UI/UX prototyping yang berpusat pada kenyamanan pengguna.",
+      metric: "EDUKASI PECAT",
     },
     {
-      icon: <Laptop className="w-5 h-5 text-purple-400" />,
-      title: "Tech Upgrading & Workshop Hard Skills",
-      description:
-        "Pelatihan internal dan eksternal seputar Web Development, UI/UX Design, dan eksplorasi teknologi terkini untuk staf dan mahasiswa.",
-      badge: "DEV & CAPACITY",
-      status: "TERLAKSANA",
+      icon: <Code2 className="w-5 h-5 text-emerald-400" />,
+      title: "HIMSI Digital Ecosystem",
+      description: "Fondasi ekosistem digital terintegrasi untuk mendukung seluruh kebutuhan publikasi dan sistem himpunan.",
+      metric: "TERINTEGRASI",
+    },
+    {
+      icon: <Users className="w-5 h-5 text-purple-400" />,
+      title: "Sinergi Sukses SI FEST 2026",
+      description: "Kolaborasi solid seluruh fungsionaris dalam menyukseskan festival tahunan terbesar Sistem Informasi.",
+      metric: "MEGA AGENDA",
     },
   ];
 
   const awards = [
     {
       title: "👑 King/Queen of Stiker WhatsApp",
-      description: "Chat apapun responnya selalu pakai stiker kucing atau meme Fasilkom.",
+      description: "Chat apapun di grup Ristek responnya selalu pakai stiker kucing atau meme Fasilkom.",
       badge: "MEME MASTER",
     },
     {
@@ -141,7 +132,7 @@ export default function RistekWrapped() {
     },
     {
       title: "✨ BPH Paling Sabar",
-      description: "Selalu mengingatkan deadline dengan senyuman dan emotikon '🫶🏻'.",
+      description: "Selalu mengingatkan deadline pleno dengan senyuman dan emotikon '🫶🏻'.",
       badge: "PEACE MAKER",
     },
   ];
@@ -158,8 +149,8 @@ export default function RistekWrapped() {
           Ristek Wrapped <span className="text-amber-400">2026</span>
         </h2>
         <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-          Kilasan data kocak, rekap begadang, dan program kerja yang sukses
-          kita tuntaskan bersama sepanjang kepengurusan HIMSI Fasilkom Unsri.
+          Kilasan data kocak, rekap begadang, dan kilas balik pencapaian sepanjang
+          perjalanan kepengurusan Departemen Ristek HIMSI 2026.
         </p>
 
         {/* Tab Toggle */}
@@ -175,14 +166,14 @@ export default function RistekWrapped() {
             Statistik Lucu
           </button>
           <button
-            onClick={() => setActiveTab("proker")}
+            onClick={() => setActiveTab("highlights")}
             className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer ${
-              activeTab === "proker"
+              activeTab === "highlights"
                 ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
                 : "text-slate-400 hover:text-white"
             }`}
           >
-            Proker Terlaksana 🚀
+            Highlight Pencapaian 🚀
           </button>
           <button
             onClick={() => setActiveTab("awards")}
@@ -235,9 +226,9 @@ export default function RistekWrapped() {
         </div>
       )}
 
-      {activeTab === "proker" && (
+      {activeTab === "highlights" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-          {prokers.map((proker, idx) => (
+          {highlights.map((item, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 15 }}
@@ -248,29 +239,19 @@ export default function RistekWrapped() {
               <div>
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
-                    {proker.icon}
+                    {item.icon}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20">
-                      {proker.badge}
-                    </span>
-                    <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                      {proker.status}
-                    </span>
-                  </div>
+                  <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20">
+                    {item.metric}
+                  </span>
                 </div>
 
                 <h3 className="text-base font-bold text-white mb-2">
-                  {proker.title}
+                  {item.title}
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
-                  {proker.description}
+                  {item.description}
                 </p>
-              </div>
-
-              <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-cyan-400 flex items-center gap-1">
-                <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Verified in himsiunsri.org archive</span>
               </div>
             </motion.div>
           ))}

@@ -32,17 +32,17 @@ export const INITIAL_MESSAGES: SecretMessage[] = [
   },
   {
     id: "msg-2",
-    recipient: "Kak Iqbal & Jovandra 👑",
+    recipient: "Kak Fahri & Revanna 👑",
     message:
-      "Terima kasih Kak Kadep dan Kak Wakadep yang selalu sabar bimbing kami saat panik deadline rapat pleno. Maaf kalau divisi sering ngaret gmeet ya kak hehe.",
+      "Terima kasih Kak Kadep Fahri dan Wakadep Revanna yang selalu sabar bimbing kami saat panik deadline rapat pleno dan proker. Maaf kalau kita sering ngaret gmeet ya kak hehe.",
     createdAt: "2026-10-21T11:30:00.000Z",
     isRead: false,
   },
   {
     id: "msg-3",
-    recipient: "Divisi PTI 💻",
+    recipient: "Naufal & Tim Divisi PTI 💻",
     message:
-      "Buat anak-anak PTI, tolong setelah demis jam tidurnya dinormalkan ya. Jangan commit repo jam 3 pagi lagi, mata kalian udah mirip panda!",
+      "Buat Naufal dan anak-anak PTI, mantap banget Revamp Web HIMSI 2026-nya! Tolong setelah demis jam tidurnya dinormalkan ya, jangan begadang push git terus!",
     createdAt: "2026-10-21T14:15:00.000Z",
     isRead: false,
   },
@@ -164,7 +164,7 @@ export default function SecretAppreciationForm() {
                     type="text"
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
-                    placeholder="Contoh: Kak Iqbal, Owen, Fahri, Callista, atau Semua Anak Ristek"
+                    placeholder="Contoh: Kak Fahri, Revanna, Naufal, Calista, Eikel, Davin, atau Semua Anak Ristek"
                     required
                     className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-pink-400 transition-colors placeholder:text-slate-500 font-sans"
                   />
