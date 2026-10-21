@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -10,33 +10,52 @@ import {
   Maximize2,
   Minimize2,
   ArrowLeft,
-  CheckCircle,
   Search,
-  Lock,
+  RefreshCw,
 } from "lucide-react";
-import confetti from "canvas-confetti";
-import { SecretMessage, INITIAL_MESSAGES } from "@/components/SecretAppreciationForm";
+import type { SecretMessage } from "@/lib/secret-message";
+
+const PASSCODE_KEY = "ristek_baca_passcode";
 
 export default function LiveReadPage() {
-  const [messages, setMessages] = useState<SecretMessage[]>(INITIAL_MESSAGES);
+  const [passcode, setPasscode] = useState<string | null>(null);
+  const [passcodeInput, setPasscodeInput] = useState("");
+  const [messages, setMessages] = useState<SecretMessage[]>([]);
+  const [status, setStatus] = useState<"idle" | "loading" | "ready" | "error">("idle");
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Load from localStorage
-  useEffect(() => {
+  const loadMessages = useCallback(async (code: string) => {
+    setStatus("loading");
+    setLoadError(null);
     try {
-      const stored = localStorage.getItem("ristek_secret_messages");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (parsed.length > 0) {
-          setMessages(parsed);
-        }
+      const res = await fetch("/api/messages", { headers: { "x-baca-passcode": code } });
+      const data = await res.json().catch(() => null);
+      if (res.status === 401) {
+        sessionStorage.removeItem(PASSCODE_KEY);
+        setPasscode(null);
+        setLoadError("Passcode salah.");
+        setStatus("idle");
+        return;
       }
-    } catch {
-      // ignore
+      if (!res.ok) throw new Error(data?.error ?? "Gagal mengambil pesan.");
+      setMessages(data.messages);
+      setPasscode(code);
+      sessionStorage.setItem(PASSCODE_KEY, code);
+      setStatus("ready");
+    } catch (err) {
+      setLoadError(err instanceof TypeError ? "Tidak bisa terhubung ke server." : (err as Error).message);
+      setStatus("error");
     }
   }, []);
+
+  // Passcode disimpan per tab supaya refresh halaman tidak minta ulang.
+  useEffect(() => {
+    const saved = sessionStorage.getItem(PASSCODE_KEY);
+    if (saved) loadMessages(saved);
+  }, [loadMessages]);
 
   const filteredMessages = messages.filter((m) => {
     if (!searchQuery.trim()) return true;
@@ -62,28 +81,24 @@ export default function LiveReadPage() {
       randomIndex = (randomIndex + 1) % filteredMessages.length;
     }
     setCurrentIndex(randomIndex);
-
-    try {
-      confetti({
-        particleCount: 70,
-        spread: 80,
-        origin: { y: 0.6 },
-      });
-    } catch {
-      // ignore
-    }
   };
 
-  const toggleReadStatus = () => {
-    if (!currentMessage) return;
-    const updated = messages.map((m) =>
-      m.id === currentMessage.id ? { ...m, isRead: !m.isRead } : m
-    );
-    setMessages(updated);
+  const setRead = (id: string, isRead: boolean) =>
+    setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, isRead } : m)));
+
+  const toggleReadStatus = async () => {
+    if (!currentMessage || !passcode) return;
+    const { id, isRead } = currentMessage;
+    setRead(id, !isRead);
     try {
-      localStorage.setItem("ristek_secret_messages", JSON.stringify(updated));
+      const res = await fetch("/api/messages", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", "x-baca-passcode": passcode },
+        body: JSON.stringify({ id, isRead: !isRead }),
+      });
+      if (!res.ok) throw new Error();
     } catch {
-      // ignore
+      setRead(id, isRead);
     }
   };
 
@@ -97,40 +112,66 @@ export default function LiveReadPage() {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-[#060A17] text-white flex flex-col justify-between p-4 sm:p-8 relative overflow-hidden">
-      {/* Background ambient glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-to-r from-blue-600/15 via-purple-600/15 to-pink-600/15 rounded-full blur-[160px] pointer-events-none" />
+  const readCount = messages.filter((m) => m.isRead).length;
+  const btn =
+    "inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-paper/30 hover:border-paper text-sm transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default";
 
-      {/* Top Bar for Presenter */}
-      <header className="relative z-10 flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-800">
-        <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-white transition-all flex items-center gap-1.5 text-xs font-mono"
+  if (!passcode) {
+    return (
+      <div className="min-h-screen bg-maroon-deep text-paper flex items-center justify-center p-6">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (passcodeInput.trim()) loadMessages(passcodeInput.trim());
+          }}
+          className="w-full max-w-sm"
+        >
+          <h1 className="font-serif text-3xl">Secret appreciation</h1>
+          <p className="mt-2 text-paper/70">Halaman presenter. Masukkan passcode panitia.</p>
+          <input
+            type="password"
+            value={passcodeInput}
+            onChange={(e) => setPasscodeInput(e.target.value)}
+            autoFocus
+            aria-label="Passcode"
+            className="mt-6 w-full px-4 py-3 rounded-md bg-paper text-ink focus:outline-none"
+          />
+          {loadError && (
+            <p role="alert" className="mt-3 text-sm text-gold-soft">
+              {loadError}
+            </p>
+          )}
+          <button
+            type="submit"
+            disabled={status === "loading"}
+            className="mt-4 w-full py-3 rounded-full bg-paper text-maroon-deep font-semibold hover:bg-white transition-colors cursor-pointer disabled:opacity-60"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Kembali ke Web</span>
-          </Link>
+            {status === "loading" ? "Memuat…" : "Buka"}
+          </button>
+        </form>
+      </div>
+    );
+  }
 
+  return (
+    <div className="min-h-screen bg-maroon-deep text-paper flex flex-col p-4 sm:p-8">
+      <header className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <Link href="/" className="p-2 -ml-2 text-paper/70 hover:text-paper" aria-label="Kembali ke halaman utama">
+            <ArrowLeft className="w-5 h-5" />
+          </Link>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
-              <h1 className="text-base sm:text-lg font-bold font-mono tracking-tight text-white">
-                LIVE READ MODE &bull; PROYECTOR VIEW
-              </h1>
-            </div>
-            <p className="text-xs text-slate-400 font-mono">
-              Sesi Pembacaan Secret Appreciation (11.00 – 11.30 WIB)
+            <h1 className="font-serif text-xl">Secret appreciation</h1>
+            <p className="text-sm text-paper/60 tabular-nums">
+              {readCount} dari {messages.length} sudah dibaca
+              {status === "error" && <span className="text-gold-soft"> · {loadError}</span>}
             </p>
           </div>
         </div>
 
-        {/* Presenter controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Recipient Search Filter */}
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">
-            <Search className="w-3.5 h-3.5 text-amber-400" />
+        <div className="flex items-center gap-2">
+          <label className="flex items-center gap-2 px-3 py-2 rounded-full border border-paper/30 text-sm">
+            <Search className="w-4 h-4 text-paper/60" />
             <input
               type="text"
               value={searchQuery}
@@ -138,129 +179,93 @@ export default function LiveReadPage() {
                 setSearchQuery(e.target.value);
                 setCurrentIndex(0);
               }}
-              placeholder="Cari penerima..."
-              className="bg-transparent text-white placeholder:text-slate-500 outline-none w-28 sm:w-40 font-mono text-xs"
+              placeholder="Cari penerima"
+              className="bg-transparent placeholder:text-paper/50 outline-none w-32 sm:w-44"
             />
-            {searchQuery && (
-              <button
-                onClick={() => {
-                  setSearchQuery("");
-                  setCurrentIndex(0);
-                }}
-                className="text-slate-400 hover:text-white text-xs ml-1"
-              >
-                &times;
-              </button>
-            )}
-          </div>
-
-          {/* Fullscreen Button */}
+          </label>
           <button
-            onClick={toggleFullscreen}
-            className="p-2 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-400 text-slate-300 hover:text-white transition-colors"
-            title="Toggle Layar Penuh"
+            onClick={() => loadMessages(passcode)}
+            disabled={status === "loading"}
+            className="p-2.5 rounded-full border border-paper/30 hover:border-paper disabled:opacity-50"
+            aria-label="Muat pesan terbaru"
+            title="Muat pesan terbaru"
           >
+            <RefreshCw className={`w-4 h-4 ${status === "loading" ? "animate-spin" : ""}`} />
+          </button>
+          <button onClick={toggleFullscreen} className="p-2.5 rounded-full border border-paper/30 hover:border-paper" aria-label="Layar penuh">
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
         </div>
       </header>
 
-      {/* Main Center Stage Card */}
-      <main className="relative z-10 flex-1 flex flex-col items-center justify-center py-8 max-w-4xl mx-auto w-full">
+      <main className="flex-1 flex items-center justify-center py-10">
         {filteredMessages.length === 0 ? (
-          <div className="text-center p-12 bg-slate-900/60 rounded-3xl border border-slate-800">
-            <p className="text-slate-400 font-mono text-sm">
-              Tidak ada pesan untuk pencarian &quot;{searchQuery}&quot;.
-            </p>
-          </div>
+          <p className="text-paper/70 text-lg text-center max-w-md">
+            {status === "error"
+              ? loadError
+              : messages.length === 0
+              ? "Belum ada pesan masuk."
+              : `Tidak ada pesan untuk “${searchQuery}”.`}
+          </p>
         ) : (
           <AnimatePresence mode="wait">
             {currentMessage && (
-              <motion.div
+              <motion.article
                 key={currentMessage.id}
-                initial={{ opacity: 0, scale: 0.92, y: 15 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -15 }}
-                transition={{ duration: 0.35 }}
-                className="w-full bg-gradient-to-br from-[#0F172E] via-[#0E1528] to-[#0A0E1C] border-2 border-amber-400/50 rounded-3xl p-8 sm:p-14 shadow-2xl shadow-blue-950/60 relative overflow-hidden"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.3 }}
+                className="w-full max-w-4xl bg-card text-ink rounded-lg p-8 sm:p-14 shadow-2xl"
               >
-                {/* Decorative background read toggle */}
-                <div className="absolute top-6 right-6 flex items-center gap-2">
-                  <button
-                    onClick={toggleReadStatus}
-                    className={`px-3 py-1 rounded-full text-xs font-mono flex items-center gap-1.5 transition-colors cursor-pointer border ${
-                      currentMessage.isRead
-                        ? "bg-emerald-950/60 border-emerald-500/50 text-emerald-300"
-                        : "bg-slate-800/80 border-slate-700 text-slate-400 hover:text-white"
-                    }`}
-                  >
-                    <CheckCircle className="w-3.5 h-3.5" />
-                    <span>{currentMessage.isRead ? "Sudah Dibaca" : "Tandai Dibaca"}</span>
-                  </button>
-                </div>
-
-                {/* Recipient Headline */}
-                <div className="mb-6">
-                  <div className="text-xs sm:text-sm font-mono text-amber-400 tracking-wider uppercase mb-1">
-                    SURAT RAHASIA UNTUK:
-                  </div>
-                  <h2 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
-                    {currentMessage.recipient}
-                  </h2>
-                </div>
-
-                {/* The Secret Message Quote */}
-                <div className="my-8 sm:my-10 p-6 sm:p-8 rounded-2xl bg-black/40 border border-slate-800/80 relative">
-                  <p className="text-lg sm:text-2xl md:text-3xl text-slate-100 font-sans font-medium leading-relaxed italic text-center sm:text-left">
-                    &ldquo;{currentMessage.message}&rdquo;
-                  </p>
-                </div>
-
-                {/* Bottom Footer Info */}
-                <div className="flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-500 pt-4 border-t border-slate-800/80">
-                  <div className="flex items-center gap-2">
-                    <Lock className="w-3.5 h-3.5 text-pink-400" />
-                    <span>Pengirim: 100% Anonim Staf Ristek 2026</span>
-                  </div>
+                <div className="flex items-start justify-between gap-4">
                   <div>
-                    Pesan {currentIndex + 1} dari {filteredMessages.length}
+                    <p className="font-hand text-3xl text-maroon">untuk</p>
+                    <h2 className="font-serif text-4xl sm:text-6xl leading-tight">{currentMessage.recipient}</h2>
                   </div>
+                  <span className="text-sm text-ink-soft tabular-nums pt-2">
+                    {currentIndex + 1} / {filteredMessages.length}
+                  </span>
                 </div>
-              </motion.div>
+
+                <p className="mt-8 sm:mt-10 text-2xl sm:text-3xl md:text-4xl leading-snug font-serif whitespace-pre-line">
+                  {currentMessage.message}
+                </p>
+
+                <div className="mt-10 pt-5 border-t border-line flex items-center justify-between gap-4 text-sm text-ink-soft">
+                  <span>Dari: seseorang di Ristek</span>
+                  <label className="inline-flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={!!currentMessage.isRead}
+                      onChange={toggleReadStatus}
+                      className="w-4 h-4 accent-maroon"
+                    />
+                    Sudah dibaca
+                  </label>
+                </div>
+              </motion.article>
             )}
           </AnimatePresence>
         )}
       </main>
 
-      {/* Bottom Presenter Controls Bar */}
-      <footer className="relative z-10 flex flex-wrap items-center justify-center sm:justify-between gap-4 pt-6 border-t border-slate-800 max-w-4xl mx-auto w-full">
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handlePrev}
-            disabled={filteredMessages.length <= 1}
-            className="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 disabled:opacity-40 text-white transition-all flex items-center gap-1 text-xs font-mono cursor-pointer"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            <span>Sebelumnya</span>
-          </button>
-
-          <button
-            onClick={handleNext}
-            disabled={filteredMessages.length <= 1}
-            className="p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-700 disabled:opacity-40 text-white transition-all flex items-center gap-1 text-xs font-mono cursor-pointer"
-          >
-            <span>Selanjutnya</span>
-            <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Big Gacha / Shuffle Button */}
+      <footer className="flex flex-wrap items-center justify-center gap-3">
+        <button onClick={handlePrev} disabled={filteredMessages.length <= 1} className={btn}>
+          <ChevronLeft className="w-4 h-4" />
+          Sebelumnya
+        </button>
         <button
           onClick={handleShuffle}
-          className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-pink-500 hover:from-amber-400 hover:to-pink-400 text-slate-950 font-extrabold font-mono text-sm shadow-xl shadow-amber-500/20 flex items-center gap-2 transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+          disabled={filteredMessages.length <= 1}
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-paper text-maroon-deep font-semibold hover:bg-white transition-colors cursor-pointer disabled:opacity-40"
         >
           <Shuffle className="w-4 h-4" />
-          <span>Gacha / Acak Pesan Selanjutnya 🎲</span>
+          Acak
+        </button>
+        <button onClick={handleNext} disabled={filteredMessages.length <= 1} className={btn}>
+          Berikutnya
+          <ChevronRight className="w-4 h-4" />
         </button>
       </footer>
     </div>

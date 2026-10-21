@@ -1,144 +1,89 @@
-"use client";
-
 import React from "react";
-import { motion } from "framer-motion";
-import {
-  Coffee,
-  MessageSquare,
-  CheckCircle,
-  Bug,
-  Heart,
-  Flame,
-  Sparkles,
-} from "lucide-react";
+import SectionHeading from "@/components/SectionHeading";
 
 interface StatItem {
-  icon: React.ReactNode;
   label: string;
   value: string;
-  subValue: string;
-  tag: string;
-  color: string;
-  badgeBg: string;
+  note: string;
 }
 
+const stats: StatItem[] = [
+  {
+    label: "Rapat malam & Discord",
+    value: "28x",
+    note: "Paling sering mulai 23.45. \"10 menit lagi kelar kok ges.\"",
+  },
+  {
+    label: "Proker selesai",
+    value: "20",
+    note: "8 proker internal Ristek, 12 proker HIMSI.",
+  },
+  {
+    label: "Chat paling sering",
+    value: "4.821x",
+    note: "\"Revisi dikit lagi\", \"P\", \"Info link gmeet\", \"Aman gak?\"",
+  },
+  {
+    label: "Bug & overthinking",
+    value: "99+",
+    note: "Tidur nyenyak: 404. Tapi semuanya beres.",
+  },
+  {
+    label: "Kopi & gorengan patungan",
+    value: "1.024+",
+    note: "Kantin Fasilkom, terima kasih atas dukungannya.",
+  },
+];
+
 export default function RistekWrapped() {
-  const stats: StatItem[] = [
-    {
-      icon: <Coffee className="w-5 h-5 text-amber-400" />,
-      label: "Total Rapat Malam & Discord",
-      value: "28x",
-      subValue: "Waktu terfavorit: 23:45 WIB ('10 menit lagi kelar kok ges')",
-      tag: "🌙 OVERTIME LOGS",
-      color: "from-amber-500/20 via-orange-500/10 to-transparent",
-      badgeBg: "bg-amber-500/20 text-amber-300 border-amber-500/30",
-    },
-    {
-      icon: <CheckCircle className="w-5 h-5 text-emerald-400" />,
-      label: "Proker & Tech Projects",
-      value: "100%",
-      subValue: "8 Proker Internal Ristek & 12 Proker HIMSI tuntas dieksekusi",
-      tag: "🚀 COMPILATION SUCCESS",
-      color: "from-emerald-500/20 via-teal-500/10 to-transparent",
-      badgeBg: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30",
-    },
-    {
-      icon: <MessageSquare className="w-5 h-5 text-cyan-400" />,
-      label: "Kata Paling Sering Di-chat",
-      value: "4.821x",
-      subValue: "\"Revisi dikit lagi\", \"P\", \"Info link gmeet\", \"Aman gak?\"",
-      tag: "💬 TOP KEYWORD",
-      color: "from-cyan-500/20 via-blue-500/10 to-transparent",
-      badgeBg: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
-    },
-    {
-      icon: <Bug className="w-5 h-5 text-rose-400" />,
-      label: "Bugs & Overthinking Teratasi",
-      value: "99+",
-      subValue: "\"Error 404: Tidur Nyenyak Not Found\", tapi selalu tuntas",
-      tag: "🐛 DEBUGGED",
-      color: "from-rose-500/20 via-pink-500/10 to-transparent",
-      badgeBg: "bg-rose-500/20 text-rose-300 border-rose-500/30",
-    },
-    {
-      icon: <Flame className="w-5 h-5 text-yellow-400" />,
-      label: "Bahan Bakar Coding & Rapat",
-      value: "1.024+",
-      subValue: "Cup kopi & gorengan kantin Fasilkom yang dibeli patungan",
-      tag: "☕ ENERGY METRICS",
-      color: "from-yellow-500/20 via-amber-500/10 to-transparent",
-      badgeBg: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30",
-    },
-    {
-      icon: <Heart className="w-5 h-5 text-pink-400 fill-pink-400" />,
-      label: "Kekeluargaan 20 Anggota",
-      value: "∞ / ∞",
-      subValue: "Fahri, Revanna, Naufal, Calista & 16 Staf hebat Ristek 2026",
-      tag: "💙 INFINITE LOVE",
-      color: "from-pink-500/20 via-purple-500/10 to-transparent",
-      badgeBg: "bg-pink-500/20 text-pink-300 border-pink-500/30",
-    },
-  ];
-
   return (
-    <section id="wrapped" className="py-20 px-4 sm:px-6 max-w-6xl mx-auto relative">
-      {/* Section Header */}
-      <div className="text-center mb-14">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 font-mono text-xs mb-3">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-          <span>STATISTIK PERJALANAN SATU PERIODE</span>
+    <section id="wrapped" className="px-4 sm:px-6 py-20 sm:py-28 bg-paper-2/60 border-y border-line">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <div className="lg:col-span-5">
+          <SectionHeading note="rekap setahun" title="Ristek Wrapped 2026">
+            Kalau satu periode kepengurusan dicetak jadi struk kantin, kira-kira
+            begini isinya.
+          </SectionHeading>
         </div>
-        <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-          Ristek Wrapped <span className="text-amber-400">2026</span> 🎉
-        </h2>
-        <p className="mt-3 text-slate-300 text-sm sm:text-base max-w-xl mx-auto">
-          Kilasan data kocak, rekap begadang, dan statistik kebersamaan sepanjang
-          perjalanan kepengurusan Departemen Ristek HIMSI 2026.
-        </p>
-      </div>
 
-      {/* Direct Statistic Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {stats.map((stat, idx) => (
-          <motion.div
-            key={idx}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: idx * 0.08 }}
-            whileHover={{ y: -6, scale: 1.02 }}
-            className={`group relative p-6 sm:p-7 rounded-3xl bg-[#090E21] border border-slate-800 hover:border-amber-400/50 backdrop-blur-md transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/10 flex flex-col justify-between overflow-hidden`}
-          >
-            {/* Ambient card top gradient */}
-            <div
-              className={`absolute top-0 left-0 right-0 h-32 bg-gradient-to-b ${stat.color} pointer-events-none`}
-            />
-
-            <div className="relative z-10">
-              <div className="flex items-center justify-between mb-5">
-                <div className="p-3 rounded-2xl bg-slate-900/90 border border-slate-700/80 group-hover:scale-110 group-hover:rotate-6 transition-transform shadow-md">
-                  {stat.icon}
-                </div>
-                <span
-                  className={`text-[10px] font-mono font-bold tracking-wider px-2.5 py-1 rounded-lg border ${stat.badgeBg}`}
-                >
-                  {stat.tag}
-                </span>
+        {/* Struk */}
+        <div className="lg:col-span-7 flex justify-center lg:justify-start">
+          <div className="w-full max-w-md drop-shadow-[0_10px_18px_rgba(43,29,26,0.18)]">
+            <div className="bg-card px-6 sm:px-8 pt-8 pb-10 font-mono text-[13px] text-ink [clip-path:polygon(0_0,100%_0,100%_calc(100%-8px),95%_100%,90%_calc(100%-8px),85%_100%,80%_calc(100%-8px),75%_100%,70%_calc(100%-8px),65%_100%,60%_calc(100%-8px),55%_100%,50%_calc(100%-8px),45%_100%,40%_calc(100%-8px),35%_100%,30%_calc(100%-8px),25%_100%,20%_calc(100%-8px),15%_100%,10%_calc(100%-8px),5%_100%,0_calc(100%-8px))]">
+              <div className="text-center">
+                <p className="font-bold tracking-widest">RISTEK HIMSI 2026</p>
+                <p className="text-ink-soft text-xs mt-1">Fasilkom Unsri · Feb – Okt 2026</p>
               </div>
-
-              <div className="text-3xl sm:text-4xl font-black font-mono text-white mb-1.5 tracking-tight group-hover:text-amber-300 transition-colors">
-                {stat.value}
+  
+              <div className="my-5 border-t border-dashed border-ink/30" />
+  
+              <ul className="space-y-4">
+                {stats.map((s) => (
+                  <li key={s.label}>
+                    <div className="flex items-baseline gap-2">
+                      <span className="shrink-0">{s.label}</span>
+                      <span className="flex-1 border-b border-dotted border-ink/30 translate-y-[-3px]" />
+                      <span className="shrink-0 font-bold tabular-nums">{s.value}</span>
+                    </div>
+                    <p className="text-ink-soft text-xs mt-1 font-sans">{s.note}</p>
+                  </li>
+                ))}
+              </ul>
+  
+              <div className="my-5 border-t border-dashed border-ink/30" />
+  
+              <div className="flex items-baseline justify-between font-bold">
+                <span>TOTAL ANGGOTA</span>
+                <span>20 orang</span>
               </div>
-              <div className="text-sm sm:text-base font-bold text-slate-200 mb-3">
-                {stat.label}
-              </div>
-            </div>
-
-            <div className="relative z-10 pt-4 border-t border-slate-800/80 text-xs font-mono text-slate-400 leading-relaxed italic">
-              {stat.subValue}
-            </div>
-          </motion.div>
-        ))}
+              <p className="text-ink-soft text-xs mt-1 font-sans">
+                Fahri, Revanna, Naufal, Calista, dan 16 staf lainnya.
+              </p>
+  
+              <p className="mt-6 text-center text-xs tracking-widest">LUNAS · TERIMA KASIH</p>
+          </div>
+          </div>
+        </div>
       </div>
     </section>
   );

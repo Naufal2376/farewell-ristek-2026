@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Music, Volume2, VolumeX, Play, Pause, ExternalLink } from "lucide-react";
+import { Volume2, VolumeX, Play, Pause } from "lucide-react";
 
 interface AudioPlayerProps {
   autoPlayTrigger?: boolean;
@@ -77,53 +77,27 @@ export default function AudioPlayer({ autoPlayTrigger }: AudioPlayerProps) {
       </div>
 
       {/* Floating Audio Controller */}
-      <div className="fixed bottom-4 right-4 z-40">
-        <div className="flex items-center gap-2 bg-[#0D1429]/95 border border-slate-700/80 backdrop-blur-md px-3.5 py-2 rounded-full shadow-2xl shadow-black/60 hover:border-amber-400/60 transition-all max-w-[280px] sm:max-w-xs">
-          {/* Play/Pause Button with animated equalizer */}
-          <button
-            onClick={togglePlay}
-            aria-label={isPlaying ? "Jeda musik" : "Putar musik"}
-            className="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white shrink-0"
-          >
-            {isPlaying ? (
-              <div className="w-5 h-5 flex items-center justify-center text-amber-400">
-                <span className="flex items-end gap-0.5 h-3">
-                  <span className="w-0.5 bg-amber-400 h-full animate-[pulse_0.6s_ease-in-out_infinite]" />
-                  <span className="w-0.5 bg-amber-400 h-2/3 animate-[pulse_0.8s_ease-in-out_infinite_0.2s]" />
-                  <span className="w-0.5 bg-amber-400 h-4/5 animate-[pulse_0.5s_ease-in-out_infinite_0.4s]" />
-                </span>
-              </div>
-            ) : (
-              <div className="w-5 h-5 flex items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-slate-700">
-                <Play className="w-3 h-3 fill-slate-300 ml-0.5" />
-              </div>
-            )}
-          </button>
+      <div className="fixed bottom-4 right-4 z-40 flex items-center gap-1 bg-ink text-paper pl-1.5 pr-3 py-1.5 rounded-full shadow-lg max-w-[260px]">
+        <button
+          onClick={togglePlay}
+          aria-label={isPlaying ? "Jeda musik" : "Putar musik"}
+          className="w-8 h-8 shrink-0 rounded-full bg-paper/10 hover:bg-paper/20 flex items-center justify-center cursor-pointer"
+        >
+          {isPlaying ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current ml-0.5" />}
+        </button>
 
-          {/* Track Information */}
-          <div className="flex flex-col text-left overflow-hidden">
-            <span className="text-[11px] font-semibold text-slate-200 truncate flex items-center gap-1">
-              <Music className="w-3 h-3 text-amber-400 shrink-0" />
-              <span className="truncate">for real this time | ribs</span>
-            </span>
-            <span className="text-[9px] text-slate-400 font-mono truncate">
-              {isPlaying ? "Gracie Abrams & Lorde" : "Klik untuk memutar lagu"}
-            </span>
-          </div>
-
-          {/* Mute Toggle */}
-          <button
-            onClick={toggleMute}
-            className="p-1 rounded-full text-slate-400 hover:text-amber-400 transition-colors ml-auto shrink-0"
-            aria-label={isMuted ? "Unmute" : "Mute"}
-          >
-            {isMuted ? (
-              <VolumeX className="w-3.5 h-3.5 text-rose-400" />
-            ) : (
-              <Volume2 className="w-3.5 h-3.5" />
-            )}
-          </button>
+        <div className="min-w-0 px-1.5 leading-tight">
+          <p className="text-xs font-medium truncate">for real this time | ribs</p>
+          <p className="text-[11px] text-paper/60 truncate">Gracie Abrams & Lorde</p>
         </div>
+
+        <button
+          onClick={toggleMute}
+          className="p-1 shrink-0 text-paper/70 hover:text-paper cursor-pointer"
+          aria-label={isMuted ? "Nyalakan suara" : "Bisukan"}
+        >
+          {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+        </button>
       </div>
     </>
   );

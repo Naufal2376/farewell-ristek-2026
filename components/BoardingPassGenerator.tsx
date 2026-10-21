@@ -2,18 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import {
-  Ticket,
-  QrCode,
-  Camera,
-  Check,
-  Plane,
-  UserCheck,
-  PartyPopper,
-  Sparkles,
-} from "lucide-react";
-import confetti from "canvas-confetti";
+import SectionHeading from "@/components/SectionHeading";
 
 export interface RistekMember2026 {
   name: string;
@@ -194,8 +183,10 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
   },
 ];
 
-// Hash function to guarantee a unique seat for custom names based on chosen division
-function generateUniqueSeat(name: string, division: "pti" | "akademik" | "bph"): string {
+type Division = RistekMember2026["division"];
+
+// Nomor kursi tetap untuk nama yang diketik sendiri, dibedakan per divisi.
+function generateUniqueSeat(name: string, division: Division): string {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
@@ -205,385 +196,190 @@ function generateUniqueSeat(name: string, division: "pti" | "akademik" | "bph"):
   return `${prefix}-${num}`;
 }
 
+const DIVISION_LABEL: Record<Division, string> = {
+  bph: "Tamu / BPH",
+  pti: "Divisi PTI",
+  akademik: "Divisi Akademik",
+};
+
+const fieldClass =
+  "w-full px-3.5 py-2.5 rounded-md bg-paper border border-line text-ink focus:outline-none focus:border-maroon";
+
 export default function BoardingPassGenerator() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [isCustom, setIsCustom] = useState(false);
   const [customName, setCustomName] = useState("");
-  const [customDivision, setCustomDivision] = useState<"pti" | "akademik" | "bph">("pti");
-  const [customRole, setCustomRole] = useState("Anggota Kehormatan Ristek 2026");
+  const [customDivision, setCustomDivision] = useState<Division>("pti");
+  const [customRole, setCustomRole] = useState("Tamu Farewell Ristek 2026");
   const [customIg, setCustomIg] = useState("");
-  const [copied, setCopied] = useState(false);
 
-  // Active details
-  const activeName = isCustom
-    ? customName || "DEAR STAF RISTEK"
-    : RISTEK_MEMBERS_2026[selectedIndex].name;
+  const member = RISTEK_MEMBERS_2026[selectedIndex];
+  const activeName = isCustom ? customName || "Nama kamu" : member.name;
+  const activeRole = isCustom ? customRole : member.role;
+  const activeDivisionName = isCustom ? DIVISION_LABEL[customDivision] : member.divisionName;
+  const activeIg = isCustom ? customIg : member.instagram;
 
-  const activeRole = isCustom
-    ? customRole
-    : RISTEK_MEMBERS_2026[selectedIndex].role;
+  const activeSeat = useMemo(
+    () => (isCustom ? generateUniqueSeat(customName || "Tamu", customDivision) : member.seat),
+    [isCustom, customName, customDivision, member.seat]
+  );
 
-  const activeDivisionName = isCustom
-    ? customDivision === "pti"
-      ? "Divisi PTI"
-      : customDivision === "akademik"
-      ? "Divisi Akademik"
-      : "Tamu Kehormatan"
-    : RISTEK_MEMBERS_2026[selectedIndex].divisionName;
-
-  const activeIg = isCustom
-    ? customIg || "@himsi.ristek"
-    : RISTEK_MEMBERS_2026[selectedIndex].instagram;
-
-  const activeSeat = useMemo(() => {
-    if (isCustom) {
-      return generateUniqueSeat(customName || "Tamu", customDivision);
-    }
-    return RISTEK_MEMBERS_2026[selectedIndex].seat;
-  }, [isCustom, customName, customDivision, selectedIndex]);
-
-  const handleMemberChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const val = e.target.value;
-    if (val === "custom") {
-      setIsCustom(true);
-    } else {
-      setIsCustom(false);
-      setSelectedIndex(Number(val));
-      try {
-        confetti({
-          particleCount: 30,
-          spread: 50,
-          origin: { y: 0.65 },
-          colors: ["#F59E0B", "#38BDF8", "#F43F5E", "#10B981"],
-        });
-      } catch {
-        // ignore
-      }
-    }
-  };
-
-  const handleShare = () => {
-    try {
-      confetti({
-        particleCount: 80,
-        spread: 80,
-        origin: { y: 0.75 },
-        colors: ["#F59E0B", "#FBBF24", "#38BDF8", "#F43F5E"],
-      });
-    } catch {
-      // ignore
-    }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2500);
-  };
+  const groups: { label: string; division: Division }[] = [
+    { label: "Pimpinan Departemen", division: "bph" },
+    { label: "Divisi PTI", division: "pti" },
+    { label: "Divisi Akademik", division: "akademik" },
+  ];
 
   return (
-    <section id="boarding-pass" className="py-20 px-4 sm:px-6 max-w-5xl mx-auto relative">
-      {/* Section Header */}
-      <div className="text-center mb-14">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-mono text-xs mb-3">
-          <PartyPopper className="w-3.5 h-3.5 text-amber-400" />
-          <span>EXCLUSIVE RISTEK 2026 ACCESS PASS ✈️</span>
-        </div>
-        <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
-          Generator Kartu Akses / Boarding Pass 🎫
-        </h2>
-        <p className="mt-3 text-slate-300 text-sm sm:text-base max-w-xl mx-auto">
-          Pilih namamu dari daftar resmi pengurus Departemen Ristek HIMSI 2026.
-          Nomor kursi telah diacak dan dibedakan khusus antara Divisi PTI dan Divisi Akademik!
-        </p>
-      </div>
+    <section id="boarding-pass" className="px-4 sm:px-6 py-20 sm:py-28">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        <div className="lg:col-span-5">
+          <SectionHeading note="tiket masuk" title="Ambil tiketmu">
+            Pilih namamu, nomor kursimu sudah diacak per divisi. Screenshot
+            tiketnya buat story, jangan lupa tag @himsi.ristek.
+          </SectionHeading>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        {/* Left: Input Form Controls (5 cols) */}
-        <div className="lg:col-span-5 p-6 rounded-3xl bg-[#090E21] border border-slate-800 shadow-xl space-y-4">
-          <h3 className="text-sm font-bold text-white font-mono flex items-center gap-2">
-            <UserCheck className="w-4 h-4 text-cyan-400" />
-            <span>Pilih Profil Pengurus Ristek 2026</span>
-          </h3>
-
-          {/* Member Dropdown from official 2026 profile */}
-          <div>
-            <label className="block text-xs font-mono text-slate-300 mb-1.5">
-              Nama Anggota Ristek (himsiunsri.org 2026)
+          <div className="space-y-4">
+            <label className="block">
+              <span className="block text-sm font-medium mb-1.5">Nama</span>
+              <select
+                value={isCustom ? "custom" : selectedIndex}
+                onChange={(e) => {
+                  if (e.target.value === "custom") {
+                    setIsCustom(true);
+                  } else {
+                    setIsCustom(false);
+                    setSelectedIndex(Number(e.target.value));
+                  }
+                }}
+                className={`${fieldClass} cursor-pointer`}
+              >
+                {groups.map((g) => (
+                  <optgroup key={g.division} label={g.label}>
+                    {RISTEK_MEMBERS_2026.map((m, idx) =>
+                      m.division === g.division ? (
+                        <option key={m.name} value={idx}>
+                          {m.name}
+                        </option>
+                      ) : null
+                    )}
+                  </optgroup>
+                ))}
+                <optgroup label="Lainnya">
+                  <option value="custom">Tamu / ketik nama sendiri</option>
+                </optgroup>
+              </select>
             </label>
-            <select
-              value={isCustom ? "custom" : selectedIndex}
-              onChange={handleMemberChange}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-medium text-xs font-mono focus:outline-none focus:border-amber-400 transition-colors cursor-pointer"
-            >
-              <optgroup label="👑 Pimpinan Departemen (BPH)">
-                <option value={0}>M. Fahri Ramadhan (Kadep) &bull; BPH-01</option>
-                <option value={1}>Revanna Aulia Putri (Wakadep) &bull; BPH-02</option>
-              </optgroup>
 
-              <optgroup label="💻 Divisi PTI (Nomor Kursi Acak: PTI-XX)">
-                {RISTEK_MEMBERS_2026.slice(2, 11).map((m, idx) => (
-                  <option key={idx + 2} value={idx + 2}>
-                    {m.name} &bull; {m.seat}
-                  </option>
-                ))}
-              </optgroup>
-
-              <optgroup label="🔬 Divisi Akademik (Nomor Kursi Acak: AKD-XX)">
-                {RISTEK_MEMBERS_2026.slice(11).map((m, idx) => (
-                  <option key={idx + 11} value={idx + 11}>
-                    {m.name} &bull; {m.seat}
-                  </option>
-                ))}
-              </optgroup>
-
-              <optgroup label="✍️ Opsi Lain">
-                <option value="custom">Ketik Nama Sendiri / Tamu Kehormatan</option>
-              </optgroup>
-            </select>
-          </div>
-
-          {/* Custom Name input if 'custom' is selected */}
-          {isCustom && (
-            <motion.div
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-3"
-            >
-              <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1">
-                  Nama Lengkap / Panggilan
+            {isCustom && (
+              <div className="space-y-4">
+                <label className="block">
+                  <span className="block text-sm font-medium mb-1.5">Nama lengkap / panggilan</span>
+                  <input
+                    type="text"
+                    value={customName}
+                    onChange={(e) => setCustomName(e.target.value)}
+                    maxLength={26}
+                    className={fieldClass}
+                  />
                 </label>
-                <input
-                  type="text"
-                  value={customName}
-                  onChange={(e) => setCustomName(e.target.value)}
-                  placeholder="Masukkan nama Anda..."
-                  maxLength={26}
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1">
-                  Divisi untuk Alokasi Kursi
+                <label className="block">
+                  <span className="block text-sm font-medium mb-1.5">Kursi di area</span>
+                  <select
+                    value={customDivision}
+                    onChange={(e) => setCustomDivision(e.target.value as Division)}
+                    className={`${fieldClass} cursor-pointer`}
+                  >
+                    <option value="pti">Divisi PTI</option>
+                    <option value="akademik">Divisi Akademik</option>
+                    <option value="bph">Tamu / BPH</option>
+                  </select>
                 </label>
-                <select
-                  value={customDivision}
-                  onChange={(e) => setCustomDivision(e.target.value as "pti" | "akademik" | "bph")}
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
-                >
-                  <option value="pti">Divisi PTI (Kursi: PTI-XX)</option>
-                  <option value="akademik">Divisi Akademik (Kursi: AKD-XX)</option>
-                  <option value="bph">Tamu Kehormatan / BPH (Kursi: VIP-XX)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1">
-                  Peran / Afiliasi
+                <label className="block">
+                  <span className="block text-sm font-medium mb-1.5">Peran</span>
+                  <input
+                    type="text"
+                    value={customRole}
+                    onChange={(e) => setCustomRole(e.target.value)}
+                    placeholder="Demisioner Ristek, tamu, dll."
+                    maxLength={36}
+                    className={fieldClass}
+                  />
                 </label>
-                <input
-                  type="text"
-                  value={customRole}
-                  onChange={(e) => setCustomRole(e.target.value)}
-                  placeholder="Contoh: Demisioner Ristek / Tamu Fasilkom"
-                  maxLength={36}
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1">
-                  Username Instagram
+                <label className="block">
+                  <span className="block text-sm font-medium mb-1.5">Instagram (opsional)</span>
+                  <input
+                    type="text"
+                    value={customIg}
+                    onChange={(e) => setCustomIg(e.target.value)}
+                    placeholder="@username"
+                    maxLength={24}
+                    className={fieldClass}
+                  />
                 </label>
-                <input
-                  type="text"
-                  value={customIg}
-                  onChange={(e) => setCustomIg(e.target.value)}
-                  placeholder="Contoh: @username"
-                  maxLength={24}
-                  className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
-                />
               </div>
-            </motion.div>
-          )}
-
-          {/* Read-only assigned Seat ID preview */}
-          <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between text-xs font-mono">
-            <div>
-              <span className="text-slate-400 block text-[10px]">Alokasi Kursi Acak:</span>
-              <span className="text-slate-300 font-semibold">{activeDivisionName}</span>
-            </div>
-            <span
-              className={`font-mono font-bold text-sm px-2.5 py-1 rounded border ${
-                activeSeat.startsWith("PTI")
-                  ? "bg-cyan-500/10 text-cyan-300 border-cyan-400/40"
-                  : activeSeat.startsWith("AKD")
-                  ? "bg-pink-500/10 text-pink-300 border-pink-400/40"
-                  : "bg-amber-500/10 text-amber-300 border-amber-400/40"
-              }`}
-            >
-              {activeSeat}
-            </span>
-          </div>
-
-          <div className="pt-2">
-            <button
-              onClick={handleShare}
-              className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-bold text-xs font-mono flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 transition-all cursor-pointer"
-            >
-              {copied ? (
-                <>
-                  <Check className="w-4 h-4" />
-                  <span>Siap di-Screenshot! 📸</span>
-                </>
-              ) : (
-                <>
-                  <Camera className="w-4 h-4" />
-                  <span>Screenshot & Share ke IG Story</span>
-                </>
-              )}
-            </button>
-            <p className="text-[11px] text-slate-400 text-center mt-2 font-mono">
-              Tips: Pasang hasil screenshot tiket ini di IG Story dan tag @himsi.ristek!
-            </p>
+            )}
           </div>
         </div>
 
-        {/* Right: The Boarding Pass Card Preview (7 cols) */}
-        <div className="lg:col-span-7 flex justify-center">
-          <motion.div
-            key={activeName + activeSeat}
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
-            className="w-full max-w-md bg-gradient-to-br from-[#0F172A] via-[#1E1B4B] to-[#0B0F19] text-white rounded-3xl border border-amber-400/40 shadow-2xl shadow-indigo-950/50 overflow-hidden relative"
-          >
-            {/* Holographic Header Bar with Official Logo */}
-            <div className="px-5 py-3.5 bg-gradient-to-r from-blue-700 via-indigo-700 to-amber-500 flex items-center justify-between text-xs font-mono font-bold tracking-wider text-white">
-              <span className="flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-black/40 p-0.5 flex items-center justify-center overflow-hidden border border-white/20">
-                  <Image
-                    src="/logo.png"
-                    alt="Logo Ristek"
-                    width={22}
-                    height={22}
-                    className="object-contain"
-                  />
+        {/* Tiket */}
+        <div className="lg:col-span-7 flex justify-center lg:pt-16">
+          <div className="w-full max-w-xl flex flex-col sm:flex-row bg-card text-ink shadow-[0_16px_40px_-20px_rgba(43,29,26,0.5)] rounded-lg overflow-hidden">
+            <div className="flex-1 p-6 sm:p-7">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Image src="/logo.png" alt="" width={36} height={36} />
+                  <span className="text-xs font-semibold tracking-widest uppercase">Boarding pass</span>
                 </div>
-                <span>BOARDING PASS &bull; VIP ACCESS</span>
-              </span>
-              <span className="bg-black/40 px-2.5 py-1 rounded-full text-[10px] text-amber-300 border border-amber-400/30">
-                {activeDivisionName.toUpperCase()}
-              </span>
-            </div>
+                <span className="text-xs text-ink-soft">24.10.2026</span>
+              </div>
 
-            {/* Flight Route banner */}
-            <div className="p-6 border-b border-dashed border-slate-700/80">
-              <div className="flex items-center justify-between mb-4">
+              <div className="mt-6 flex items-end justify-between gap-3">
                 <div>
-                  <div className="text-2xl font-black font-mono tracking-wider text-amber-400">
-                    FASILKOM
-                  </div>
-                  <div className="text-[10px] text-slate-400 font-mono">
-                    UNSRI &bull; RISTEK 2026
-                  </div>
+                  <p className="font-serif text-3xl sm:text-4xl leading-none">IDL</p>
+                  <p className="mt-1 text-xs text-ink-soft">Fasilkom Unsri</p>
                 </div>
-
-                <div className="flex flex-col items-center px-4">
-                  <Plane className="w-5 h-5 text-cyan-400 rotate-90" />
-                  <div className="w-16 h-0.5 bg-slate-700 my-1" />
-                  <span className="text-[9px] font-mono text-slate-400">
-                    ONE-WAY FLIGHT
+                <div className="flex-1 mb-3 border-t-2 border-dashed border-line relative">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-card px-2 font-hand text-lg text-maroon leading-none whitespace-nowrap">
+                    sekali jalan
                   </span>
                 </div>
-
                 <div className="text-right">
-                  <div className="text-2xl font-black font-mono tracking-wider text-cyan-400">
-                    FUTURE
-                  </div>
-                  <div className="text-[10px] text-slate-400 font-mono">
-                    NEXT CHAPTER &bull; SUCCESS
-                  </div>
+                  <p className="font-serif text-3xl sm:text-4xl leading-none">???</p>
+                  <p className="mt-1 text-xs text-ink-soft">Bab selanjutnya</p>
                 </div>
               </div>
 
-              {/* Pass Holder Details */}
-              <div className="grid grid-cols-2 gap-4 pt-3 border-t border-slate-800 text-xs">
-                <div>
-                  <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                    Passenger Name
-                  </span>
-                  <span className="font-bold font-mono text-sm text-white truncate block">
-                    {activeName}
-                  </span>
+              <dl className="mt-7 grid grid-cols-2 gap-x-4 gap-y-4 text-sm">
+                <div className="col-span-2">
+                  <dt className="text-xs text-ink-soft">Penumpang</dt>
+                  <dd className="font-serif text-2xl leading-tight truncate">{activeName}</dd>
                 </div>
-
-                <div>
-                  <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                    Role / Position
-                  </span>
-                  <span className="font-semibold text-xs text-amber-300 truncate block">
-                    {activeRole}
-                  </span>
+                <div className="col-span-2 sm:col-span-1">
+                  <dt className="text-xs text-ink-soft">Peran</dt>
+                  <dd className="font-medium leading-snug">{activeRole}</dd>
                 </div>
-
-                <div>
-                  <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                    Instagram Handle
-                  </span>
-                  <span className="font-mono text-xs text-cyan-300 flex items-center gap-1.5">
-                    <svg className="w-3 h-3 text-pink-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-                    </svg>
-                    <span>{activeIg}</span>
-                  </span>
+                <div className="col-span-2 sm:col-span-1">
+                  <dt className="text-xs text-ink-soft">Instagram</dt>
+                  <dd className="font-medium">{activeIg || "–"}</dd>
                 </div>
-
-                <div>
-                  <span className="text-[10px] font-mono text-slate-400 block uppercase">
-                    Seat & Gate
-                  </span>
-                  <span
-                    className={`font-mono text-xs font-bold block ${
-                      activeSeat.startsWith("PTI")
-                        ? "text-cyan-300"
-                        : activeSeat.startsWith("AKD")
-                        ? "text-pink-300"
-                        : "text-amber-300"
-                    }`}
-                  >
-                    {activeSeat} &bull; GATE FASILKOM
-                  </span>
-                </div>
-              </div>
+              </dl>
             </div>
 
-            {/* Bottom Stub / Barcode area */}
-            <div className="p-6 bg-[#070B14]/80 flex items-center justify-between gap-4">
-              <div className="flex-1 space-y-1">
-                <div className="text-[10px] font-mono text-slate-400 tracking-wider">
-                  STATUS: VERIFIED RISTEK 2026 MEMBER
-                </div>
-                {/* Simulated Barcode */}
-                <div className="h-9 flex items-center gap-1 opacity-80 overflow-hidden">
-                  {[4, 2, 6, 1, 5, 2, 4, 1, 7, 2, 3, 5, 2, 6, 1, 4, 2, 5, 1, 3, 6, 2, 4, 1].map((w, idx) => (
-                    <div
-                      key={idx}
-                      className="h-full bg-slate-300"
-                      style={{ width: `${w * 1.5}px` }}
-                    />
-                  ))}
-                </div>
-                <div className="text-[9px] font-mono text-slate-500">
-                  REF: 2026-HIMSI-RISTEK-UNSRI
-                </div>
+            {/* Sobekan */}
+            <div className="relative sm:w-44 bg-maroon text-paper p-6 flex sm:flex-col justify-between items-center sm:items-start border-t-2 sm:border-t-0 sm:border-l-2 border-dashed border-paper/40">
+              <div>
+                <p className="text-xs text-paper/70">Kursi</p>
+                <p className="font-serif text-3xl leading-none mt-1 tabular-nums whitespace-nowrap">{activeSeat}</p>
               </div>
-
-              <div className="p-2 bg-white rounded-xl shadow-md shrink-0">
-                <QrCode className="w-12 h-12 text-slate-900" />
+              <div className="text-right sm:text-left">
+                <p className="text-xs text-paper/70">Area</p>
+                <p className="font-medium leading-snug">{activeDivisionName}</p>
+                <p className="text-xs text-paper/70 mt-3">Boarding</p>
+                <p className="font-medium tabular-nums">09.00 WIB</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

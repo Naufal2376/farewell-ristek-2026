@@ -1,56 +1,46 @@
 @import "tailwindcss";
 
-:root {
-  --background: #070b19;
-  --foreground: #f1f5f9;
+/*
+ * Palet diambil dari aset asli: kertas krem & maroon dari foto Ristek'26,
+ * emas dari logo. Tidak ada warna lain selain ini.
+ */
+@theme {
+  --color-paper: #f3ecdf;
+  --color-paper-2: #e9dfcc;
+  --color-card: #fbf7ef;
+  --color-ink: #2b1d1a;
+  --color-ink-soft: #6d5c54;
+  --color-line: #d8cbb4;
+  --color-maroon: #7c1f24;
+  --color-maroon-deep: #5b151a;
+  --color-gold: #a97a33;
+  --color-gold-soft: #d9b26a;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-jakarta);
+  --font-serif: var(--font-fraunces);
+  --font-hand: var(--font-caveat);
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 }
 
 html {
   scroll-behavior: smooth;
-  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
 
 ::selection {
-  background-color: #f59e0b;
-  color: #0b1120;
+  background-color: var(--color-maroon);
+  color: var(--color-paper);
 }
 
-/* Custom sleek scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #070b19;
-}
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #334155;
-}
-
-/* Terminal scanline subtle effect */
-.scanline-bg {
-  background-image: linear-gradient(
-    rgba(255, 255, 255, 0.03) 1px,
-    transparent 1px
-  );
-  background-size: 100% 3px;
+:focus-visible {
+  outline: 2px solid var(--color-maroon);
+  outline-offset: 2px;
 }
 
 @keyframes blink {
@@ -62,34 +52,11 @@ body {
   animation: blink 1s step-end infinite;
 }
 
-@keyframes party-ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-33.333333%); }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .animate-blink {
+    animation: none;
+  }
 }
-
-.animate-party-ticker {
-  animation: party-ticker 25s linear infinite;
-}
-
-.animate-party-ticker:hover {
-  animation-play-state: paused;
-}
-
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(1.5deg); }
-}
-
-.animate-float-slow {
-  animation: float-slow 4s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.4)); }
-  50% { opacity: 0.9; filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.7)); }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
