@@ -13,19 +13,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ristek Wrapped & Farewell Invitation 2026 | HIMSI Fasilkom Unsri",
+  title: "Farewell Ristek 2026 | HIMSI Fasilkom Unsri",
   description:
-    "Undangan digital interaktif, Ristek Wrapped, countdown menuju 24 Oktober 2026, secret appreciation, dan arsip kenangan Departemen Riset dan Teknologi HIMSI Fasilkom Unsri 2026.",
+    "Undangan farewell Departemen Riset dan Teknologi HIMSI Fasilkom Unsri 2026. Sabtu, 24 Oktober 2026, 09.00–15.00 WIB.",
   keywords: [
     "Farewell Ristek",
     "HIMSI Fasilkom Unsri",
     "Ristek 2026",
-    "Ristek Wrapped",
     "Secret Appreciation",
   ],
   openGraph: {
-    title: "Ristek Wrapped & Farewell Invitation 2026",
-    description: "Final chapter of Departemen Riset dan Teknologi HIMSI Fasilkom Unsri 2026.",
+    title: "Farewell Ristek 2026",
+    description: "Sabtu, 24 Oktober 2026 · Fasilkom Unsri Indralaya",
     type: "website",
   },
 };
@@ -38,9 +37,9 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#070B19] text-slate-100 selection:bg-amber-400 selection:text-slate-950 font-sans">
+      <body className="min-h-full flex flex-col bg-bg text-fg font-sans">
         {children}
       </body>
     </html>

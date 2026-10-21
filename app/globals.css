@@ -1,13 +1,26 @@
 @import "tailwindcss";
 
-:root {
-  --background: #070b19;
-  --foreground: #f1f5f9;
+/*
+ * Navy pekat + emas dari logo sebagai warna utama, biru sebagai aksen tech.
+ * Rose hanya dipakai untuk kursi Divisi Akademik di tiket.
+ */
+@theme {
+  --color-bg: #060914;
+  --color-surface: #0b1124;
+  --color-surface-2: #111a33;
+  --color-line: rgb(148 163 184 / 0.14);
+  --color-line-strong: rgb(148 163 184 / 0.26);
+  --color-fg: #eef2fa;
+  --color-muted: #94a3b8;
+  --color-gold: #fbbf24;
+  --color-gold-soft: #fde68a;
+  --color-gold-deep: #d97706;
+  --color-blue: #60a5fa;
+  --color-rose: #fb7185;
+  --color-danger: #f87171;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -18,39 +31,81 @@ html {
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
+  background: var(--color-bg);
+  color: var(--color-fg);
 }
 
 ::selection {
-  background-color: #f59e0b;
-  color: #0b1120;
+  background-color: var(--color-gold);
+  color: var(--color-bg);
 }
 
-/* Custom sleek scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: #070b19;
-}
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
 }
 
-/* Terminal scanline subtle effect */
-.scanline-bg {
-  background-image: linear-gradient(
-    rgba(255, 255, 255, 0.03) 1px,
-    transparent 1px
-  );
-  background-size: 100% 3px;
+/* Kartu kaca: dipakai hampir di semua panel. */
+.glass {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.045), rgb(255 255 255 / 0.015));
+  border: 1px solid var(--color-line);
+  backdrop-filter: blur(12px);
+}
+
+/* Teks emas berkilau, khusus judul utama. */
+.text-gold-shine {
+  background: linear-gradient(100deg, #fde68a 0%, #fbbf24 35%, #fff7d6 50%, #fbbf24 65%, #d97706 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shine 6s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0%, 100% { background-position: 100% 0; }
+  50% { background-position: 0% 0; }
+}
+
+/* Border bercahaya yang berputar pelan, untuk satu elemen fokus per layar. */
+@property --angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.ring-orbit {
+  position: relative;
+  isolation: isolate;
+}
+.ring-orbit::before {
+  content: "";
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(from var(--angle), transparent 0deg, #fbbf24 70deg, #60a5fa 140deg, transparent 220deg, transparent 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: orbit 6s linear infinite;
+  z-index: -1;
+}
+
+@keyframes orbit {
+  to { --angle: 360deg; }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
 @keyframes blink {
@@ -62,34 +117,14 @@ body {
   animation: blink 1s step-end infinite;
 }
 
-@keyframes party-ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-33.333333%); }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .text-gold-shine,
+  .ring-orbit::before,
+  .animate-marquee,
+  .animate-blink {
+    animation: none;
+  }
 }
-
-.animate-party-ticker {
-  animation: party-ticker 25s linear infinite;
-}
-
-.animate-party-ticker:hover {
-  animation-play-state: paused;
-}
-
-@keyframes float-slow {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(1.5deg); }
-}
-
-.animate-float-slow {
-  animation: float-slow 4s ease-in-out infinite;
-}
-
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 15px rgba(245, 158, 11, 0.4)); }
-  50% { opacity: 0.9; filter: drop-shadow(0 0 25px rgba(245, 158, 11, 0.7)); }
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
