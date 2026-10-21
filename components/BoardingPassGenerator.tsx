@@ -65,14 +65,6 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     division: "pti",
     divisionName: "Divisi PTI",
     instagram: "@dvinss16",
-    seat: "PTI-08",
-  },
-  {
-    name: "Muhamad Ridwan",
-    role: "Staff Divisi PTI",
-    division: "pti",
-    divisionName: "Divisi PTI",
-    instagram: "@ridd_tho",
     seat: "PTI-01",
   },
   {
@@ -108,11 +100,11 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     seat: "PTI-02",
   },
   {
-    name: "Muhammad Farrel Alif Fauzy",
+    name: "Keisya Rizkyka",
     role: "Staff Divisi PTI",
     division: "pti",
     divisionName: "Divisi PTI",
-    instagram: "@strfarrell",
+    instagram: "@keisyarzkaa",
     seat: "PTI-05",
   },
 
@@ -174,12 +166,20 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     seat: "AKD-03",
   },
   {
-    name: "Keisya Rizkyka",
+    name: "Muhamad Ridwan",
     role: "Staff Divisi Akademik",
     division: "akademik",
     divisionName: "Divisi Akademik",
-    instagram: "@keisyarzkaa",
+    instagram: "@ridd_tho",
     seat: "AKD-06",
+  },
+  {
+    name: "Muhammad Farrel Alif Fauzy",
+    role: "Staff Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@strfarrell",
+    seat: "AKD-09",
   },
 ];
 
