@@ -210,56 +210,51 @@ export default function PolaroidGallery() {
     setOpenIndex((i) => (i === null ? i : (i + delta + withPhoto.length) % withPhoto.length));
 
   return (
-    <section id="galeri" className="px-4 sm:px-6 py-20 sm:py-28 bg-paper-2/60 border-y border-line">
+    <section id="galeri" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-line">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading note="dari Februari sampai Oktober" title="24 momen satu periode">
+        <SectionHeading index="03" label="Log kenangan" title="24 momen satu periode">
           Dari rapat perdana sampai akhirnya bisa kumpul lengkap. Punya fotonya?
           Kirim ke PTI biar halaman ini makin penuh.
         </SectionHeading>
 
-        <div className="space-y-12">
+        <div className="space-y-10">
           {months.map((month) => (
-            <div key={month} className="grid grid-cols-1 md:grid-cols-[9rem_1fr] gap-4 md:gap-8">
-              <h3 className="font-serif text-2xl md:text-3xl text-maroon md:pt-3 md:sticky md:top-20 md:self-start">
+            <div key={month} className="grid grid-cols-1 md:grid-cols-[10rem_1fr] gap-4 md:gap-8">
+              <h3 className="font-mono text-sm uppercase tracking-wider text-accent md:pt-5 md:sticky md:top-20 md:self-start">
                 {month}
               </h3>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-                {RISTEK_MEMORIES.filter((m) => m.month === month).map((item, idx) =>
+              <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-line border border-line">
+                {RISTEK_MEMORIES.filter((m) => m.month === month).map((item) =>
                   item.photo ? (
-                    <li key={item.id} className="sm:col-span-2">
+                    <li key={item.id} className="sm:col-span-2 bg-bg">
                       <button
                         type="button"
                         onClick={() => setOpenIndex(withPhoto.indexOf(item))}
-                        className="group block w-full text-left bg-card p-3 pb-4 shadow-[0_10px_24px_-14px_rgba(43,29,26,0.45)] -rotate-1 hover:rotate-0 transition-transform cursor-zoom-in"
+                        className="group block w-full text-left p-3 cursor-zoom-in"
                       >
-                        <div className="relative aspect-[4/3] w-full overflow-hidden bg-paper-2">
+                        <div className="relative aspect-[16/9] w-full overflow-hidden bg-surface-2">
                           <Image
                             src={item.photo}
                             alt={item.title}
                             fill
                             sizes="(max-width: 768px) 90vw, 600px"
-                            className="object-cover"
+                            className="object-cover group-hover:scale-[1.02] transition-transform duration-500"
                           />
                         </div>
-                        <p className="mt-3 font-hand text-2xl leading-tight">{item.title}</p>
-                        <p className="text-sm text-ink-soft">{item.caption}</p>
+                        <p className="mt-3 font-display font-semibold text-lg">{item.title}</p>
+                        <p className="text-sm text-muted">{item.caption}</p>
                       </button>
                     </li>
                   ) : (
-                    <li
-                      key={item.id}
-                      className={`bg-card border border-line rounded-sm p-4 sm:p-5 ${
-                        idx % 2 ? "sm:rotate-[0.6deg]" : "sm:-rotate-[0.4deg]"
-                      }`}
-                    >
-                      <div className="flex items-baseline justify-between gap-3 text-xs text-ink-soft">
-                        <span className="uppercase tracking-wider">{item.tag}</span>
-                        <span className="tabular-nums">
+                    <li key={item.id} className="bg-bg p-5 hover:bg-surface transition-colors">
+                      <div className="flex items-baseline justify-between gap-3 font-mono text-[11px] uppercase tracking-wider">
+                        <span className="text-muted">{item.tag}</span>
+                        <span className="text-line-strong tabular-nums">
                           {item.date ?? `#${String(item.id).padStart(2, "0")}`}
                         </span>
                       </div>
-                      <h4 className="mt-2 font-serif text-xl leading-snug">{item.title}</h4>
-                      <p className="mt-1.5 text-sm text-ink-soft leading-relaxed">{item.caption}</p>
+                      <h4 className="mt-2 font-display font-semibold text-lg leading-snug">{item.title}</h4>
+                      <p className="mt-1.5 text-sm text-muted leading-relaxed">{item.caption}</p>
                     </li>
                   )
                 )}
@@ -276,41 +271,39 @@ export default function PolaroidGallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setOpenIndex(null)}
-            className="fixed inset-0 z-50 bg-ink/90 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-bg/95 flex items-center justify-center p-4"
             role="dialog"
             aria-modal="true"
             aria-label={open.title}
           >
             <figure
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-3xl bg-card p-3 sm:p-4"
+              className="hud-corners relative w-full max-w-3xl border border-line bg-surface p-3"
             >
-              <div className="relative w-full aspect-[4/3] bg-paper-2">
+              <div className="relative w-full aspect-[4/3] bg-surface-2">
                 <Image src={open.photo!} alt={open.title} fill sizes="90vw" className="object-contain" />
               </div>
               <figcaption className="mt-3 flex items-start justify-between gap-4">
                 <div>
-                  <p className="font-hand text-2xl leading-tight">{open.title}</p>
-                  <p className="text-sm text-ink-soft">{open.caption}</p>
+                  <p className="font-display font-semibold text-lg">{open.title}</p>
+                  <p className="text-sm text-muted">{open.caption}</p>
                 </div>
-                {withPhoto.length > 1 && (
-                  <div className="flex gap-1 shrink-0">
-                    <button onClick={() => step(-1)} className="p-2 hover:text-maroon" aria-label="Foto sebelumnya">
-                      <ChevronLeft className="w-5 h-5" />
-                    </button>
-                    <button onClick={() => step(1)} className="p-2 hover:text-maroon" aria-label="Foto berikutnya">
-                      <ChevronRight className="w-5 h-5" />
-                    </button>
-                  </div>
-                )}
+                <div className="flex gap-1 shrink-0">
+                  {withPhoto.length > 1 && (
+                    <>
+                      <button onClick={() => step(-1)} className="p-2 hover:text-accent" aria-label="Foto sebelumnya">
+                        <ChevronLeft className="w-5 h-5" />
+                      </button>
+                      <button onClick={() => step(1)} className="p-2 hover:text-accent" aria-label="Foto berikutnya">
+                        <ChevronRight className="w-5 h-5" />
+                      </button>
+                    </>
+                  )}
+                  <button onClick={() => setOpenIndex(null)} className="p-2 hover:text-accent" aria-label="Tutup">
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
               </figcaption>
-              <button
-                onClick={() => setOpenIndex(null)}
-                className="absolute -top-3 -right-3 p-2 rounded-full bg-paper text-ink shadow"
-                aria-label="Tutup"
-              >
-                <X className="w-4 h-4" />
-              </button>
             </figure>
           </motion.div>
         )}

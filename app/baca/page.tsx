@@ -114,11 +114,11 @@ export default function LiveReadPage() {
 
   const readCount = messages.filter((m) => m.isRead).length;
   const btn =
-    "inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full border border-paper/30 hover:border-paper text-sm transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default";
+    "inline-flex items-center gap-1.5 px-4 py-2.5 border border-line hover:border-accent text-sm font-mono transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default";
 
   if (!passcode) {
     return (
-      <div className="min-h-screen bg-maroon-deep text-paper flex items-center justify-center p-6">
+      <div className="min-h-screen text-fg flex items-center justify-center p-6">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -126,25 +126,26 @@ export default function LiveReadPage() {
           }}
           className="w-full max-w-sm"
         >
-          <h1 className="font-serif text-3xl">Secret appreciation</h1>
-          <p className="mt-2 text-paper/70">Halaman presenter. Masukkan passcode panitia.</p>
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">/baca · presenter</p>
+          <h1 className="mt-2 font-display font-semibold text-3xl">Secret appreciation</h1>
+          <p className="mt-2 text-muted">Halaman presenter. Masukkan passcode panitia.</p>
           <input
             type="password"
             value={passcodeInput}
             onChange={(e) => setPasscodeInput(e.target.value)}
             autoFocus
             aria-label="Passcode"
-            className="mt-6 w-full px-4 py-3 rounded-md bg-paper text-ink focus:outline-none"
+            className="mt-6 w-full px-4 py-3 bg-surface border border-line font-mono focus:outline-none focus:border-accent"
           />
           {loadError && (
-            <p role="alert" className="mt-3 text-sm text-gold-soft">
+            <p role="alert" className="mt-3 text-sm text-danger">
               {loadError}
             </p>
           )}
           <button
             type="submit"
             disabled={status === "loading"}
-            className="mt-4 w-full py-3 rounded-full bg-paper text-maroon-deep font-semibold hover:bg-white transition-colors cursor-pointer disabled:opacity-60"
+            className="mt-4 w-full py-3 bg-accent text-bg font-semibold hover:bg-accent-soft transition-colors cursor-pointer disabled:opacity-60"
           >
             {status === "loading" ? "Memuat…" : "Buka"}
           </button>
@@ -154,24 +155,24 @@ export default function LiveReadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-maroon-deep text-paper flex flex-col p-4 sm:p-8">
+    <div className="min-h-screen text-fg flex flex-col p-4 sm:p-8">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Link href="/" className="p-2 -ml-2 text-paper/70 hover:text-paper" aria-label="Kembali ke halaman utama">
+          <Link href="/" className="p-2 -ml-2 text-muted hover:text-fg" aria-label="Kembali ke halaman utama">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
-            <h1 className="font-serif text-xl">Secret appreciation</h1>
-            <p className="text-sm text-paper/60 tabular-nums">
+            <h1 className="font-display font-semibold text-xl">Secret appreciation</h1>
+            <p className="font-mono text-xs text-muted tabular-nums">
               {readCount} dari {messages.length} sudah dibaca
-              {status === "error" && <span className="text-gold-soft"> · {loadError}</span>}
+              {status === "error" && <span className="text-danger"> · {loadError}</span>}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <label className="flex items-center gap-2 px-3 py-2 rounded-full border border-paper/30 text-sm">
-            <Search className="w-4 h-4 text-paper/60" />
+          <label className="flex items-center gap-2 px-3 py-2 border border-line text-sm font-mono">
+            <Search className="w-4 h-4 text-muted" />
             <input
               type="text"
               value={searchQuery}
@@ -180,19 +181,19 @@ export default function LiveReadPage() {
                 setCurrentIndex(0);
               }}
               placeholder="Cari penerima"
-              className="bg-transparent placeholder:text-paper/50 outline-none w-32 sm:w-44"
+              className="bg-transparent placeholder:text-muted/70 outline-none w-32 sm:w-44"
             />
           </label>
           <button
             onClick={() => loadMessages(passcode)}
             disabled={status === "loading"}
-            className="p-2.5 rounded-full border border-paper/30 hover:border-paper disabled:opacity-50"
+            className="p-2.5 border border-line hover:border-accent disabled:opacity-50"
             aria-label="Muat pesan terbaru"
             title="Muat pesan terbaru"
           >
             <RefreshCw className={`w-4 h-4 ${status === "loading" ? "animate-spin" : ""}`} />
           </button>
-          <button onClick={toggleFullscreen} className="p-2.5 rounded-full border border-paper/30 hover:border-paper" aria-label="Layar penuh">
+          <button onClick={toggleFullscreen} className="p-2.5 border border-line hover:border-accent" aria-label="Layar penuh">
             {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
           </button>
         </div>
@@ -200,7 +201,7 @@ export default function LiveReadPage() {
 
       <main className="flex-1 flex items-center justify-center py-10">
         {filteredMessages.length === 0 ? (
-          <p className="text-paper/70 text-lg text-center max-w-md">
+          <p className="font-mono text-muted text-center max-w-md">
             {status === "error"
               ? loadError
               : messages.length === 0
@@ -216,30 +217,30 @@ export default function LiveReadPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.3 }}
-                className="w-full max-w-4xl bg-card text-ink rounded-lg p-8 sm:p-14 shadow-2xl"
+                className="w-full max-w-4xl hud-corners border border-line bg-surface p-8 sm:p-14"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="font-hand text-3xl text-maroon">untuk</p>
-                    <h2 className="font-serif text-4xl sm:text-6xl leading-tight">{currentMessage.recipient}</h2>
+                    <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">Untuk</p>
+                    <h2 className="mt-2 font-display font-semibold text-4xl sm:text-6xl leading-tight">{currentMessage.recipient}</h2>
                   </div>
-                  <span className="text-sm text-ink-soft tabular-nums pt-2">
+                  <span className="font-mono text-sm text-muted tabular-nums pt-1">
                     {currentIndex + 1} / {filteredMessages.length}
                   </span>
                 </div>
 
-                <p className="mt-8 sm:mt-10 text-2xl sm:text-3xl md:text-4xl leading-snug font-serif whitespace-pre-line">
+                <p className="mt-8 sm:mt-10 text-2xl sm:text-3xl md:text-4xl leading-snug whitespace-pre-line">
                   {currentMessage.message}
                 </p>
 
-                <div className="mt-10 pt-5 border-t border-line flex items-center justify-between gap-4 text-sm text-ink-soft">
+                <div className="mt-10 pt-5 border-t border-line flex items-center justify-between gap-4 font-mono text-xs text-muted">
                   <span>Dari: seseorang di Ristek</span>
                   <label className="inline-flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={!!currentMessage.isRead}
                       onChange={toggleReadStatus}
-                      className="w-4 h-4 accent-maroon"
+                      className="w-4 h-4 accent-[#d6a94e]"
                     />
                     Sudah dibaca
                   </label>
@@ -258,7 +259,7 @@ export default function LiveReadPage() {
         <button
           onClick={handleShuffle}
           disabled={filteredMessages.length <= 1}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-paper text-maroon-deep font-semibold hover:bg-white transition-colors cursor-pointer disabled:opacity-40"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-bg font-semibold hover:bg-accent-soft transition-colors cursor-pointer disabled:opacity-40"
         >
           <Shuffle className="w-4 h-4" />
           Acak

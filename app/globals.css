@@ -1,46 +1,78 @@
 @import "tailwindcss";
 
 /*
- * Palet diambil dari aset asli: kertas krem & maroon dari foto Ristek'26,
- * emas dari logo. Tidak ada warna lain selain ini.
+ * Tema gelap "tech" Ristek: hitam kebiruan + emas dari logo.
+ * Satu warna aksen saja (emas); sisanya netral.
  */
 @theme {
-  --color-paper: #f3ecdf;
-  --color-paper-2: #e9dfcc;
-  --color-card: #fbf7ef;
-  --color-ink: #2b1d1a;
-  --color-ink-soft: #6d5c54;
-  --color-line: #d8cbb4;
-  --color-maroon: #7c1f24;
-  --color-maroon-deep: #5b151a;
-  --color-gold: #a97a33;
-  --color-gold-soft: #d9b26a;
+  --color-bg: #070a12;
+  --color-surface: #0c111c;
+  --color-surface-2: #121927;
+  --color-line: #1f2838;
+  --color-line-strong: #2d384c;
+  --color-fg: #e7eaf1;
+  --color-muted: #8a93a8;
+  --color-accent: #d6a94e;
+  --color-accent-soft: #f0d08c;
+  --color-accent-dim: #3a2f17;
+  --color-danger: #f2877a;
 }
 
 @theme inline {
   --font-sans: var(--font-jakarta);
-  --font-serif: var(--font-fraunces);
-  --font-hand: var(--font-caveat);
-  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-display: var(--font-chakra);
+  --font-mono: var(--font-jetbrains);
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background-color: var(--color-bg);
+  /* Grid tipis ala blueprint, satu-satunya tekstur latar. */
+  background-image:
+    linear-gradient(rgba(231, 234, 241, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(231, 234, 241, 0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  color: var(--color-fg);
 }
 
 ::selection {
-  background-color: var(--color-maroon);
-  color: var(--color-paper);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-maroon);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+/* Sudut bingkai ala viewfinder/HUD. */
+.hud-corners {
+  position: relative;
+}
+.hud-corners::before,
+.hud-corners::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--color-accent);
+  pointer-events: none;
+}
+.hud-corners::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid;
+  border-left: 2px solid;
+}
+.hud-corners::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid;
+  border-right: 2px solid;
 }
 
 @keyframes blink {

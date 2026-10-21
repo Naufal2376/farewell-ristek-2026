@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Caveat, Fraunces, Plus_Jakarta_Sans } from "next/font/google";
+import { Chakra_Petch, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -7,14 +7,14 @@ const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
 });
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+const chakra = Chakra_Petch({
+  variable: "--font-chakra",
   subsets: ["latin"],
-  axes: ["opsz", "SOFT"],
+  weight: ["500", "600", "700"],
 });
 
-const caveat = Caveat({
-  variable: "--font-caveat",
+const jetbrains = JetBrains_Mono({
+  variable: "--font-jetbrains",
   subsets: ["latin"],
 });
 
@@ -43,9 +43,9 @@ export default function RootLayout({
   return (
     <html
       lang="id"
-      className={`${jakarta.variable} ${fraunces.variable} ${caveat.variable} h-full antialiased`}
+      className={`${jakarta.variable} ${chakra.variable} ${jetbrains.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-paper text-ink font-sans">
+      <body className="min-h-full flex flex-col bg-bg text-fg font-sans">
         {children}
       </body>
     </html>

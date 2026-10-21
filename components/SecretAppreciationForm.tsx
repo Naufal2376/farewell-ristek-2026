@@ -63,19 +63,19 @@ export default function SecretAppreciationForm() {
   };
 
   return (
-    <section id="secret-form" className="px-4 sm:px-6 py-20 sm:py-28 bg-maroon text-paper">
+    <section id="secret-form" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-line bg-surface/60">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         <div className="lg:col-span-5">
-          <SectionHeading tone="onDark" note="tanpa nama, janji" title="Secret appreciation">
+          <SectionHeading index="05" label="Anonim" title="Secret appreciation">
             Tulis terima kasih, unek-unek, atau roasting kecil buat siapa pun di
             Ristek. Tidak ada kolom nama pengirim. Pesannya dibacakan jam 11.00
             di hari-H.
           </SectionHeading>
-          <p className="text-paper/80">Boleh kirim lebih dari satu, untuk orang yang berbeda.</p>
+          <p className="font-mono text-xs text-muted">// boleh kirim lebih dari satu, untuk orang yang berbeda</p>
         </div>
 
         <div className="lg:col-span-7">
-          <div className="bg-card text-ink rounded-lg p-6 sm:p-8 shadow-[0_20px_50px_-24px_rgba(0,0,0,0.6)]">
+          <div className="hud-corners border border-line bg-bg p-6 sm:p-8">
             <AnimatePresence mode="wait">
               {!isSubmitted ? (
                 <motion.form
@@ -87,7 +87,7 @@ export default function SecretAppreciationForm() {
                   className="space-y-6"
                 >
                   <label className="block">
-                    <span className="block font-medium mb-1.5">Untuk</span>
+                    <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Untuk</span>
                     <input
                       type="text"
                       value={recipient}
@@ -95,14 +95,14 @@ export default function SecretAppreciationForm() {
                       placeholder="Kak Fahri, Calista, semua anak PTI, …"
                       maxLength={100}
                       required
-                      className="w-full px-4 py-3 rounded-md bg-paper border border-line focus:outline-none focus:border-maroon placeholder:text-ink-soft/60"
+                      className="w-full px-4 py-3 bg-surface border border-line focus:outline-none focus:border-accent placeholder:text-muted/60"
                     />
                   </label>
 
                   <label className="block">
                     <span className="flex items-baseline justify-between mb-1.5">
-                      <span className="font-medium">Pesan</span>
-                      <span className="text-xs text-ink-soft tabular-nums">
+                      <span className="font-mono text-[11px] uppercase tracking-wider text-muted">Pesan</span>
+                      <span className="font-mono text-[11px] text-muted tabular-nums">
                         {message.length}/{MAX_LENGTH}
                       </span>
                     </span>
@@ -113,22 +113,22 @@ export default function SecretAppreciationForm() {
                       maxLength={MAX_LENGTH}
                       placeholder="Kenangan pertama ketemu, makasih sudah bantu proker, atau harapan buat dia ke depan."
                       required
-                      className="w-full px-4 py-3 rounded-md bg-paper border border-line focus:outline-none focus:border-maroon resize-y placeholder:text-ink-soft/60 leading-relaxed"
+                      className="w-full px-4 py-3 bg-surface border border-line focus:outline-none focus:border-accent resize-y placeholder:text-muted/60 leading-relaxed"
                     />
                   </label>
 
                   {sendError && (
-                    <p role="alert" className="text-sm text-maroon bg-maroon/5 border border-maroon/30 rounded-md px-4 py-3">
+                    <p role="alert" className="text-sm text-danger border border-danger/40 bg-danger/10 px-4 py-3">
                       {sendError} Pesanmu masih ada di kolom di atas.
                     </p>
                   )}
 
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
-                    <p className="text-sm text-ink-soft">Nama dan data pengirim tidak disimpan.</p>
+                    <p className="font-mono text-xs text-muted">Nama dan data pengirim tidak disimpan.</p>
                     <button
                       type="submit"
                       disabled={isSending}
-                      className="px-6 py-3 rounded-full bg-maroon text-paper font-medium hover:bg-maroon-deep transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-wait"
+                      className="px-6 py-3 bg-accent text-bg font-semibold hover:bg-accent-soft transition-colors cursor-pointer disabled:opacity-60 disabled:cursor-wait"
                     >
                       {isSending ? "Mengirim…" : "Kirim pesan"}
                     </button>
@@ -143,16 +143,16 @@ export default function SecretAppreciationForm() {
                   className="py-6"
                   role="status"
                 >
-                  <p className="font-hand text-3xl text-maroon">Terkirim.</p>
-                  <h3 className="mt-1 font-serif text-3xl">
+                  <p className="font-mono text-xs uppercase tracking-wider text-accent">[ok] terkirim</p>
+                  <h3 className="mt-2 font-display font-semibold text-3xl">
                     Pesanmu untuk {recipient.trim()} sudah masuk.
                   </h3>
-                  <p className="mt-3 text-ink-soft leading-relaxed">
+                  <p className="mt-3 text-muted leading-relaxed">
                     Nanti dibacakan di sesi 11.00 – 11.30 WIB. Masih ada yang mau kamu sapa?
                   </p>
                   <button
                     onClick={handleReset}
-                    className="mt-6 px-6 py-3 rounded-full border border-ink text-ink font-medium hover:bg-ink hover:text-paper transition-colors cursor-pointer"
+                    className="mt-6 px-6 py-3 border border-line-strong font-medium hover:border-accent hover:text-accent transition-colors cursor-pointer"
                   >
                     Tulis pesan lain
                   </button>

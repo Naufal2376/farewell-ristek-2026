@@ -10,28 +10,27 @@ interface SplashScreenProps {
   isOpen: boolean;
 }
 
-const COMMAND = `git tag -a farewell-2026 -m "terima kasih, Ristek"`;
+const LINES = [
+  { prompt: true, text: "git log --oneline ristek-2026 | wc -l" },
+  { prompt: false, text: "1 periode, 20 orang, 24 momen" },
+  { prompt: true, text: 'git tag -a farewell -m "terima kasih, Ristek"' },
+];
 
 export default function SplashScreen({ onOpen, isOpen }: SplashScreenProps) {
-  const [typed, setTyped] = useState("");
+  const [visible, setVisible] = useState(0);
 
   useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      i += 1;
-      setTyped(COMMAND.slice(0, i));
-      if (i >= COMMAND.length) clearInterval(interval);
-    }, 38);
-    return () => clearInterval(interval);
+    const timers = LINES.map((_, i) => setTimeout(() => setVisible(i + 1), 450 + i * 650));
+    return () => timers.forEach(clearTimeout);
   }, []);
 
   const handleLaunch = () => {
     try {
       confetti({
-        particleCount: 90,
-        spread: 75,
-        origin: { y: 0.65 },
-        colors: ["#7c1f24", "#a97a33", "#d9b26a", "#f3ecdf"],
+        particleCount: 80,
+        spread: 70,
+        origin: { y: 0.7 },
+        colors: ["#d6a94e", "#f0d08c", "#e7eaf1"],
         disableForReducedMotion: true,
       });
     } catch {
@@ -47,36 +46,49 @@ export default function SplashScreen({ onOpen, isOpen }: SplashScreenProps) {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-maroon-deep text-paper p-6"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-bg p-5"
         >
-          <div className="w-full max-w-md text-center">
-            <div className="mx-auto w-32 h-32 rounded-full bg-paper flex items-center justify-center">
-              <Image src="/logo.png" alt="Logo Ristek" width={124} height={124} priority />
+          <div className="w-full max-w-lg">
+            <div className="flex items-center gap-4">
+              <Image src="/logo.png" alt="Logo Ristek" width={84} height={84} priority />
+              <div>
+                <p className="font-mono text-xs uppercase tracking-[0.2em] text-muted">HIMSI Fasilkom Unsri</p>
+                <h1 className="font-display font-semibold text-3xl sm:text-4xl leading-tight">
+                  Farewell Ristek <span className="text-accent">2026</span>
+                </h1>
+              </div>
             </div>
 
-            <p className="mt-6 text-sm text-paper/70">Kepada seluruh pengurus</p>
-            <h1 className="mt-1 font-serif text-4xl sm:text-5xl leading-tight">
-              Departemen Ristek
-              <br />
-              HIMSI 2026
-            </h1>
-
-            <p
-              className="mt-8 font-mono text-[11px] sm:text-xs text-gold-soft text-left bg-black/20 rounded px-3 py-2.5 min-h-[2.75rem] break-all"
-              aria-hidden="true"
-            >
-              <span className="text-paper/50">$ </span>
-              {typed}
-              <span className="inline-block w-[0.55em] h-[1.1em] align-text-bottom bg-gold-soft ml-0.5 animate-blink" />
-            </p>
+            <div className="mt-8 border border-line bg-surface font-mono text-[13px] leading-relaxed">
+              <div className="flex items-center justify-between border-b border-line px-4 py-2 text-[11px] text-muted">
+                <span>~/ristek</span>
+                <span>bash</span>
+              </div>
+              <div className="px-4 py-4 min-h-[7.5rem] space-y-1.5">
+                {LINES.slice(0, visible).map((l) => (
+                  <p key={l.text} className={l.prompt ? "text-fg" : "text-muted"}>
+                    {l.prompt && <span className="text-accent">$ </span>}
+                    {l.text}
+                  </p>
+                ))}
+                {visible >= LINES.length && (
+                  <p>
+                    <span className="text-accent">$ </span>
+                    <span className="inline-block w-[0.6em] h-[1.1em] align-text-bottom bg-accent animate-blink" />
+                  </p>
+                )}
+              </div>
+            </div>
 
             <button
               onClick={handleLaunch}
-              className="mt-8 w-full sm:w-auto px-8 py-3.5 rounded-full bg-paper text-maroon-deep font-semibold hover:bg-white transition-colors cursor-pointer"
+              className="mt-6 w-full py-3.5 bg-accent text-bg font-semibold hover:bg-accent-soft transition-colors cursor-pointer"
             >
               Buka undangan
             </button>
-            <p className="mt-3 text-xs text-paper/60">Musik akan diputar setelah undangan dibuka.</p>
+            <p className="mt-3 text-center font-mono text-[11px] text-muted">
+              Musik akan diputar setelah undangan dibuka.
+            </p>
           </div>
         </motion.div>
       )}

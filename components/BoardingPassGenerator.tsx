@@ -203,7 +203,7 @@ const DIVISION_LABEL: Record<Division, string> = {
 };
 
 const fieldClass =
-  "w-full px-3.5 py-2.5 rounded-md bg-paper border border-line text-ink focus:outline-none focus:border-maroon";
+  "w-full px-3.5 py-2.5 bg-surface border border-line text-fg focus:outline-none focus:border-accent";
 
 export default function BoardingPassGenerator() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
@@ -231,17 +231,17 @@ export default function BoardingPassGenerator() {
   ];
 
   return (
-    <section id="boarding-pass" className="px-4 sm:px-6 py-20 sm:py-28">
+    <section id="boarding-pass" className="px-4 sm:px-6 py-20 sm:py-28 border-t border-line">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
         <div className="lg:col-span-5">
-          <SectionHeading note="tiket masuk" title="Ambil tiketmu">
+          <SectionHeading index="04" label="Boarding pass" title="Ambil tiketmu">
             Pilih namamu, nomor kursimu sudah diacak per divisi. Screenshot
             tiketnya buat story, jangan lupa tag @himsi.ristek.
           </SectionHeading>
 
           <div className="space-y-4">
             <label className="block">
-              <span className="block text-sm font-medium mb-1.5">Nama</span>
+              <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Nama</span>
               <select
                 value={isCustom ? "custom" : selectedIndex}
                 onChange={(e) => {
@@ -274,7 +274,7 @@ export default function BoardingPassGenerator() {
             {isCustom && (
               <div className="space-y-4">
                 <label className="block">
-                  <span className="block text-sm font-medium mb-1.5">Nama lengkap / panggilan</span>
+                  <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Nama lengkap / panggilan</span>
                   <input
                     type="text"
                     value={customName}
@@ -284,7 +284,7 @@ export default function BoardingPassGenerator() {
                   />
                 </label>
                 <label className="block">
-                  <span className="block text-sm font-medium mb-1.5">Kursi di area</span>
+                  <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Kursi di area</span>
                   <select
                     value={customDivision}
                     onChange={(e) => setCustomDivision(e.target.value as Division)}
@@ -296,7 +296,7 @@ export default function BoardingPassGenerator() {
                   </select>
                 </label>
                 <label className="block">
-                  <span className="block text-sm font-medium mb-1.5">Peran</span>
+                  <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Peran</span>
                   <input
                     type="text"
                     value={customRole}
@@ -307,7 +307,7 @@ export default function BoardingPassGenerator() {
                   />
                 </label>
                 <label className="block">
-                  <span className="block text-sm font-medium mb-1.5">Instagram (opsional)</span>
+                  <span className="block font-mono text-[11px] uppercase tracking-wider text-muted mb-1.5">Instagram (opsional)</span>
                   <input
                     type="text"
                     value={customIg}
@@ -324,59 +324,59 @@ export default function BoardingPassGenerator() {
 
         {/* Tiket */}
         <div className="lg:col-span-7 flex justify-center lg:pt-16">
-          <div className="w-full max-w-xl flex flex-col sm:flex-row bg-card text-ink shadow-[0_16px_40px_-20px_rgba(43,29,26,0.5)] rounded-lg overflow-hidden">
+          <div className="hud-corners w-full max-w-xl flex flex-col sm:flex-row border border-line bg-surface">
             <div className="flex-1 p-6 sm:p-7">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-wider text-muted">
                 <div className="flex items-center gap-2">
-                  <Image src="/logo.png" alt="" width={36} height={36} />
-                  <span className="text-xs font-semibold tracking-widest uppercase">Boarding pass</span>
+                  <Image src="/logo.png" alt="" width={32} height={32} />
+                  <span className="text-fg">Boarding pass</span>
                 </div>
-                <span className="text-xs text-ink-soft">24.10.2026</span>
+                <span className="tabular-nums">24.10.2026</span>
               </div>
 
               <div className="mt-6 flex items-end justify-between gap-3">
                 <div>
-                  <p className="font-serif text-3xl sm:text-4xl leading-none">IDL</p>
-                  <p className="mt-1 text-xs text-ink-soft">Fasilkom Unsri</p>
+                  <p className="font-display font-semibold text-3xl sm:text-4xl leading-none">IDL</p>
+                  <p className="mt-1 font-mono text-[11px] text-muted">Fasilkom Unsri</p>
                 </div>
-                <div className="flex-1 mb-3 border-t-2 border-dashed border-line relative">
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-card px-2 font-hand text-lg text-maroon leading-none whitespace-nowrap">
-                    sekali jalan
+                <div className="flex-1 mb-3 border-t border-dashed border-line-strong relative">
+                  <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-surface px-2 font-mono text-[10px] uppercase tracking-wider text-accent whitespace-nowrap">
+                    one-way
                   </span>
                 </div>
                 <div className="text-right">
-                  <p className="font-serif text-3xl sm:text-4xl leading-none">???</p>
-                  <p className="mt-1 text-xs text-ink-soft">Bab selanjutnya</p>
+                  <p className="font-display font-semibold text-3xl sm:text-4xl leading-none text-accent">???</p>
+                  <p className="mt-1 font-mono text-[11px] text-muted">Bab selanjutnya</p>
                 </div>
               </div>
 
               <dl className="mt-7 grid grid-cols-2 gap-x-4 gap-y-4 text-sm">
                 <div className="col-span-2">
-                  <dt className="text-xs text-ink-soft">Penumpang</dt>
-                  <dd className="font-serif text-2xl leading-tight truncate">{activeName}</dd>
+                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Penumpang</dt>
+                  <dd className="mt-0.5 font-display font-semibold text-2xl leading-tight truncate">{activeName}</dd>
                 </div>
                 <div className="col-span-2 sm:col-span-1">
-                  <dt className="text-xs text-ink-soft">Peran</dt>
-                  <dd className="font-medium leading-snug">{activeRole}</dd>
+                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Peran</dt>
+                  <dd className="mt-0.5 leading-snug">{activeRole}</dd>
                 </div>
                 <div className="col-span-2 sm:col-span-1">
-                  <dt className="text-xs text-ink-soft">Instagram</dt>
-                  <dd className="font-medium">{activeIg || "–"}</dd>
+                  <dt className="font-mono text-[11px] uppercase tracking-wider text-muted">Instagram</dt>
+                  <dd className="mt-0.5 font-mono">{activeIg || "–"}</dd>
                 </div>
               </dl>
             </div>
 
             {/* Sobekan */}
-            <div className="relative sm:w-44 bg-maroon text-paper p-6 flex sm:flex-col justify-between items-center sm:items-start border-t-2 sm:border-t-0 sm:border-l-2 border-dashed border-paper/40">
+            <div className="sm:w-44 bg-accent text-bg p-6 flex sm:flex-col justify-between items-center sm:items-start border-t sm:border-t-0 sm:border-l border-dashed border-bg/40">
               <div>
-                <p className="text-xs text-paper/70">Kursi</p>
-                <p className="font-serif text-3xl leading-none mt-1 tabular-nums whitespace-nowrap">{activeSeat}</p>
+                <p className="font-mono text-[11px] uppercase tracking-wider opacity-70">Kursi</p>
+                <p className="mt-1 font-display font-bold text-3xl leading-none tabular-nums whitespace-nowrap">{activeSeat}</p>
               </div>
               <div className="text-right sm:text-left">
-                <p className="text-xs text-paper/70">Area</p>
-                <p className="font-medium leading-snug">{activeDivisionName}</p>
-                <p className="text-xs text-paper/70 mt-3">Boarding</p>
-                <p className="font-medium tabular-nums">09.00 WIB</p>
+                <p className="font-mono text-[11px] uppercase tracking-wider opacity-70">Area</p>
+                <p className="font-semibold leading-snug">{activeDivisionName}</p>
+                <p className="mt-3 font-mono text-[11px] uppercase tracking-wider opacity-70">Boarding</p>
+                <p className="font-semibold tabular-nums">09.00 WIB</p>
               </div>
             </div>
           </div>

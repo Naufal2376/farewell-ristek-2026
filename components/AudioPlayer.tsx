@@ -77,23 +77,23 @@ export default function AudioPlayer({ autoPlayTrigger }: AudioPlayerProps) {
       </div>
 
       {/* Floating Audio Controller */}
-      <div className="fixed bottom-4 right-4 z-40 flex items-center gap-1 bg-ink text-paper pl-1.5 pr-3 py-1.5 rounded-full shadow-lg max-w-[260px]">
+      <div className="fixed bottom-4 right-4 z-40 flex items-center gap-1 bg-surface border border-line text-fg pl-1.5 pr-3 py-1.5 max-w-[260px]">
         <button
           onClick={togglePlay}
           aria-label={isPlaying ? "Jeda musik" : "Putar musik"}
-          className="w-8 h-8 shrink-0 rounded-full bg-paper/10 hover:bg-paper/20 flex items-center justify-center cursor-pointer"
+          className="w-8 h-8 shrink-0 bg-accent text-bg hover:bg-accent-soft flex items-center justify-center cursor-pointer"
         >
           {isPlaying ? <Pause className="w-3.5 h-3.5 fill-current" /> : <Play className="w-3.5 h-3.5 fill-current ml-0.5" />}
         </button>
 
         <div className="min-w-0 px-1.5 leading-tight">
           <p className="text-xs font-medium truncate">for real this time | ribs</p>
-          <p className="text-[11px] text-paper/60 truncate">Gracie Abrams & Lorde</p>
+          <p className="font-mono text-[10px] text-muted truncate">Gracie Abrams & Lorde</p>
         </div>
 
         <button
           onClick={toggleMute}
-          className="p-1 shrink-0 text-paper/70 hover:text-paper cursor-pointer"
+          className="p-1 shrink-0 text-muted hover:text-fg cursor-pointer"
           aria-label={isMuted ? "Nyalakan suara" : "Bisukan"}
         >
           {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
