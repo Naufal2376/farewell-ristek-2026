@@ -113,10 +113,6 @@ export default function SecretAppreciationForm() {
     <section id="secret-form" className="py-20 px-4 sm:px-6 max-w-4xl mx-auto">
       {/* Header */}
       <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-950/60 border border-pink-800/60 text-xs font-mono text-pink-300 mb-3">
-          <Lock className="w-3.5 h-3.5 text-pink-400" />
-          <span>100% ANONYMOUS &bull; END-TO-END NOSTALGIC</span>
-        </div>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
           Secret Appreciation Form
         </h2>

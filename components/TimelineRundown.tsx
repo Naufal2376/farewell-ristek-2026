@@ -121,10 +121,6 @@ export default function TimelineRundown() {
     <section id="rundown" className="py-20 px-4 sm:px-6 max-w-6xl mx-auto">
       {/* Section Header */}
       <div className="text-center mb-14">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/80 text-xs font-mono text-cyan-300 mb-3">
-          <Clock className="w-3.5 h-3.5 text-blue-400" />
-          <span>TIME TABLE & VENUE INFO</span>
-        </div>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
           Detail Lokasi & Rundown Acara
         </h2>
@@ -169,14 +165,28 @@ export default function TimelineRundown() {
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-800">
+            {/* Embedded Interactive Google Maps View */}
+            <div className="mt-4 w-full h-44 rounded-xl overflow-hidden border border-slate-700/80 shadow-inner relative bg-slate-900">
+              <iframe
+                title="Google Maps Lokasi Fasilkom Unsri"
+                src="https://maps.google.com/maps?q=Fakultas+Ilmu+Komputer+Universitas+Sriwijaya+Indralaya&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0, filter: "contrast(1.05) saturate(1.1)" }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-slate-800">
               <a
                 href="https://maps.google.com/?q=Fakultas+Ilmu+Komputer+Universitas+Sriwijaya"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-2.5 px-4 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 text-slate-200 text-xs font-mono font-medium flex items-center justify-center gap-2 transition-colors cursor-pointer"
               >
-                <span>Buka Rute di Google Maps</span>
+                <span>Buka Rute Lengkap di Google Maps</span>
                 <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
               </a>
             </div>

@@ -267,10 +267,6 @@ export default function BoardingPassGenerator() {
     <section id="boarding-pass" className="py-20 px-4 sm:px-6 max-w-5xl mx-auto">
       {/* Section Header */}
       <div className="text-center mb-12">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/80 text-xs font-mono text-cyan-300 mb-3">
-          <Ticket className="w-3.5 h-3.5 text-amber-400" />
-          <span>EXCLUSIVE RISTEK 2026 ACCESS PASS</span>
-        </div>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
           Generator Kartu Akses / Boarding Pass
         </h2>
