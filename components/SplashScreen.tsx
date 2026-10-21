@@ -102,7 +102,6 @@ export default function SplashScreen({ onOpen, isOpen }: SplashScreenProps) {
               Buka undangan
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
-            <p className="mt-3 text-center text-xs text-muted">Musik akan diputar setelah undangan dibuka.</p>
           </motion.div>
         </motion.div>
       )}

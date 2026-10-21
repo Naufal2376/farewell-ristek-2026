@@ -169,9 +169,8 @@ export default function RistekWrapped() {
           }}
           aria-roledescription="carousel"
           aria-label="Ristek Wrapped 2026"
-          className={`relative mx-auto max-w-4xl h-[560px] sm:h-[520px] rounded-[2rem] overflow-hidden select-none shadow-2xl shadow-black/60 transition-colors duration-500 ${
-            isStat ? slide.bg : "bg-surface"
-          }`}
+          className={`relative mx-auto max-w-4xl h-[560px] sm:h-[520px] rounded-[2rem] overflow-hidden select-none shadow-2xl shadow-black/60 transition-colors duration-500 ${isStat ? slide.bg : "bg-surface"
+            }`}
         >
           {/* Progress */}
           <div className="absolute top-4 inset-x-4 sm:inset-x-6 z-20 flex gap-1.5">
@@ -283,11 +282,10 @@ export default function RistekWrapped() {
                         initial={{ y: 10, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.2 + i * 0.04 }}
-                        className={`px-2.5 py-1 rounded-full text-xs sm:text-sm font-semibold ${
-                          m.division === "bph" ? "bg-[#1c1300] text-gold" : "bg-[#1c1300]/10"
-                        }`}
+                        className={`px-2.5 py-1 rounded-full text-xs sm:text-sm font-semibold ${m.division === "pimpinan" ? "bg-[#1c1300] text-gold" : "bg-[#1c1300]/10"
+                          }`}
                       >
-                        {m.name.replace(/^(M\.|Muhammad|Muhamad)\s/, "")}
+                        {m.name}
                       </motion.li>
                     ))}
                   </ul>

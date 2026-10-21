@@ -9,41 +9,48 @@ import SectionHeading from "@/components/SectionHeading";
 export interface RistekMember2026 {
   name: string;
   role: string;
-  division: "bph" | "pti" | "akademik";
+  division: "pimpinan" | "pti" | "akademik";
   divisionName: string;
   instagram: string;
   seat: string;
 }
 
 export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
-  // --- Pimpinan Departemen (BPH) ---
+  // --- 👑 4 Pimpinan RISTEK (Departemen & Divisi) ---
   {
     name: "M. Fahri Ramadhan",
-    role: "Kepala Departemen Ristek 2026",
-    division: "bph",
-    divisionName: "Pimpinan Departemen",
+    role: "Kepala Departemen RISTEK",
+    division: "pimpinan",
+    divisionName: "Pimpinan RISTEK",
     instagram: "@_fahrirm",
-    seat: "BPH-01",
+    seat: "LEAD-01",
   },
   {
     name: "Revanna Aulia Putri",
-    role: "Wakil Kepala Departemen Ristek 2026",
-    division: "bph",
-    divisionName: "Pimpinan Departemen",
+    role: "Wakil Kepala Departemen RISTEK",
+    division: "pimpinan",
+    divisionName: "Pimpinan RISTEK",
     instagram: "@revannaauliaa",
-    seat: "BPH-02",
+    seat: "LEAD-02",
   },
-
-  // --- Divisi Pengembangan Teknologi Informasi (PTI) ---
-  // Nomor kursi diacak khusus divisi PTI
   {
     name: "M. Naufal Rafif Pratama",
-    role: "Kepala Divisi PTI",
-    division: "pti",
-    divisionName: "Divisi PTI",
+    role: "Kepala Divisi PTI RISTEK",
+    division: "pimpinan",
+    divisionName: "Pimpinan RISTEK",
     instagram: "@nfalrfif",
-    seat: "PTI-07",
+    seat: "LEAD-03",
   },
+  {
+    name: "Calista Alysia Rasendriya",
+    role: "Kepala Divisi Akademik RISTEK",
+    division: "pimpinan",
+    divisionName: "Pimpinan RISTEK",
+    instagram: "@calistaalysia_",
+    seat: "LEAD-04",
+  },
+
+  // --- 💻 Staff Divisi PTI ---
   {
     name: "DD Eikel Fison",
     role: "Staff Divisi PTI",
@@ -58,7 +65,7 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     division: "pti",
     divisionName: "Divisi PTI",
     instagram: "@dvinss16",
-    seat: "PTI-09",
+    seat: "PTI-08",
   },
   {
     name: "Muhamad Ridwan",
@@ -90,7 +97,7 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     division: "pti",
     divisionName: "Divisi PTI",
     instagram: "@frs8127_",
-    seat: "PTI-08",
+    seat: "PTI-07",
   },
   {
     name: "Kaysan Rafi Akbar",
@@ -109,16 +116,7 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     seat: "PTI-05",
   },
 
-  // --- Divisi Akademik ---
-  // Nomor kursi diacak khusus divisi Akademik
-  {
-    name: "Calista Alysia Rasendriya",
-    role: "Kepala Divisi Akademik",
-    division: "akademik",
-    divisionName: "Divisi Akademik",
-    instagram: "@calistaalysia_",
-    seat: "AKD-05",
-  },
+  // --- 🔬 Staff Divisi Akademik ---
   {
     name: "Siti Khairani Ramadona",
     role: "Staff Divisi Akademik",
@@ -149,7 +147,7 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     division: "akademik",
     divisionName: "Divisi Akademik",
     instagram: "@page.thsnvla",
-    seat: "AKD-09",
+    seat: "AKD-07",
   },
   {
     name: "Akilla Tyas Ayu Renata",
@@ -165,7 +163,7 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     division: "akademik",
     divisionName: "Divisi Akademik",
     instagram: "@imxdlee",
-    seat: "AKD-07",
+    seat: "AKD-05",
   },
   {
     name: "Delta Dwi Sari",
@@ -194,12 +192,12 @@ function generateUniqueSeat(name: string, division: Division): string {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
   }
   const num = (Math.abs(hash) % 20) + 10; // 10 - 29
-  const prefix = division === "pti" ? "PTI" : division === "akademik" ? "AKD" : "VIP";
+  const prefix = division === "pti" ? "PTI" : division === "akademik" ? "AKD" : "LEAD";
   return `${prefix}-${num}`;
 }
 
 const DIVISION_LABEL: Record<Division, string> = {
-  bph: "Tamu / BPH",
+  pimpinan: "Pimpinan RISTEK",
   pti: "Divisi PTI",
   akademik: "Divisi Akademik",
 };
@@ -207,7 +205,8 @@ const DIVISION_LABEL: Record<Division, string> = {
 const SEAT_COLOR: Record<string, string> = {
   PTI: "text-blue",
   AKD: "text-rose",
-  BPH: "text-gold",
+  LEAD: "text-gold",
+  PIM: "text-gold",
   VIP: "text-gold",
 };
 
@@ -234,9 +233,9 @@ export default function BoardingPassGenerator() {
   );
 
   const groups: { label: string; division: Division }[] = [
-    { label: "Pimpinan Departemen", division: "bph" },
-    { label: "Divisi PTI", division: "pti" },
-    { label: "Divisi Akademik", division: "akademik" },
+    { label: "Pimpinan RISTEK", division: "pimpinan" },
+    { label: "Staff Divisi PTI", division: "pti" },
+    { label: "Staff Divisi Akademik", division: "akademik" },
   ];
 
   return (
@@ -302,7 +301,7 @@ export default function BoardingPassGenerator() {
                     >
                       <option value="pti">Divisi PTI</option>
                       <option value="akademik">Divisi Akademik</option>
-                      <option value="bph">Tamu / BPH</option>
+                      <option value="pimpinan">Tamu / Pimpinan</option>
                     </select>
                   </label>
                   <label className="block">
@@ -355,8 +354,8 @@ export default function BoardingPassGenerator() {
 
                   <div className="mt-6 flex items-center justify-between gap-3">
                     <div>
-                      <p className="text-3xl sm:text-4xl font-extrabold leading-none">IDL</p>
-                      <p className="mt-1.5 text-xs text-muted">Fasilkom Unsri</p>
+                      <p className="text-3xl sm:text-4xl font-extrabold leading-none">PLG</p>
+                      <p className="mt-1.5 text-xs text-muted">RISTEK HIMSI UNSRI</p>
                     </div>
                     <div className="flex-1 flex items-center gap-2 text-gold">
                       <span className="h-px flex-1 bg-gradient-to-r from-transparent to-gold/60" />
