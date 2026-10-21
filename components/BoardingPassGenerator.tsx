@@ -15,182 +15,198 @@ import confetti from "canvas-confetti";
 export interface RistekMember2026 {
   name: string;
   role: string;
-  division: string;
+  division: "bph" | "pti" | "akademik";
+  divisionName: string;
   instagram: string;
   seat: string;
 }
 
 export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
-  // Pimpinan Departemen
+  // --- Pimpinan Departemen (BPH) ---
   {
     name: "M. Fahri Ramadhan",
     role: "Kepala Departemen Ristek 2026",
-    division: "Pimpinan Departemen",
+    division: "bph",
+    divisionName: "Pimpinan Departemen",
     instagram: "@_fahrirm",
-    seat: "RS-01A",
+    seat: "BPH-01",
   },
   {
     name: "Revanna Aulia Putri",
     role: "Wakil Kepala Departemen Ristek 2026",
-    division: "Pimpinan Departemen",
+    division: "bph",
+    divisionName: "Pimpinan Departemen",
     instagram: "@revannaauliaa",
-    seat: "RS-01B",
+    seat: "BPH-02",
   },
 
-  // Pimpinan Divisi
+  // --- Divisi Pengembangan Teknologi Informasi (PTI) ---
+  // Nomor kursi diacak khusus divisi PTI
   {
     name: "M. Naufal Rafif Pratama",
     role: "Kepala Divisi PTI",
-    division: "Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
     instagram: "@nfalrfif",
-    seat: "RS-02A",
+    seat: "PTI-07",
   },
-  {
-    name: "Calista Alysia Rasendriya",
-    role: "Kepala Divisi Akademik",
-    division: "Divisi Akademik",
-    instagram: "@calistaalysia_",
-    seat: "RS-02B",
-  },
-
-  // Staff (17 orang)
   {
     name: "DD Eikel Fison",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
+    role: "Staff Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
     instagram: "@eikaruuu",
-    seat: "RS-03A",
+    seat: "PTI-03",
   },
   {
     name: "Davin Gabriel Jonathan",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
+    role: "Staff Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
     instagram: "@dvinss16",
-    seat: "RS-03B",
+    seat: "PTI-09",
   },
   {
     name: "Muhamad Ridwan",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
+    role: "Staff Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
     instagram: "@ridd_tho",
-    seat: "RS-04A",
+    seat: "PTI-01",
   },
   {
     name: "Muhammad Irfan",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
+    role: "Staff Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
     instagram: "@mhmd_irfan_10",
-    seat: "RS-04B",
-  },
-  {
-    name: "Siti Khairani Ramadona",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
-    instagram: "@skhairanii_",
-    seat: "RS-05A",
-  },
-  {
-    name: "Siti Salmarifa Khalisah Putri",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
-    instagram: "@salmaarfaa",
-    seat: "RS-05B",
-  },
-  {
-    name: "Zhoffarah Azzahrah",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
-    instagram: "@zhoffaraazs",
-    seat: "RS-06A",
-  },
-  {
-    name: "Thessa Novela",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
-    instagram: "@page.thsnvla",
-    seat: "RS-06B",
-  },
-  {
-    name: "Akilla Tyas Ayu Renata",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
-    instagram: "@aqillqq_",
-    seat: "RS-07A",
-  },
-  {
-    name: "Afdella Azahra",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
-    instagram: "@imxdlee",
-    seat: "RS-07B",
+    seat: "PTI-06",
   },
   {
     name: "Ayodya Zahzora Achtar",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
+    role: "Staff Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
     instagram: "@4tr._za",
-    seat: "RS-08A",
-  },
-  {
-    name: "Delta Dwi Sari",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
-    instagram: "@deltaadw",
-    seat: "RS-08B",
+    seat: "PTI-04",
   },
   {
     name: "Muhammad Faris Arrachman",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
+    role: "Staff Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
     instagram: "@frs8127_",
-    seat: "RS-09A",
-  },
-  {
-    name: "Keisya Rizkyka",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
-    instagram: "@keisyarzkaa",
-    seat: "RS-09B",
+    seat: "PTI-08",
   },
   {
     name: "Kaysan Rafi Akbar",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
+    role: "Staff Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
     instagram: "@rafi.zz_42",
-    seat: "RS-10A",
+    seat: "PTI-02",
   },
   {
     name: "Muhammad Farrel Alif Fauzy",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
+    role: "Staff Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
     instagram: "@strfarrell",
-    seat: "RS-10B",
+    seat: "PTI-05",
+  },
+
+  // --- Divisi Akademik ---
+  // Nomor kursi diacak khusus divisi Akademik
+  {
+    name: "Calista Alysia Rasendriya",
+    role: "Kepala Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@calistaalysia_",
+    seat: "AKD-05",
   },
   {
-    name: "Muhammad Haris Al Fayyadh",
-    role: "Staff Ristek 2026",
-    division: "Staff Departemen",
-    instagram: "@harisal2025",
-    seat: "RS-11A",
+    name: "Siti Khairani Ramadona",
+    role: "Staff Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@skhairanii_",
+    seat: "AKD-02",
+  },
+  {
+    name: "Siti Salmarifa Khalisah Putri",
+    role: "Staff Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@salmaarfaa",
+    seat: "AKD-08",
+  },
+  {
+    name: "Zhoffarah Azzahrah",
+    role: "Staff Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@zhoffaraazs",
+    seat: "AKD-04",
+  },
+  {
+    name: "Thessa Novela",
+    role: "Staff Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@page.thsnvla",
+    seat: "AKD-09",
+  },
+  {
+    name: "Akilla Tyas Ayu Renata",
+    role: "Staff Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@aqillqq_",
+    seat: "AKD-01",
+  },
+  {
+    name: "Afdella Azahra",
+    role: "Staff Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@imxdlee",
+    seat: "AKD-07",
+  },
+  {
+    name: "Delta Dwi Sari",
+    role: "Staff Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@deltaadw",
+    seat: "AKD-03",
+  },
+  {
+    name: "Keisya Rizkyka",
+    role: "Staff Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@keisyarzkaa",
+    seat: "AKD-06",
   },
 ];
 
-// Hash function to guarantee a unique seat for custom names
-function generateUniqueSeat(name: string): string {
+// Hash function to guarantee a unique seat for custom names based on chosen division
+function generateUniqueSeat(name: string, division: "pti" | "akademik" | "bph"): string {
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
   }
-  const row = Math.abs(hash % 20) + 12; // row 12 - 31
-  const letters = ["A", "B", "C", "D", "E", "F"];
-  const col = letters[Math.abs(hash >> 3) % letters.length];
-  return `RS-${row}${col}`;
+  const num = (Math.abs(hash) % 20) + 10; // 10 - 29
+  const prefix = division === "pti" ? "PTI" : division === "akademik" ? "AKD" : "VIP";
+  return `${prefix}-${num}`;
 }
 
 export default function BoardingPassGenerator() {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
   const [isCustom, setIsCustom] = useState(false);
   const [customName, setCustomName] = useState("");
+  const [customDivision, setCustomDivision] = useState<"pti" | "akademik" | "bph">("pti");
   const [customRole, setCustomRole] = useState("Anggota Kehormatan Ristek 2026");
   const [customIg, setCustomIg] = useState("");
   const [copied, setCopied] = useState(false);
@@ -204,16 +220,24 @@ export default function BoardingPassGenerator() {
     ? customRole
     : RISTEK_MEMBERS_2026[selectedIndex].role;
 
+  const activeDivisionName = isCustom
+    ? customDivision === "pti"
+      ? "Divisi PTI"
+      : customDivision === "akademik"
+      ? "Divisi Akademik"
+      : "Tamu Kehormatan"
+    : RISTEK_MEMBERS_2026[selectedIndex].divisionName;
+
   const activeIg = isCustom
     ? customIg || "@himsi.ristek"
     : RISTEK_MEMBERS_2026[selectedIndex].instagram;
 
   const activeSeat = useMemo(() => {
     if (isCustom) {
-      return generateUniqueSeat(customName || "Tamu");
+      return generateUniqueSeat(customName || "Tamu", customDivision);
     }
     return RISTEK_MEMBERS_2026[selectedIndex].seat;
-  }, [isCustom, customName, selectedIndex]);
+  }, [isCustom, customName, customDivision, selectedIndex]);
 
   const handleMemberChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const val = e.target.value;
@@ -251,8 +275,8 @@ export default function BoardingPassGenerator() {
           Generator Kartu Akses / Boarding Pass
         </h2>
         <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-          Pilih namamu dari daftar resmi pengurus Departemen Ristek HIMSI 2026 untuk
-          meng-generate tiket boarding pass VIP dengan nomor kursi khusus.
+          Pilih namamu dari daftar resmi pengurus Departemen Ristek HIMSI 2026.
+          Nomor kursi telah diacak dan dibedakan khusus antara Divisi PTI dan Divisi Akademik!
         </p>
       </div>
 
@@ -274,20 +298,23 @@ export default function BoardingPassGenerator() {
               onChange={handleMemberChange}
               className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-medium text-xs font-mono focus:outline-none focus:border-amber-400 transition-colors cursor-pointer"
             >
-              <optgroup label="👑 Pimpinan Departemen">
-                <option value={0}>M. Fahri Ramadhan (Kadep)</option>
-                <option value={1}>Revanna Aulia Putri (Wakadep)</option>
+              <optgroup label="👑 Pimpinan Departemen (BPH)">
+                <option value={0}>M. Fahri Ramadhan (Kadep) &bull; BPH-01</option>
+                <option value={1}>Revanna Aulia Putri (Wakadep) &bull; BPH-02</option>
               </optgroup>
 
-              <optgroup label="💻 Pimpinan Divisi">
-                <option value={2}>M. Naufal Rafif Pratama (Kadiv PTI)</option>
-                <option value={3}>Calista Alysia Rasendriya (Kadiv Akademik)</option>
+              <optgroup label="💻 Divisi PTI (Nomor Kursi Acak: PTI-XX)">
+                {RISTEK_MEMBERS_2026.slice(2, 11).map((m, idx) => (
+                  <option key={idx + 2} value={idx + 2}>
+                    {m.name} &bull; {m.seat}
+                  </option>
+                ))}
               </optgroup>
 
-              <optgroup label="👥 Staff Departemen Ristek 2026">
-                {RISTEK_MEMBERS_2026.slice(4).map((m, idx) => (
-                  <option key={idx + 4} value={idx + 4}>
-                    {m.name} ({m.instagram})
+              <optgroup label="🔬 Divisi Akademik (Nomor Kursi Acak: AKD-XX)">
+                {RISTEK_MEMBERS_2026.slice(11).map((m, idx) => (
+                  <option key={idx + 11} value={idx + 11}>
+                    {m.name} &bull; {m.seat}
                   </option>
                 ))}
               </optgroup>
@@ -317,6 +344,21 @@ export default function BoardingPassGenerator() {
                   maxLength={26}
                   className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
                 />
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono text-slate-300 mb-1">
+                  Divisi untuk Alokasi Kursi
+                </label>
+                <select
+                  value={customDivision}
+                  onChange={(e) => setCustomDivision(e.target.value as "pti" | "akademik" | "bph")}
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
+                >
+                  <option value="pti">Divisi PTI (Kursi: PTI-XX)</option>
+                  <option value="akademik">Divisi Akademik (Kursi: AKD-XX)</option>
+                  <option value="bph">Tamu Kehormatan / BPH (Kursi: VIP-XX)</option>
+                </select>
               </div>
 
               <div>
@@ -351,8 +393,19 @@ export default function BoardingPassGenerator() {
 
           {/* Read-only assigned Seat ID preview */}
           <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between text-xs font-mono">
-            <span className="text-slate-400">Nomor Kursi Khusus:</span>
-            <span className="text-amber-400 font-bold text-sm bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
+            <div>
+              <span className="text-slate-400 block text-[10px]">Alokasi Kursi Acak:</span>
+              <span className="text-slate-300 font-semibold">{activeDivisionName}</span>
+            </div>
+            <span
+              className={`font-mono font-bold text-sm px-2.5 py-1 rounded border ${
+                activeSeat.startsWith("PTI")
+                  ? "bg-cyan-500/10 text-cyan-300 border-cyan-400/40"
+                  : activeSeat.startsWith("AKD")
+                  ? "bg-pink-500/10 text-pink-300 border-pink-400/40"
+                  : "bg-amber-500/10 text-amber-300 border-amber-400/40"
+              }`}
+            >
               {activeSeat}
             </span>
           </div>
@@ -383,7 +436,7 @@ export default function BoardingPassGenerator() {
         {/* Right: The Boarding Pass Card Preview (7 cols) */}
         <div className="lg:col-span-7 flex justify-center">
           <motion.div
-            key={activeName}
+            key={activeName + activeSeat}
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3 }}
@@ -396,7 +449,7 @@ export default function BoardingPassGenerator() {
                 <span>BOARDING PASS &bull; VIP ACCESS</span>
               </span>
               <span className="bg-black/30 px-2 py-0.5 rounded text-[10px]">
-                RESTRICTED
+                {activeDivisionName.toUpperCase()}
               </span>
             </div>
 
@@ -468,7 +521,15 @@ export default function BoardingPassGenerator() {
                   <span className="text-[10px] font-mono text-slate-400 block uppercase">
                     Seat & Gate
                   </span>
-                  <span className="font-mono text-xs font-bold text-amber-300 block">
+                  <span
+                    className={`font-mono text-xs font-bold block ${
+                      activeSeat.startsWith("PTI")
+                        ? "text-cyan-300"
+                        : activeSeat.startsWith("AKD")
+                        ? "text-pink-300"
+                        : "text-amber-300"
+                    }`}
+                  >
                     {activeSeat} &bull; GATE FASILKOM
                   </span>
                 </div>

@@ -78,9 +78,9 @@ export default function RistekWrapped() {
     },
     {
       icon: <Heart className="w-5 h-5 text-pink-400" />,
-      label: "Kekeluargaan 21 Anggota",
+      label: "Kekeluargaan 20 Anggota",
       value: "∞ / ∞",
-      subValue: "Fahri, Revanna, Naufal, Calista & 17 Staf hebat Ristek 2026",
+      subValue: "Fahri, Revanna, Naufal, Calista & 16 Staf hebat Ristek 2026",
       tag: "INFINITE LOVE",
       color: "from-pink-500/20 to-purple-500/5",
       borderGlow: "group-hover:border-pink-400/50",
