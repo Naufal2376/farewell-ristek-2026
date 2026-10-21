@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Sparkles,
@@ -11,6 +11,10 @@ import {
   Heart,
   Flame,
   Award,
+  Globe,
+  Layout,
+  GraduationCap,
+  Laptop,
 } from "lucide-react";
 
 interface StatItem {
@@ -24,7 +28,7 @@ interface StatItem {
 }
 
 export default function RistekWrapped() {
-  const [activeTab, setActiveTab] = useState<"stats" | "awards">("stats");
+  const [activeTab, setActiveTab] = useState<"stats" | "proker" | "awards">("stats");
 
   const stats: StatItem[] = [
     {
@@ -83,6 +87,42 @@ export default function RistekWrapped() {
     },
   ];
 
+  // Authentic prokers from himsiunsri.org/about/program-kerja
+  const prokers = [
+    {
+      icon: <Layout className="w-5 h-5 text-amber-400" />,
+      title: "SI FEST (Sistem Informasi Festival)",
+      description:
+        "Proker mega tahunan HIMSI: perancangan & pengembangan website resmi SI FEST, pendaftaran kompetisi nasional (UI/UX Design, KTI, BMC, Poster), turnamen E-sport, dan Seminar IT Nasional.",
+      badge: "MEGA PROKER",
+      status: "100% SUKSES",
+    },
+    {
+      icon: <Globe className="w-5 h-5 text-blue-400" />,
+      title: "Pengembangan Website Resmi himsiunsri.org",
+      description:
+        "Rancang bangun, deployment, dan pemeliharaan portal utama organisasi HIMSI FASILKOM UNSRI sebagai sarana informasi dan publikasi digital.",
+      badge: "INFRASTRUCTURE",
+      status: "TERLAKSANA",
+    },
+    {
+      icon: <GraduationCap className="w-5 h-5 text-emerald-400" />,
+      title: "Pusat Informasi Akademik & Beasiswa",
+      description:
+        "Pengelolaan pusat edukasi, beasiswa, info lomba IT tingkat nasional, dan peluang magang bagi seluruh mahasiswa Jurusan Sistem Informasi.",
+      badge: "AKADEMIK & RISET",
+      status: "AKTIF BERJALAN",
+    },
+    {
+      icon: <Laptop className="w-5 h-5 text-purple-400" />,
+      title: "Tech Upgrading & Workshop Hard Skills",
+      description:
+        "Pelatihan internal dan eksternal seputar Web Development, UI/UX Design, dan eksplorasi teknologi terkini untuk staf dan mahasiswa.",
+      badge: "DEV & CAPACITY",
+      status: "TERLAKSANA",
+    },
+  ];
+
   const awards = [
     {
       title: "👑 King/Queen of Stiker WhatsApp",
@@ -118,15 +158,15 @@ export default function RistekWrapped() {
           Ristek Wrapped <span className="text-amber-400">2026</span>
         </h2>
         <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-          Kilasan data kocak, rekap begadang, dan inside jokes yang menemani kita
-          sepanjang 365 hari di HIMSI Fasilkom Unsri.
+          Kilasan data kocak, rekap begadang, dan program kerja yang sukses
+          kita tuntaskan bersama sepanjang kepengurusan HIMSI Fasilkom Unsri.
         </p>
 
         {/* Tab Toggle */}
-        <div className="mt-6 inline-flex p-1 rounded-xl bg-slate-900 border border-slate-800">
+        <div className="mt-6 inline-flex flex-wrap justify-center p-1 rounded-xl bg-slate-900 border border-slate-800 gap-1">
           <button
             onClick={() => setActiveTab("stats")}
-            className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all ${
+            className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer ${
               activeTab === "stats"
                 ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
                 : "text-slate-400 hover:text-white"
@@ -135,8 +175,18 @@ export default function RistekWrapped() {
             Statistik Lucu
           </button>
           <button
+            onClick={() => setActiveTab("proker")}
+            className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer ${
+              activeTab === "proker"
+                ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
+                : "text-slate-400 hover:text-white"
+            }`}
+          >
+            Proker Terlaksana 🚀
+          </button>
+          <button
             onClick={() => setActiveTab("awards")}
-            className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all ${
+            className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all cursor-pointer ${
               activeTab === "awards"
                 ? "bg-blue-600 text-white shadow-md shadow-blue-600/30"
                 : "text-slate-400 hover:text-white"
@@ -148,7 +198,7 @@ export default function RistekWrapped() {
       </div>
 
       {/* Content depending on activeTab */}
-      {activeTab === "stats" ? (
+      {activeTab === "stats" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {stats.map((stat, idx) => (
             <motion.div
@@ -183,18 +233,61 @@ export default function RistekWrapped() {
             </motion.div>
           ))}
         </div>
-      ) : (
+      )}
+
+      {activeTab === "proker" && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {prokers.map((proker, idx) => (
+            <motion.div
+              key={idx}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: idx * 0.08 }}
+              className="p-6 rounded-2xl bg-[#0B1228] border border-slate-800 hover:border-blue-500/40 transition-all flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-2 mb-3">
+                  <div className="p-2.5 rounded-xl bg-slate-900 border border-slate-800">
+                    {proker.icon}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/20">
+                      {proker.badge}
+                    </span>
+                    <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                      {proker.status}
+                    </span>
+                  </div>
+                </div>
+
+                <h3 className="text-base font-bold text-white mb-2">
+                  {proker.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+                  {proker.description}
+                </p>
+              </div>
+
+              <div className="mt-4 pt-3 border-t border-slate-800/80 text-[11px] font-mono text-cyan-400 flex items-center gap-1">
+                <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Verified in himsiunsri.org archive</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
+
+      {activeTab === "awards" && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {awards.map((award, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, scale: 0.96 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: idx * 0.1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.35, delay: idx * 0.08 }}
               className="p-6 rounded-2xl bg-gradient-to-br from-amber-500/10 via-[#0B1228] to-[#090E1F] border border-amber-500/30 hover:border-amber-400/60 transition-all flex items-start gap-4"
             >
-              <div className="p-3 rounded-xl bg-amber-500/20 text-amber-300">
+              <div className="p-3 rounded-xl bg-amber-500/20 text-amber-300 shrink-0">
                 <Award className="w-6 h-6" />
               </div>
               <div>
@@ -206,7 +299,7 @@ export default function RistekWrapped() {
                     {award.badge}
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
                   {award.description}
                 </p>
               </div>

@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
-import { Terminal, Heart, Code2, Eye, ArrowUp } from "lucide-react";
+import { Terminal, Heart, ArrowUp } from "lucide-react";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -20,7 +19,7 @@ export default function Footer() {
                 <Terminal className="w-4 h-4" />
               </div>
               <span className="font-mono font-bold text-sm text-white tracking-wider">
-                DEPARTEMEN RISAT & TEKNOLOGI
+                DEPARTEMEN RISET & TEKNOLOGI
               </span>
             </div>
             <p className="text-slate-400 text-xs max-w-md font-sans">
@@ -31,19 +30,11 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick links & Admin projector mode button */}
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <Link
-              href="/baca"
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/40 text-cyan-300 hover:text-white hover:border-cyan-400 text-xs font-mono transition-all shadow-sm"
-            >
-              <Eye className="w-4 h-4 text-cyan-400" />
-              <span>Buka Live Read Mode (/baca) 📽️</span>
-            </Link>
-
+          {/* Scroll to top button */}
+          <div className="flex items-center gap-4">
             <button
               onClick={scrollToTop}
-              className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-colors"
+              className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-white transition-colors cursor-pointer"
               aria-label="Kembali ke atas"
             >
               <ArrowUp className="w-4 h-4" />

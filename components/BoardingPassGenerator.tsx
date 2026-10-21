@@ -1,40 +1,210 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import {
   Ticket,
   Sparkles,
   QrCode,
-  Share2,
   Camera,
   Check,
   Plane,
   Terminal,
+  UserCheck,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
+interface RistekMember {
+  name: string;
+  role: string;
+  division: string;
+  defaultSeat: string;
+}
+
+export const RISTEK_MEMBERS: RistekMember[] = [
+  // BPH Ristek
+  {
+    name: "Muhammad Iqbalul Khoiri",
+    role: "Kepala Departemen Ristek 👑",
+    division: "BPH Departemen",
+    defaultSeat: "RS-01A",
+  },
+  {
+    name: "Jovandra Anata Malayadza",
+    role: "Wakil Kepala Departemen Ristek 👑",
+    division: "BPH Departemen",
+    defaultSeat: "RS-01B",
+  },
+
+  // Divisi PTI (Pengembangan Teknologi Informasi)
+  {
+    name: "Nicolaus Owen Marvell",
+    role: "Kepala Divisi PTI 💻",
+    division: "Divisi PTI",
+    defaultSeat: "RS-02A",
+  },
+  {
+    name: "M. Fahri Ramadhan",
+    role: "Staf Divisi PTI 💻",
+    division: "Divisi PTI",
+    defaultSeat: "RS-02B",
+  },
+  {
+    name: "Wulan Suryani",
+    role: "Staf Divisi PTI 💻",
+    division: "Divisi PTI",
+    defaultSeat: "RS-03A",
+  },
+  {
+    name: "M. Ghalib Assiddiq Gusri",
+    role: "Staf Divisi PTI 💻",
+    division: "Divisi PTI",
+    defaultSeat: "RS-03B",
+  },
+  {
+    name: "Muhammad Tias Djahfran Wijaya",
+    role: "Staf Divisi PTI 💻",
+    division: "Divisi PTI",
+    defaultSeat: "RS-04A",
+  },
+  {
+    name: "Maulana Adiatma",
+    role: "Staf Divisi PTI 💻",
+    division: "Divisi PTI",
+    defaultSeat: "RS-04B",
+  },
+  {
+    name: "Syawaluddin Boy Rambe Al-Ayyubi",
+    role: "Staf Divisi PTI 💻",
+    division: "Divisi PTI",
+    defaultSeat: "RS-05A",
+  },
+  {
+    name: "M. Naufal Rafif Pratama",
+    role: "Staf Divisi PTI 💻",
+    division: "Divisi PTI",
+    defaultSeat: "RS-05B",
+  },
+  {
+    name: "Rafael Antasena Dwianto Gultom",
+    role: "Staf Divisi PTI 💻",
+    division: "Divisi PTI",
+    defaultSeat: "RS-06A",
+  },
+  {
+    name: "Intan Al' Ainun",
+    role: "Staf Divisi PTI 💻",
+    division: "Divisi PTI",
+    defaultSeat: "RS-06B",
+  },
+
+  // Divisi Akademik & Riset
+  {
+    name: "R.A. Callista Salsabila",
+    role: "Kepala Divisi Akademik 🔬",
+    division: "Divisi Akademik",
+    defaultSeat: "RS-07A",
+  },
+  {
+    name: "Yuriza Farras Fadhilah",
+    role: "Staf Divisi Akademik 🔬",
+    division: "Divisi Akademik",
+    defaultSeat: "RS-07B",
+  },
+  {
+    name: "Amallya Salsabila",
+    role: "Staf Divisi Akademik 🔬",
+    division: "Divisi Akademik",
+    defaultSeat: "RS-08A",
+  },
+  {
+    name: "Calista Alysia Rasendriya",
+    role: "Staf Divisi Akademik 🔬",
+    division: "Divisi Akademik",
+    defaultSeat: "RS-08B",
+  },
+  {
+    name: "Revanna Aulia Putri",
+    role: "Staf Divisi Akademik 🔬",
+    division: "Divisi Akademik",
+    defaultSeat: "RS-09A",
+  },
+  {
+    name: "Zulaikha Savira Viwinanda",
+    role: "Staf Divisi Akademik 🔬",
+    division: "Divisi Akademik",
+    defaultSeat: "RS-09B",
+  },
+  {
+    name: "Zahra Octavia",
+    role: "Staf Divisi Akademik 🔬",
+    division: "Divisi Akademik",
+    defaultSeat: "RS-10A",
+  },
+  {
+    name: "Ikhsan Nur Saputra",
+    role: "Staf Divisi Akademik 🔬",
+    division: "Divisi Akademik",
+    defaultSeat: "RS-10B",
+  },
+  {
+    name: "Muhammad Iqbal Meidiansyah",
+    role: "Staf Divisi Akademik 🔬",
+    division: "Divisi Akademik",
+    defaultSeat: "RS-11A",
+  },
+];
+
+// Hash function to guarantee a unique seat for custom names
+function generateUniqueSeat(name: string): string {
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const row = Math.abs(hash % 20) + 12; // row 12 - 31
+  const letters = ["A", "B", "C", "D", "E", "F"];
+  const col = letters[Math.abs(hash >> 3) % letters.length];
+  return `RS-${row}${col}`;
+}
+
 export default function BoardingPassGenerator() {
-  const [name, setName] = useState("Naufal Rizky");
-  const [role, setRole] = useState("Frontend Engineer 💻");
-  const [seatNumber, setSeatNumber] = useState("RS-26A");
+  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [isCustom, setIsCustom] = useState(false);
+  const [customName, setCustomName] = useState("");
+  const [customRole, setCustomRole] = useState("Anggota Kehormatan Ristek 🚀");
   const [copied, setCopied] = useState(false);
 
-  const roles = [
-    "Frontend Engineer 💻",
-    "Backend & System Dev 🛠️",
-    "UI/UX & Product Design 🎨",
-    "Cyber & Infrastructure 🛡️",
-    "Creative & Multimedia 📸",
-    "BPH / Kadep / Sekdep 👑",
-    "Honorary Ristek Member 🚀",
-  ];
+  // Active details
+  const activeName = isCustom
+    ? customName || "DEAR STAF RISTEK"
+    : RISTEK_MEMBERS[selectedIndex].name;
+
+  const activeRole = isCustom
+    ? customRole
+    : RISTEK_MEMBERS[selectedIndex].role;
+
+  const activeSeat = useMemo(() => {
+    if (isCustom) {
+      return generateUniqueSeat(customName || "Tamu");
+    }
+    return RISTEK_MEMBERS[selectedIndex].defaultSeat;
+  }, [isCustom, customName, selectedIndex]);
+
+  const handleMemberChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const val = e.target.value;
+    if (val === "custom") {
+      setIsCustom(true);
+    } else {
+      setIsCustom(false);
+      setSelectedIndex(Number(val));
+    }
+  };
 
   const handleShare = () => {
     try {
       confetti({
-        particleCount: 50,
-        spread: 60,
+        particleCount: 60,
+        spread: 70,
         origin: { y: 0.8 },
       });
     } catch {
@@ -50,14 +220,14 @@ export default function BoardingPassGenerator() {
       <div className="text-center mb-12">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700/80 text-xs font-mono text-cyan-300 mb-3">
           <Ticket className="w-3.5 h-3.5 text-amber-400" />
-          <span>EXCLUSIVE ACCESS PASS</span>
+          <span>EXCLUSIVE RISTEK ACCESS PASS</span>
         </div>
         <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
           Generator Kartu Akses / Boarding Pass
         </h2>
         <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-          Ketik nama panggilanmu untuk meng-generate tiket boarding pass VIP.
-          Tinggal screenshot dan pamerkan ke Instagram Story!
+          Pilih namamu dari daftar resmi pengurus Departemen Ristek HIMSI Unsri untuk
+          meng-generate tiket boarding pass VIP dengan nomor kursi khusus.
         </p>
       </div>
 
@@ -65,52 +235,90 @@ export default function BoardingPassGenerator() {
         {/* Left: Input Form Controls (5 cols) */}
         <div className="lg:col-span-5 p-6 rounded-2xl bg-[#0B1228] border border-slate-800 shadow-xl space-y-4">
           <h3 className="text-sm font-bold text-white font-mono flex items-center gap-2">
-            <Terminal className="w-4 h-4 text-cyan-400" />
-            <span>Customize Pass Credentials</span>
+            <UserCheck className="w-4 h-4 text-cyan-400" />
+            <span>Pilih Profil Pengurus Ristek</span>
           </h3>
 
+          {/* Member Dropdown from official profile */}
           <div>
             <label className="block text-xs font-mono text-slate-300 mb-1.5">
-              Nama Lengkap / Panggilan
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Contoh: Naufal / Kak Budi"
-              maxLength={26}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-sm focus:outline-none focus:border-amber-400 transition-colors"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-mono text-slate-300 mb-1.5">
-              Divisi / Peran di Ristek
+              Nama Anggota Ristek (himsiunsri.org)
             </label>
             <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-xs font-mono focus:outline-none focus:border-amber-400 transition-colors cursor-pointer"
+              value={isCustom ? "custom" : selectedIndex}
+              onChange={handleMemberChange}
+              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-medium text-xs font-mono focus:outline-none focus:border-amber-400 transition-colors cursor-pointer"
             >
-              {roles.map((r, i) => (
-                <option key={i} value={r} className="bg-slate-900 text-white">
-                  {r}
-                </option>
-              ))}
+              <optgroup label="👑 Pimpinan Departemen">
+                <option value={0}>Muhammad Iqbalul Khoiri (Kadep)</option>
+                <option value={1}>Jovandra Anata Malayadza (Wakadep)</option>
+              </optgroup>
+
+              <optgroup label="💻 Divisi Pengembangan Teknologi Informasi (PTI)">
+                {RISTEK_MEMBERS.slice(2, 12).map((m, idx) => (
+                  <option key={idx + 2} value={idx + 2}>
+                    {m.name}
+                  </option>
+                ))}
+              </optgroup>
+
+              <optgroup label="🔬 Divisi Akademik & Riset">
+                {RISTEK_MEMBERS.slice(12).map((m, idx) => (
+                  <option key={idx + 12} value={idx + 12}>
+                    {m.name}
+                  </option>
+                ))}
+              </optgroup>
+
+              <optgroup label="✍️ Opsi Lain">
+                <option value="custom">Ketik Nama Sendiri / Tamu Kehormatan</option>
+              </optgroup>
             </select>
           </div>
 
-          <div>
-            <label className="block text-xs font-mono text-slate-300 mb-1.5">
-              Nomor Kursi (Seat ID)
-            </label>
-            <input
-              type="text"
-              value={seatNumber}
-              onChange={(e) => setSeatNumber(e.target.value)}
-              maxLength={8}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-sm focus:outline-none focus:border-amber-400 transition-colors"
-            />
+          {/* Custom Name input if 'custom' is selected */}
+          {isCustom && (
+            <motion.div
+              initial={{ opacity: 0, y: -5 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-3"
+            >
+              <div>
+                <label className="block text-xs font-mono text-slate-300 mb-1">
+                  Nama Lengkap / Panggilan
+                </label>
+                <input
+                  type="text"
+                  value={customName}
+                  onChange={(e) => setCustomName(e.target.value)}
+                  placeholder="Masukkan nama Anda..."
+                  maxLength={26}
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-mono text-slate-300 mb-1">
+                  Peran / Afiliasi
+                </label>
+                <input
+                  type="text"
+                  value={customRole}
+                  onChange={(e) => setCustomRole(e.target.value)}
+                  placeholder="Contoh: Demisioner Ristek / Tamu Fasilkom"
+                  maxLength={32}
+                  className="w-full px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-700 text-white font-mono text-xs focus:outline-none focus:border-amber-400"
+                />
+              </div>
+            </motion.div>
+          )}
+
+          {/* Read-only assigned Seat ID preview */}
+          <div className="p-3 rounded-xl bg-slate-900/90 border border-slate-800 flex items-center justify-between text-xs font-mono">
+            <span className="text-slate-400">Nomor Kursi Khusus:</span>
+            <span className="text-amber-400 font-bold text-sm bg-amber-400/10 px-2 py-0.5 rounded border border-amber-400/30">
+              {activeSeat}
+            </span>
           </div>
 
           <div className="pt-2">
@@ -131,7 +339,7 @@ export default function BoardingPassGenerator() {
               )}
             </button>
             <p className="text-[11px] text-slate-400 text-center mt-2 font-mono">
-              Tips: Screenshot area tiket di sebelah kanan pada layar HP
+              Tips: Pasang hasil screenshot tiket ini di IG Story dengan tag @himsi.ristek!
             </p>
           </div>
         </div>
@@ -139,9 +347,10 @@ export default function BoardingPassGenerator() {
         {/* Right: The Boarding Pass Card Preview (7 cols) */}
         <div className="lg:col-span-7 flex justify-center">
           <motion.div
+            key={activeName}
             initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
             className="w-full max-w-md bg-gradient-to-br from-[#0F172A] via-[#1E1B4B] to-[#0B0F19] text-white rounded-3xl border border-amber-400/40 shadow-2xl shadow-indigo-950/50 overflow-hidden relative"
           >
             {/* Holographic Header Bar */}
@@ -192,7 +401,7 @@ export default function BoardingPassGenerator() {
                     Passenger Name
                   </span>
                   <span className="font-bold font-mono text-sm text-white truncate block">
-                    {name || "DEAR STAF RISTEK"}
+                    {activeName}
                   </span>
                 </div>
 
@@ -201,7 +410,7 @@ export default function BoardingPassGenerator() {
                     Role / Position
                   </span>
                   <span className="font-semibold text-xs text-amber-300 truncate block">
-                    {role}
+                    {activeRole}
                   </span>
                 </div>
 
@@ -219,7 +428,7 @@ export default function BoardingPassGenerator() {
                     Seat & Gate
                   </span>
                   <span className="font-mono text-xs font-bold text-cyan-300 block">
-                    {seatNumber} &bull; GATE FASILKOM
+                    {activeSeat} &bull; GATE FASILKOM
                   </span>
                 </div>
               </div>
@@ -229,7 +438,7 @@ export default function BoardingPassGenerator() {
             <div className="p-6 bg-[#070B14]/80 flex items-center justify-between gap-4">
               <div className="flex-1 space-y-1">
                 <div className="text-[10px] font-mono text-slate-400 tracking-wider">
-                  STATUS: VERIFIED LIFETIME MEMBER
+                  STATUS: VERIFIED RISTEK MEMBER
                 </div>
                 {/* Simulated Barcode */}
                 <div className="h-9 flex items-center gap-1 opacity-80 overflow-hidden">
@@ -242,7 +451,7 @@ export default function BoardingPassGenerator() {
                   ))}
                 </div>
                 <div className="text-[9px] font-mono text-slate-500">
-                  REF: 2026-RISTEK-FAREWELL-PARTY
+                  REF: 2026-HIMSI-RISTEK-UNSRI
                 </div>
               </div>
 

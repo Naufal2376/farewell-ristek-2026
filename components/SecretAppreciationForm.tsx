@@ -4,78 +4,55 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Send,
-  MessageSquareHeart,
   Sparkles,
   Lock,
   CheckCircle2,
   RefreshCw,
-  Heart,
-  Smile,
+  User,
 } from "lucide-react";
 import confetti from "canvas-confetti";
 
 export interface SecretMessage {
   id: string;
   recipient: string;
-  category: string;
   message: string;
   createdAt: string;
   isRead?: boolean;
+  category?: string;
 }
 
 export const INITIAL_MESSAGES: SecretMessage[] = [
   {
     id: "msg-1",
     recipient: "Semua Anak Ristek 💙",
-    category: "Apresiasi Hangat 💙",
     message:
-      "Makasih banyak untuk 1 tahun yang luar biasa guys! Nggak nyangka kita bisa selesain semua proker tanpa ada yang tumbang. Kalian keluarga terbaik di Fasilkom!",
+      "Makasih banyak untuk 1 tahun yang luar biasa guys! Nggak nyangka kita bisa selesain web SI FEST dan semua proker tanpa ada yang tumbang. Kalian keluarga terbaik di Fasilkom!",
     createdAt: "2026-10-21T10:00:00.000Z",
     isRead: false,
   },
   {
     id: "msg-2",
-    recipient: "Kadep & Sekdep Ristek 👑",
-    category: "Apresiasi Hangat 💙",
+    recipient: "Kak Iqbal & Jovandra 👑",
     message:
-      "Terima kasih Kak Kadep dan Kak Sekdep yang selalu sabar bimbing kami saat panik deadline rapat pleno. Maaf kalau sering ngaret gmeet ya kak hehe.",
+      "Terima kasih Kak Kadep dan Kak Wakadep yang selalu sabar bimbing kami saat panik deadline rapat pleno. Maaf kalau divisi sering ngaret gmeet ya kak hehe.",
     createdAt: "2026-10-21T11:30:00.000Z",
     isRead: false,
   },
   {
     id: "msg-3",
-    recipient: "Divisi Web & Application 💻",
-    category: "Pesan Lucu / Roasting 🤣",
+    recipient: "Divisi PTI 💻",
     message:
-      "Buat anak-anak web dev, tolong setelah demis jam tidurnya dinormalkan ya. Jangan commit repo jam 3 pagi lagi, mata kalian udah mirip panda!",
+      "Buat anak-anak PTI, tolong setelah demis jam tidurnya dinormalkan ya. Jangan commit repo jam 3 pagi lagi, mata kalian udah mirip panda!",
     createdAt: "2026-10-21T14:15:00.000Z",
     isRead: false,
   },
 ];
 
 export default function SecretAppreciationForm() {
-  const [recipientOption, setRecipientOption] = useState("Semua Anak Ristek 💙");
-  const [customRecipient, setCustomRecipient] = useState("");
-  const [category, setCategory] = useState("Apresiasi Hangat 💙");
+  const [recipient, setRecipient] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [messageCount, setMessageCount] = useState(3);
-
-  const recipientOptions = [
-    "Semua Anak Ristek 💙",
-    "Kadep & Sekdep Ristek 👑",
-    "Divisi Web & Application 💻",
-    "Divisi Research & Technology 🔬",
-    "Divisi Creative & Media 🎨",
-    "Ketik Nama Staf Lainnya ✍️",
-  ];
-
-  const categories = [
-    { label: "Apresiasi Hangat 💙", color: "hover:border-blue-400" },
-    { label: "Kesan Pertama 🥺", color: "hover:border-pink-400" },
-    { label: "Pesan Lucu / Roasting 🤣", color: "hover:border-amber-400" },
-    { label: "Harapan Masa Depan ✨", color: "hover:border-emerald-400" },
-  ];
 
   // Sync count from localStorage
   useEffect(() => {
@@ -95,17 +72,11 @@ export default function SecretAppreciationForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim()) return;
-
-    const finalRecipient =
-      recipientOption === "Ketik Nama Staf Lainnya ✍️"
-        ? customRecipient.trim() || "Teman Ristek"
-        : recipientOption;
+    if (!recipient.trim() || !message.trim()) return;
 
     const newMessage: SecretMessage = {
       id: `msg-${Date.now()}`,
-      recipient: finalRecipient,
-      category,
+      recipient: recipient.trim(),
       message: message.trim(),
       createdAt: new Date().toISOString(),
       isRead: false,
@@ -133,8 +104,8 @@ export default function SecretAppreciationForm() {
   };
 
   const handleReset = () => {
+    setRecipient("");
     setMessage("");
-    setCustomRecipient("");
     setIsSubmitted(false);
   };
 
@@ -151,7 +122,8 @@ export default function SecretAppreciationForm() {
         </h2>
         <p className="mt-3 text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
           Tuliskan pesan, terima kasih, unek-unek kocak, atau kesan terpendammu
-          tanpa nama pengirim. Pesan ini akan dibacakan di sesi khusus jam 11.00!
+          tanpa nama pengirim. Bebas ditujukan untuk siapa saja dan akan dibacakan
+          di sesi jam 11.00!
         </p>
 
         {/* Counter vault pill */}
@@ -179,64 +151,23 @@ export default function SecretAppreciationForm() {
               onSubmit={handleSubmit}
               className="space-y-6 relative z-10"
             >
-              {/* Recipient Dropdown */}
+              {/* Recipient Input (Free Form Text) */}
               <div>
                 <label className="block text-xs font-mono font-semibold text-slate-300 mb-2">
-                  1. Untuk Siapa Pesan Ini? (Recipient)
+                  1. Untuk Siapa Pesan Ini? (Bebas Siapa Saja)
                 </label>
-                <select
-                  value={recipientOption}
-                  onChange={(e) => setRecipientOption(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-pink-400 transition-colors cursor-pointer"
-                >
-                  {recipientOptions.map((opt, i) => (
-                    <option key={i} value={opt} className="bg-slate-900 text-white">
-                      {opt}
-                    </option>
-                  ))}
-                </select>
-
-                {recipientOption === "Ketik Nama Staf Lainnya ✍️" && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="mt-3"
-                  >
-                    <input
-                      type="text"
-                      value={customRecipient}
-                      onChange={(e) => setCustomRecipient(e.target.value)}
-                      placeholder="Masukkan nama staf atau nama panggilan..."
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-pink-400"
-                      required
-                    />
-                  </motion.div>
-                )}
-              </div>
-
-              {/* Mood Category Pills */}
-              <div>
-                <label className="block text-xs font-mono font-semibold text-slate-300 mb-2">
-                  2. Kategori / Mood Pesan
-                </label>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-                  {categories.map((cat, i) => {
-                    const isSelected = category === cat.label;
-                    return (
-                      <button
-                        type="button"
-                        key={i}
-                        onClick={() => setCategory(cat.label)}
-                        className={`p-2.5 rounded-xl border text-xs font-medium transition-all text-center cursor-pointer ${
-                          isSelected
-                            ? "bg-pink-950/60 border-pink-400 text-pink-200 shadow-md shadow-pink-950/40"
-                            : "bg-slate-900/80 border-slate-800 text-slate-300 hover:border-slate-700"
-                        }`}
-                      >
-                        {cat.label}
-                      </button>
-                    );
-                  })}
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+                    <User className="w-4 h-4" />
+                  </div>
+                  <input
+                    type="text"
+                    value={recipient}
+                    onChange={(e) => setRecipient(e.target.value)}
+                    placeholder="Contoh: Kak Iqbal, Owen, Fahri, Callista, atau Semua Anak Ristek"
+                    required
+                    className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-pink-400 transition-colors placeholder:text-slate-500 font-sans"
+                  />
                 </div>
               </div>
 
@@ -244,7 +175,7 @@ export default function SecretAppreciationForm() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-xs font-mono font-semibold text-slate-300">
-                    3. Isi Pesan / Kesan (100% Rahasia)
+                    2. Isi Pesan / Kesan (100% Rahasia)
                   </label>
                   <span className="text-[11px] font-mono text-slate-500">
                     {message.length}/1000 karakter
@@ -265,7 +196,7 @@ export default function SecretAppreciationForm() {
               <div className="flex items-center gap-2 text-xs font-mono text-slate-400 bg-slate-900/50 p-3 rounded-xl border border-slate-800/80">
                 <Lock className="w-4 h-4 text-emerald-400 shrink-0" />
                 <span>
-                  Tidak ada identitas, nama, atau data pribadi yang disimpan. Aman & terenkripsi cinta!
+                  Tidak ada identitas, nama pengirim, atau data pribadi yang disimpan. 100% anonim!
                 </span>
               </div>
 

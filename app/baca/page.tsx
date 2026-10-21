@@ -9,11 +9,9 @@ import {
   ChevronRight,
   Maximize2,
   Minimize2,
-  Sparkles,
   ArrowLeft,
   CheckCircle,
-  Eye,
-  Filter,
+  Search,
   Lock,
 } from "lucide-react";
 import confetti from "canvas-confetti";
@@ -22,7 +20,7 @@ import { SecretMessage, INITIAL_MESSAGES } from "@/components/SecretAppreciation
 export default function LiveReadPage() {
   const [messages, setMessages] = useState<SecretMessage[]>(INITIAL_MESSAGES);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedFilter, setSelectedFilter] = useState("Semua");
+  const [searchQuery, setSearchQuery] = useState("");
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Load from localStorage
@@ -41,8 +39,8 @@ export default function LiveReadPage() {
   }, []);
 
   const filteredMessages = messages.filter((m) => {
-    if (selectedFilter === "Semua") return true;
-    return m.recipient.toLowerCase().includes(selectedFilter.toLowerCase());
+    if (!searchQuery.trim()) return true;
+    return m.recipient.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
   const currentMessage = filteredMessages[currentIndex] || null;
@@ -130,24 +128,30 @@ export default function LiveReadPage() {
 
         {/* Presenter controls */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Recipient Filter */}
+          {/* Recipient Search Filter */}
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-mono text-slate-300">
-            <Filter className="w-3.5 h-3.5 text-amber-400" />
-            <select
-              value={selectedFilter}
+            <Search className="w-3.5 h-3.5 text-amber-400" />
+            <input
+              type="text"
+              value={searchQuery}
               onChange={(e) => {
-                setSelectedFilter(e.target.value);
+                setSearchQuery(e.target.value);
                 setCurrentIndex(0);
               }}
-              className="bg-transparent text-white outline-none cursor-pointer"
-            >
-              <option value="Semua" className="bg-slate-900">Filter: Semua Penerima</option>
-              <option value="Semua Anak Ristek" className="bg-slate-900">Semua Anak Ristek</option>
-              <option value="Kadep" className="bg-slate-900">Kadep & Sekdep</option>
-              <option value="Web" className="bg-slate-900">Divisi Web & App</option>
-              <option value="Research" className="bg-slate-900">Divisi Research & Tech</option>
-              <option value="Creative" className="bg-slate-900">Divisi Creative & Media</option>
-            </select>
+              placeholder="Cari penerima..."
+              className="bg-transparent text-white placeholder:text-slate-500 outline-none w-28 sm:w-40 font-mono text-xs"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => {
+                  setSearchQuery("");
+                  setCurrentIndex(0);
+                }}
+                className="text-slate-400 hover:text-white text-xs ml-1"
+              >
+                &times;
+              </button>
+            )}
           </div>
 
           {/* Fullscreen Button */}
@@ -166,7 +170,7 @@ export default function LiveReadPage() {
         {filteredMessages.length === 0 ? (
           <div className="text-center p-12 bg-slate-900/60 rounded-3xl border border-slate-800">
             <p className="text-slate-400 font-mono text-sm">
-              Tidak ada pesan untuk filter &quot;{selectedFilter}&quot;.
+              Tidak ada pesan untuk pencarian &quot;{searchQuery}&quot;.
             </p>
           </div>
         ) : (
@@ -180,11 +184,8 @@ export default function LiveReadPage() {
                 transition={{ duration: 0.35 }}
                 className="w-full bg-gradient-to-br from-[#0F172E] via-[#0E1528] to-[#0A0E1C] border-2 border-amber-400/50 rounded-3xl p-8 sm:p-14 shadow-2xl shadow-blue-950/60 relative overflow-hidden"
               >
-                {/* Decorative background stamps */}
+                {/* Decorative background read toggle */}
                 <div className="absolute top-6 right-6 flex items-center gap-2">
-                  <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-pink-500/20 text-pink-300 border border-pink-500/40">
-                    {currentMessage.category}
-                  </span>
                   <button
                     onClick={toggleReadStatus}
                     className={`px-3 py-1 rounded-full text-xs font-mono flex items-center gap-1.5 transition-colors cursor-pointer border ${
