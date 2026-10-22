@@ -114,23 +114,14 @@ export default function MemoriesFilmStrip() {
         </SectionHeading>
       </div>
 
-      {/* Film Reel Baris 1 (Bergerak ke Kiri via Framer Motion GPU) */}
+      {/* Film Reel Baris 1 (Bergerak ke Kiri via CSS GPU) */}
       <div className="relative w-full overflow-hidden select-none my-3">
-        <motion.div
-          animate={{ x: ["0%", "-50%"] }}
-          transition={{
-            repeat: Infinity,
-            ease: "linear",
-            duration: 45,
-          }}
-          className="flex gap-4 w-max"
-        >
+        <div className="flex gap-4 w-max animate-film-left">
           {photosRow1.map((item, idx) => (
-            <motion.div
+            <div
               key={`row1-${item.id}-${idx}`}
-              whileHover={{ scale: 1.03 }}
               onClick={() => setSelectedPhoto(item)}
-              className="relative w-64 sm:w-72 shrink-0 rounded-2xl overflow-hidden bg-black/95 border-2 border-surface-2 shadow-xl shadow-black/60 cursor-pointer transition-transform group"
+              className="relative w-64 sm:w-72 shrink-0 rounded-2xl overflow-hidden bg-black/95 border-2 border-surface-2 shadow-xl shadow-black/60 cursor-pointer transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] group"
             >
               {/* Lubang sprocket atas */}
               <SprocketHoles />
@@ -161,28 +152,19 @@ export default function MemoriesFilmStrip() {
 
               {/* Lubang sprocket bawah */}
               <SprocketHoles />
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
-      {/* Film Reel Baris 2 (Bergerak ke Kanan via Framer Motion GPU) */}
+      {/* Film Reel Baris 2 (Bergerak ke Kanan via CSS GPU) */}
       <div className="relative w-full overflow-hidden select-none my-3">
-        <motion.div
-          animate={{ x: ["-50%", "0%"] }}
-          transition={{
-            repeat: Infinity,
-            ease: "linear",
-            duration: 50,
-          }}
-          className="flex gap-4 w-max"
-        >
+        <div className="flex gap-4 w-max animate-film-right">
           {photosRow2.map((item, idx) => (
-            <motion.div
+            <div
               key={`row2-${item.id}-${idx}`}
-              whileHover={{ scale: 1.03 }}
               onClick={() => setSelectedPhoto(item)}
-              className="relative w-64 sm:w-72 shrink-0 rounded-2xl overflow-hidden bg-black/95 border-2 border-surface-2 shadow-xl shadow-black/60 cursor-pointer transition-transform group"
+              className="relative w-64 sm:w-72 shrink-0 rounded-2xl overflow-hidden bg-black/95 border-2 border-surface-2 shadow-xl shadow-black/60 cursor-pointer transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] group"
             >
               {/* Lubang sprocket atas */}
               <SprocketHoles />
@@ -213,9 +195,9 @@ export default function MemoriesFilmStrip() {
 
               {/* Lubang sprocket bawah */}
               <SprocketHoles />
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Lightbox Modal Interaktif (Hanya Foto Murni & Tombol Tutup/Navigasi) */}

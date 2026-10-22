@@ -97,26 +97,45 @@ body {
 }
 
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 .animate-marquee {
   animation: marquee 40s linear infinite;
+  will-change: transform;
 }
 .animate-marquee:hover {
   animation-play-state: paused;
 }
 
 @keyframes marquee-reverse {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0); }
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 
 .animate-marquee-reverse {
   animation: marquee-reverse 45s linear infinite;
+  will-change: transform;
 }
 .animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
+/* Animasi klise film bergerak halus dan stabil di mobile & desktop */
+.animate-film-left {
+  animation: marquee 50s linear infinite;
+  will-change: transform;
+}
+.animate-film-left:hover {
+  animation-play-state: paused;
+}
+
+.animate-film-right {
+  animation: marquee-reverse 55s linear infinite;
+  will-change: transform;
+}
+.animate-film-right:hover {
   animation-play-state: paused;
 }
 
@@ -135,9 +154,16 @@ body {
   }
   .text-gold-shine,
   .ring-orbit::before,
-  .animate-marquee,
-  .animate-marquee-reverse,
   .animate-blink {
     animation: none;
+  }
+  /* Tetap biarkan marquee bergerak dengan santai daripada macet total */
+  .animate-marquee,
+  .animate-film-left {
+    animation-duration: 90s;
+  }
+  .animate-marquee-reverse,
+  .animate-film-right {
+    animation-duration: 100s;
   }
 }
