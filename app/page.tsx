@@ -33,7 +33,7 @@ export default function Home() {
         <AudioPlayer autoPlayTrigger={autoPlayAudio} />
         <Navbar />
 
-        <main id="top" className="flex-1 flex flex-col">
+        <main id="top" className="flex-1 flex flex-col pt-16 sm:pt-20">
           <HeroCountdown />
           <MemberMarquee />
           <RistekWrapped />

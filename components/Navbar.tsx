@@ -24,10 +24,12 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-40 w-full px-3 sm:px-6 pt-3">
+    <nav className="fixed top-0 left-0 right-0 z-40 w-full px-3 sm:px-6 pt-3 pointer-events-none">
       <div
-        className={`max-w-6xl mx-auto rounded-2xl transition-all duration-300 ${
-          scrolled ? "glass bg-bg/70 shadow-lg shadow-black/30" : "border border-transparent"
+        className={`max-w-6xl mx-auto rounded-2xl pointer-events-auto transition-all duration-300 ${
+          scrolled || mobileMenuOpen
+            ? "glass bg-bg/85 shadow-lg shadow-black/40 border border-line-strong backdrop-blur-md"
+            : "glass bg-bg/60 border border-line/40 backdrop-blur-sm"
         }`}
       >
         <div className="h-14 px-3 sm:px-4 flex items-center justify-between gap-4">
