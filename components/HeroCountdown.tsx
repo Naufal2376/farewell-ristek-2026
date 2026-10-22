@@ -178,7 +178,7 @@ export default function HeroCountdown() {
                     <span className="block text-xs text-muted">Formasi lengkap</span>
                   </span>
                 </span>
-                <span className="font-mono text-xs text-gold">23 pengurus</span>
+                <span className="font-mono text-xs text-gold">21 pengurus</span>
               </figcaption>
             </div>
           </figure>

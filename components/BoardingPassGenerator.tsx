@@ -1,10 +1,12 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Plane } from "lucide-react";
+import { Plane, Download, Loader2, Check } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
+import { toPng } from "html-to-image";
+import confetti from "canvas-confetti";
 
 export interface RistekMember2026 {
   name: string;
@@ -53,7 +55,7 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
   // --- 💻 Divisi PTI ---
   {
     name: "Muhammad Alfin Alfian",
-    role: "Koordinator Divisi PTI",
+    role: "Koordinator Divisi PTI · Staf PSDM",
     division: "pti",
     divisionName: "Divisi PTI",
     instagram: "@alfinalfian31",
@@ -119,10 +121,10 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
   // --- 🔬 Divisi Akademik ---
   {
     name: "Amiratul Mufidah",
-    role: "Koordinator Divisi Akademik",
+    role: "Koordinator Divisi Akademik · Staf PSDM",
     division: "akademik",
     divisionName: "Divisi Akademik",
-    instagram: "@miwwh_",
+    instagram: "@amifdha_",
     seat: "AKD-11",
   },
   {
@@ -242,6 +244,9 @@ export default function BoardingPassGenerator() {
   const [customRole, setCustomRole] = useState("Tamu Farewell Ristek 2026");
   const [customIg, setCustomIg] = useState("");
   const [customSeatNum, setCustomSeatNum] = useState<number>(18);
+  const ticketRef = useRef<HTMLDivElement>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [downloadSuccess, setDownloadSuccess] = useState(false);
 
   const member = RISTEK_MEMBERS_2026[selectedIndex];
   const activeName = isCustom ? customName || "Nama kamu" : member.name;
@@ -254,6 +259,77 @@ export default function BoardingPassGenerator() {
     () => (isCustom ? `${getSeatPrefix(customDivision)}-${customSeatNum}` : member.seat),
     [isCustom, customDivision, customSeatNum, member.seat]
   );
+
+  const handleDownloadTicket = async () => {
+    if (!ticketRef.current || isDownloading) return;
+    setIsDownloading(true);
+    setDownloadSuccess(false);
+
+    try {
+      await new Promise((r) => setTimeout(r, 120));
+
+      const dataUrl = await toPng(ticketRef.current, {
+        pixelRatio: 3,
+        cacheBust: true,
+        backgroundColor: "#070B14",
+      });
+
+      const cleanName = activeName
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
+      const filename = `tiket-farewell-ristek-${cleanName || "boarding-pass"}.png`;
+
+      let shared = false;
+      if (typeof navigator !== "undefined" && typeof navigator.canShare === "function") {
+        try {
+          const res = await fetch(dataUrl);
+          const blob = await res.blob();
+          const file = new File([blob], filename, { type: "image/png" });
+
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              files: [file],
+              title: "Boarding Pass Farewell Ristek 2026",
+              text: `Boarding Pass Farewell Ristek HIMSI 2026 - ${activeName}`,
+            });
+            shared = true;
+          }
+        } catch (shareErr) {
+          if ((shareErr as Error).name === "AbortError") {
+            setIsDownloading(false);
+            return;
+          }
+        }
+      }
+
+      if (!shared) {
+        const link = document.createElement("a");
+        link.download = filename;
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
+
+      setDownloadSuccess(true);
+      setTimeout(() => setDownloadSuccess(false), 3500);
+
+      try {
+        confetti({
+          particleCount: 60,
+          spread: 70,
+          origin: { y: 0.7 },
+          colors: ["#fbbf24", "#fde68a", "#60a5fa"],
+        });
+      } catch {}
+    } catch (err) {
+      console.error("Gagal mendownload tiket:", err);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   const groups: { label: string; division: Division }[] = [
     { label: "Pimpinan RISTEK", division: "pimpinan" },
@@ -356,7 +432,7 @@ export default function BoardingPassGenerator() {
           </div>
 
           {/* Tiket */}
-          <div className="lg:col-span-7 flex justify-center">
+          <div className="lg:col-span-7 flex flex-col items-center">
             <motion.div
               key={isCustom ? "custom" : member.name}
               initial={{ opacity: 0, y: 10, rotateX: 8 }}
@@ -364,13 +440,16 @@ export default function BoardingPassGenerator() {
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               className="ring-orbit w-full max-w-xl rounded-3xl"
             >
-              <div className="relative flex flex-col sm:flex-row rounded-3xl overflow-hidden bg-gradient-to-br from-surface-2 via-surface to-bg border border-line shadow-2xl shadow-black/50">
+              <div
+                ref={ticketRef}
+                className="relative flex flex-col sm:flex-row rounded-3xl overflow-hidden bg-gradient-to-br from-surface-2 via-surface to-bg border border-line shadow-2xl shadow-black/50"
+              >
                 <div aria-hidden="true" className="absolute -top-20 -left-10 w-64 h-64 rounded-full bg-gold/10 blur-3xl" />
 
                 <div className="relative flex-1 p-6 sm:p-7">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Image src="/logo.png" alt="" width={34} height={34} />
+                      <Image src="/logo.png" alt="" width={34} height={34} unoptimized />
                       <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted">Boarding pass</span>
                     </div>
                     <span className="font-mono text-[11px] text-muted tabular-nums">24.10.2026</span>
@@ -428,6 +507,36 @@ export default function BoardingPassGenerator() {
                 </div>
               </div>
             </motion.div>
+
+            {/* Tombol Download Tiket untuk Story IG */}
+            <div className="mt-5 w-full max-w-xl">
+              <button
+                type="button"
+                onClick={handleDownloadTicket}
+                disabled={isDownloading}
+                className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-gold via-gold-shine to-gold text-[#1c1300] font-bold text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-xl shadow-gold/20 hover:brightness-110 active:scale-[0.98] transition-all cursor-pointer disabled:opacity-60"
+              >
+                {isDownloading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Membuat gambar tiket...</span>
+                  </>
+                ) : downloadSuccess ? (
+                  <>
+                    <Check className="w-5 h-5 text-emerald-900" />
+                    <span>Tiket Tersimpan! Siap di-Story 📸</span>
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-5 h-5 shrink-0" />
+                    <span>Download Tiket (Story IG)</span>
+                  </>
+                )}
+              </button>
+              <p className="mt-2 text-center text-xs text-muted font-mono">
+                Simpan tiket ke galeri lalu upload ke Instagram Story · Jangan lupa tag <span className="text-gold font-semibold">@himsi.ristek</span>!
+              </p>
+            </div>
           </div>
         </div>
       </div>
