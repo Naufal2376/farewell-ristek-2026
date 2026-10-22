@@ -24,6 +24,21 @@ export const KLISE_PHOTOS: KlisePhoto[] = [
   { id: 9, src: "/galeri/klise/foto-09.jpg", frameCode: "EXP 09A" },
   { id: 10, src: "/galeri/klise/foto-10.jpg", frameCode: "EXP 10A" },
   { id: 11, src: "/galeri/klise/foto-11.jpg", frameCode: "EXP 11A" },
+  { id: 12, src: "/galeri/klise/foto-12.jpg", frameCode: "EXP 12A" },
+  { id: 13, src: "/galeri/klise/foto-13.jpg", frameCode: "EXP 13A" },
+  { id: 14, src: "/galeri/klise/foto-14.jpg", frameCode: "EXP 14A" },
+  { id: 15, src: "/galeri/klise/foto-15.jpg", frameCode: "EXP 15A" },
+  { id: 16, src: "/galeri/klise/foto-16.jpg", frameCode: "EXP 16A" },
+  { id: 17, src: "/galeri/klise/foto-17.jpg", frameCode: "EXP 17A" },
+  { id: 18, src: "/galeri/klise/foto-18.jpg", frameCode: "EXP 18A" },
+  { id: 19, src: "/galeri/klise/foto-19.jpg", frameCode: "EXP 19A" },
+  { id: 20, src: "/galeri/klise/foto-20.jpg", frameCode: "EXP 20A" },
+  { id: 21, src: "/galeri/klise/foto-21.jpg", frameCode: "EXP 21A" },
+  { id: 22, src: "/galeri/klise/foto-22.jpg", frameCode: "EXP 22A" },
+  { id: 23, src: "/galeri/klise/foto-23.jpg", frameCode: "EXP 23A" },
+  { id: 24, src: "/galeri/klise/foto-24.jpg", frameCode: "EXP 24A" },
+  { id: 25, src: "/galeri/klise/foto-25.jpg", frameCode: "EXP 25A" },
+  { id: 26, src: "/galeri/klise/foto-26.jpg", frameCode: "EXP 26A" },
 ];
 
 // Lubang sproket khas klise film 35mm
@@ -43,9 +58,12 @@ function SprocketHoles() {
 export default function MemoriesFilmStrip() {
   const [selectedPhoto, setSelectedPhoto] = useState<KlisePhoto | null>(null);
 
-  // Gandakan array agar loop animasi mulus tanpa jeda
-  const photosRow1 = [...KLISE_PHOTOS, ...KLISE_PHOTOS];
-  const photosRow2 = [...KLISE_PHOTOS.slice(5), ...KLISE_PHOTOS.slice(0, 5), ...KLISE_PHOTOS];
+  // Bagi 26 foto ke 2 baris terpisah agar kedua baris menampilkan foto-foto yang berbeda
+  const row1Items = KLISE_PHOTOS.slice(0, 13);
+  const row2Items = KLISE_PHOTOS.slice(13);
+
+  const photosRow1 = [...row1Items, ...row1Items];
+  const photosRow2 = [...row2Items, ...row2Items];
 
   const handlePrev = useCallback(() => {
     if (!selectedPhoto) return;
@@ -103,7 +121,7 @@ export default function MemoriesFilmStrip() {
           transition={{
             repeat: Infinity,
             ease: "linear",
-            duration: 28,
+            duration: 45,
           }}
           className="flex gap-4 w-max"
         >
@@ -155,7 +173,7 @@ export default function MemoriesFilmStrip() {
           transition={{
             repeat: Infinity,
             ease: "linear",
-            duration: 32,
+            duration: 50,
           }}
           className="flex gap-4 w-max"
         >

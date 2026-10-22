@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowUpRight, Check, MapPin } from "lucide-react";
+import { Check, CalendarDays, Clock, Sparkles } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Reveal from "@/components/ui/Reveal";
@@ -15,69 +15,79 @@ interface ScheduleItem {
 
 const schedule: ScheduleItem[] = [
   {
-    time: "09.00",
-    title: "Datang & ngopi pagi",
-    description: "Presensi, ngopi santai, temu kangen.",
+    time: "09.00 – 09.30",
+    title: "Kumpul dan persiapan",
+    description: "Kedatangan seluruh anggota RISTEK, presensi, dan persiapan pembukaan acara.",
   },
   {
-    time: "09.30",
-    title: "Pembukaan & sambutan",
-    description: "Sambutan dari Kahim HIMSI dan Kepala Departemen Ristek 2026.",
+    time: "09.30 – 10.00",
+    title: "Ngobrol santai dan ice breaking",
+    description: "Mencairkan suasana, ngobrol santai, dan games ice breaking seru.",
   },
   {
-    time: "10.15",
-    title: "Kilas balik & mini games",
-    description: "Nonton video satu periode, lalu kuis inside jokes seputar proker.",
+    time: "10.00 – 11.00",
+    title: "Games seru bareng",
+    description: "Berbagai mini games kebersamaan yang seru bareng seluruh keluarga Ristek.",
   },
   {
-    time: "11.00",
-    title: "Pembacaan secret appreciation",
-    description: "Pesan anonim dari form di bawah dibacakan satu per satu di proyektor. Siapkan tisu.",
+    time: "11.00 – 11.30",
+    title: "Appreciation time",
+    description: "Sesi pembacaan secret appreciation dan pesan anonim yang masuk di website.",
     highlight: "Isi form sebelum Jumat malam",
   },
   {
-    time: "11.30",
-    title: "Ishoma & makan siang",
-    description: "Salat Zuhur berjamaah, lalu makan siang prasmanan bareng.",
+    time: "11.30 – 12.00",
+    title: "Sharing cerita dan kenangan selama di RISTEK",
+    description: "Kilas balik pengalaman suka duka, keluh kesah, dan cerita tak terlupakan satu periode.",
   },
   {
-    time: "13.00",
-    title: "Hall of Fame & awarding",
-    description: "Plakat apresiasi dan pengumuman nominasi paling kocak satu periode.",
+    time: "12.00 – 13.00",
+    title: "ISHOMA",
+    description: "Istirahat, salat berjamaah, dan makan siang bersama.",
   },
   {
-    time: "13.45",
-    title: "Tukar surat & kado",
-    description: "Saling tukar surat deskripsi fisik dan kado kecil yang dibawa dari rumah.",
-    highlight: "Bawa dari rumah",
+    time: "13.00 – 13.45",
+    title: "Games tebak-tebakan tentang anggota RISTEK",
+    description: "Kuis seru seputar fakta unik, kebiasaan lucu, dan inside jokes anak Ristek.",
   },
   {
-    time: "14.30",
-    title: "Foto bersama & penutupan",
-    description: "Foto angkatan, foto per divisi, lalu salam penutup kepengurusan.",
+    time: "13.45 – 14.30",
+    title: "Tukar surat desc atau hadiah kecil (tukar kado max 10 rb)",
+    description: "Saling tukar surat deskripsi rekan kerja dan kado kecil yang dibawa dari rumah.",
+    highlight: "Bawa dari rumah · Maks 10 rb",
+  },
+  {
+    time: "14.30 – 15.00",
+    title: "Sesi foto dan video TikTok",
+    description: "Foto angkatan, foto per divisi, pose bebas, dan bikin konten video TikTok kenangan.",
+  },
+  {
+    time: "15.00 – 15.05",
+    title: "Closing, pesan terakhir, dan doa bersama",
+    description: "Pesan penutup kepengurusan dari pimpinan, doa bersama, dan salam perpisahan resmi.",
   },
 ];
 
 const checklistItems = [
   {
     id: "surat",
-    label: "Surat apresiasi / deskripsi fisik",
-    sub: "Tulis tangan atau cetak, buat rekan Ristek.",
+    label: "Surat deskripsi / apresiasi",
+    sub: "Tulis tangan atau cetak untuk rekan RISTEK.",
   },
   {
     id: "kado",
-    label: "Kado untuk tukar kado",
-    sub: "Nominal terjangkau, dikumpulkan di pintu masuk.",
+    label: "Hadiah tukar kado (maks. Rp10.000)",
+    sub: "Kado kecil yang dibungkus rapi dari rumah.",
   },
   {
     id: "pesan",
-    label: "Sudah isi secret appreciation",
-    sub: "Paling lambat Jumat malam.",
+    label: "Sudah kirim secret appreciation",
+    sub: "Kirim pesan lewat form di website sebelum acara.",
   },
   {
     id: "dresscode",
-    label: "Dresscode batik / smart casual",
-    sub: "Rapi dan nyaman, buat sesi foto.",
+    label: "Outfit rapi & nyaman",
+    sub: "Siap buat sesi foto bersama & video TikTok.",
   },
 ];
 
@@ -109,39 +119,44 @@ export default function TimelineRundown() {
   return (
     <section id="rundown" className="px-4 sm:px-6 py-20 sm:py-28">
       <div className="max-w-6xl mx-auto">
-        <SectionHeading index="02" label="Rundown" title="Lokasi & rundown acara">
-          Sabtu, 24 Oktober 2026. Dua sesi bertanda emas butuh persiapan dari rumah.
+        <SectionHeading index="02" label="Rundown" title="Rundown acara">
+          Sabtu, 24 Oktober 2026 · 09.00–15.05 WIB. Dua sesi bertanda emas butuh persiapan dari rumah.
         </SectionHeading>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-          {/* Lokasi & checklist */}
+          {/* Detail acara & checklist */}
           <aside className="lg:col-span-5 space-y-5 lg:sticky lg:top-24">
             <Reveal>
               <SpotlightCard className="p-5 sm:p-6">
-                <h3 className="flex items-center gap-2 font-bold text-lg">
-                  <MapPin className="w-5 h-5 text-gold" />
-                  Lokasi
-                </h3>
-                <p className="mt-3 font-semibold">Auditorium / Ruang Rapat Fasilkom Unsri</p>
-                <p className="text-sm text-muted">Fakultas Ilmu Komputer, Universitas Sriwijaya, Indralaya</p>
-                <div className="mt-4 aspect-[16/10] w-full overflow-hidden rounded-xl border border-line">
-                  <iframe
-                    title="Peta Fasilkom Unsri Indralaya"
-                    src="https://maps.google.com/maps?q=-3.219504,104.6511614&z=17&output=embed"
-                    className="w-full h-full invert-[0.92] hue-rotate-180 saturate-[0.6] contrast-[0.9]"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
+                <div className="flex items-center gap-2 text-gold">
+                  <Sparkles className="w-5 h-5" />
+                  <h3 className="font-bold text-lg text-fg">Detail Acara</h3>
                 </div>
-                <a
-                  href="https://www.google.com/maps/search/?api=1&query=-3.219504,104.6511614"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-4 flex items-center justify-center gap-2 w-full py-2.5 rounded-xl border border-line hover:border-gold/50 hover:text-gold text-sm font-medium transition-colors"
-                >
-                  Buka rute di Google Maps
-                  <ArrowUpRight className="w-4 h-4" />
-                </a>
+                <p className="mt-2 text-xl font-extrabold text-gold-shine">
+                  FAREWELL PARTY DEPARTEMEN RISTEK 🫶🏻
+                </p>
+
+                <div className="mt-5 space-y-3 font-mono text-sm">
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-surface-2/60 border border-line">
+                    <CalendarDays className="w-4 h-4 text-gold shrink-0" />
+                    <span className="font-semibold text-fg">Sabtu, 24 Oktober 2026</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-surface-2/60 border border-line">
+                    <Clock className="w-4 h-4 text-gold shrink-0" />
+                    <span className="font-semibold text-fg">09.00 – 15.05 WIB</span>
+                  </div>
+                </div>
+
+                <div className="mt-5 pt-4 border-t border-line text-xs text-muted leading-relaxed space-y-2">
+                  <p className="flex items-start gap-2">
+                    <span className="text-gold">✦</span>
+                    <span>Jangan lupa siapkan surat deskripsi dan kado kecil (maks. 10 rb) dari rumah.</span>
+                  </p>
+                  <p className="flex items-start gap-2">
+                    <span className="text-gold">✦</span>
+                    <span>Info detail titik temu koordinasi dibagikan panitia di grup WhatsApp internal Ristek.</span>
+                  </p>
+                </div>
               </SpotlightCard>
             </Reveal>
 

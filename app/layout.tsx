@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Farewell Ristek 2026",
-    description: "Sabtu, 24 Oktober 2026 · Fasilkom Unsri Indralaya",
+    description: "Sabtu, 24 Oktober 2026 · 09.00–15.05 WIB",
     type: "website",
     images: [
       {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Farewell Ristek 2026",
-    description: "Sabtu, 24 Oktober 2026 · Fasilkom Unsri Indralaya",
+    description: "Sabtu, 24 Oktober 2026 · 09.00–15.05 WIB",
     images: ["/hero.jpeg"],
   },
 };

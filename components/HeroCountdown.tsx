@@ -3,7 +3,7 @@
 import React, { useSyncExternalStore, useMemo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, CalendarDays, Clock, MapPin } from "lucide-react";
+import { ArrowRight, CalendarDays, Clock } from "lucide-react";
 
 // Sabtu, 24 Oktober 2026 pukul 09.00 WIB (UTC+7)
 const TARGET = new Date("2026-10-24T09:00:00+07:00").getTime();
@@ -42,8 +42,7 @@ function RollingDigit({ d }: { d: string }) {
 
 const meta = [
   { icon: CalendarDays, text: "Sabtu, 24 Okt 2026" },
-  { icon: Clock, text: "09.00 – 15.00 WIB" },
-  { icon: MapPin, text: "Fasilkom Unsri, Indralaya" },
+  { icon: Clock, text: "09.00 – 15.05 WIB" },
 ];
 
 export default function HeroCountdown() {
@@ -98,9 +97,9 @@ export default function HeroCountdown() {
           </h1>
 
           <p className="mt-6 text-lg text-muted leading-relaxed max-w-xl mx-auto lg:mx-0">
-            Satu periode penuh rapat malam di Discord, kodingan yang akhirnya jalan,
-            dan gorengan patungan di kantin Fasilkom. Ayo rayakan penutupnya bareng
-            seluruh keluarga Ristek.
+            Satu periode penuh cerita, dari rapat, deadline, momen random dan masih banyak lagi.
+            Sebelum resmi demis dan sibuk sama jalan masing-masing, yuk kumpul sekali lagi buat
+            seru-seruan dan bikin kenangan terakhir bareng keluarga Ristek! 💛
           </p>
 
           <ul className="mt-7 flex flex-wrap justify-center lg:justify-start gap-2">

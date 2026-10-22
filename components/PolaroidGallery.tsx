@@ -68,21 +68,14 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
   },
   {
     id: 6,
-    title: "Bukber akbar HIMSI",
-    tag: "Bukber",
+    title: "KRBB (Kajian Rohani & Bukber HIMSI)",
+    tag: "Proker HIMSI 02",
     month: "April",
-    photo: "/galeri/bukber-himsi.jpg",
-    caption: "Satu himpunan kumpul: staf, BPH, dosen pembina, dan demisioner SI lintas angkatan.",
+    photo: "/galeri/krbb.jpg",
+    caption: "Kajian rohani dan buka puasa bersama seluruh keluarga besar HIMSI Fasilkom Unsri.",
   },
   {
     id: 7,
-    title: "KRBB",
-    tag: "Proker HIMSI 02",
-    month: "April",
-    caption: "Kajian rohani lalu bakti sosial berbagi paket sembako ke warga sekitar.",
-  },
-  {
-    id: 8,
     title: "Lebaran & halal bihalal",
     tag: "Lebaran",
     month: "April",
@@ -90,7 +83,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Spam stiker maaf lahir batin di grup, pamer baju lebaran, lalu halal bihalal sepulang libur.",
   },
   {
-    id: 9,
+    id: 8,
     title: "Seminar Job Finding",
     tag: "Proker HIMSI 03",
     month: "Mei",
@@ -98,14 +91,15 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Seminar karier, personal branding, dan networking bersama praktisi industri IT.",
   },
   {
-    id: 10,
+    id: 9,
     title: "UX Exhibition",
     tag: "Proker HIMSI 04",
     month: "Mei",
+    photo: "/galeri/ux-exhib.jpg",
     caption: "Proker kebanggaan Ristek: pelatihan UI/UX dan pameran prototipe aplikasi.",
   },
   {
-    id: 11,
+    id: 10,
     title: "Evaluasi 3 bulan",
     tag: "Evaluasi",
     month: "Mei",
@@ -113,7 +107,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Review triwulan pertama. Jujur soal kendala, lalu saling menyemangati.",
   },
   {
-    id: 12,
+    id: 11,
     title: "LADDER",
     tag: "Upgrading",
     month: "Mei",
@@ -121,7 +115,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Upgrading internal: kepemimpinan, teknis, dan problem solving untuk staf Ristek.",
   },
   {
-    id: 13,
+    id: 12,
     title: "Arcade, karaoke & take BTS Dies",
     tag: "Healing",
     month: "Mei",
@@ -129,7 +123,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Main di Timezone, karaoke lagu galau, sambil ambil video BTS untuk Dies Natalis.",
   },
   {
-    id: 14,
+    id: 13,
     title: "Dies Natalis HIMSI",
     tag: "Dies Natalis",
     month: "Mei",
@@ -138,7 +132,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Hari lahir HIMSI Fasilkom Unsri. Potong tumpeng dan pentas bareng.",
   },
   {
-    id: 15,
+    id: 14,
     title: "SSMKP",
     tag: "Proker Ristek",
     month: "Juni – Juli",
@@ -146,7 +140,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Sharing Magang & Kerja Praktik bareng alumni: CV, portofolio, dan tes teknis.",
   },
   {
-    id: 16,
+    id: 15,
     title: "Fun Day HIMSI",
     tag: "Funday",
     month: "Agustus",
@@ -154,7 +148,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Satu hari seru tanpa laptop. Main games lapangan bareng seluruh pengurus HIMSI.",
   },
   {
-    id: 17,
+    id: 16,
     title: "Evaluasi 6 bulan",
     tag: "Evaluasi",
     month: "Agustus",
@@ -162,7 +156,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Setengah jalan selesai. Review kinerja paruh kedua periode dan refleksi bersama.",
   },
   {
-    id: 18,
+    id: 17,
     title: "PKKMB Sistem Informasi 2026",
     tag: "Proker HIMSI 07",
     month: "Agustus",
@@ -170,28 +164,30 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Menyambut mahasiswa baru SI 2026. Ristek mengawal website dan sarana teknisnya.",
   },
   {
-    id: 19,
+    id: 18,
     title: "Peringatan 17 Agustus",
     tag: "Proker HIMSI 08",
     month: "Agustus",
+    photo: "/galeri/17an.jpg",
     caption: "Lomba-lomba khas tujuhbelasan bersama keluarga besar pengurus HIMSI.",
   },
   {
-    id: 20,
+    id: 19,
     title: "INAGURASI 2026",
     tag: "Proker HIMSI 09",
     month: "September",
     caption: "Malam inagurasi yang mempertemukan maba SI kampus Indralaya dan Bukit.",
   },
   {
-    id: 21,
+    id: 20,
     title: "PORGESELSI 2026",
     tag: "Proker HIMSI 10",
     month: "September",
+    photo: "/galeri/porge.jpg",
     caption: "Pekan olahraga dan seni SI: futsal, basket, e-sport, sampai pentas kreasi.",
   },
   {
-    id: 22,
+    id: 21,
     title: "Opening SI FEST 2026",
     tag: "SI FEST",
     month: "Oktober",
@@ -199,7 +195,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Pembukaan SI FEST dan peluncuran web resmi buatan tim PTI.",
   },
   {
-    id: 23,
+    id: 22,
     title: "SIKRAB",
     tag: "SIKRAB",
     month: "Oktober",
@@ -207,16 +203,17 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     caption: "Malam keakraban satu jurusan menjelang akhir kepengurusan.",
   },
   {
-    id: 24,
+    id: 23,
     title: "Rizztekk metu komplit",
     tag: "Formasi lengkap",
     month: "Oktober",
+    photo: "/hero.jpeg",
     caption: "Akhirnya 20 pengurus kumpul dan hangout bareng, lengkap.",
   },
 ];
 
 // Momen yang dijalankan di level himpunan masuk jalur "himsi", sisanya "ristek".
-const HIMSI_LANE = new Set([2, 3, 4, 6, 7, 9, 14, 16, 18, 19, 20, 21, 22, 23]);
+const HIMSI_LANE = new Set([2, 3, 4, 6, 8, 13, 15, 17, 18, 19, 20, 21, 22]);
 
 // Hash pendek yang stabil per momen, biar terasa seperti git log.
 function shortHash(item: RistekMemoryItem): string {
@@ -344,7 +341,7 @@ export default function PolaroidGallery() {
             </ol>
 
             <div className="px-5 py-3 border-t border-line font-mono text-xs text-muted">
-              (END) · 24 commits · Punya fotonya? Kirim ke PTI biar log ini ada gambarnya.
+              (END) · 23 commits · Punya fotonya? Kirim ke PTI biar log ini ada gambarnya.
             </div>
           </div>
         </Reveal>
