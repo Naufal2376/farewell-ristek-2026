@@ -7,6 +7,7 @@ import { Plane, Download, Loader2, Check } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import { toPng } from "html-to-image";
 import confetti from "canvas-confetti";
+import { QRCodeSVG } from "qrcode.react";
 
 export interface RistekMember2026 {
   name: string;
@@ -260,6 +261,20 @@ export default function BoardingPassGenerator() {
     [isCustom, customDivision, customSeatNum, member.seat]
   );
 
+  // Teks verifikasi digital ala tiket VIP resmi saat QR di-scan
+  const qrVerificationData = useMemo(() => {
+    return [
+      "BOARDING PASS VERIFIED",
+      `Penumpang: ${activeName}`,
+      `Peran: ${activeRole}`,
+      `Kursi: ${activeSeat}`,
+      `Area: ${activeDivisionName}`,
+      "Event: FAREWELL PARTY DEPARTEMEN RISTEK 2026",
+      "Jadwal: Sabtu, 24 Okt 2026 · 09.00 WIB",
+      "Status: OFFICIAL VIP PASS",
+    ].join("\n");
+  }, [activeName, activeRole, activeSeat, activeDivisionName]);
+
   const handleDownloadTicket = async () => {
     if (!ticketRef.current || isDownloading) return;
     setIsDownloading(true);
@@ -488,20 +503,40 @@ export default function BoardingPassGenerator() {
                 </div>
 
                 {/* Sobekan */}
-                <div className="relative sm:w-44 p-6 flex sm:flex-col justify-between items-center sm:items-start gap-4 border-t sm:border-t-0 sm:border-l border-dashed border-line-strong bg-white/[0.02]">
+                <div className="relative sm:w-48 p-5 sm:p-6 flex sm:flex-col justify-between items-center sm:items-start gap-4 border-t sm:border-t-0 sm:border-l border-dashed border-line-strong bg-white/[0.02]">
                   <span aria-hidden="true" className="absolute -top-3 -left-3 w-6 h-6 rounded-full bg-bg" />
                   <span aria-hidden="true" className="absolute -top-3 -right-3 sm:hidden w-6 h-6 rounded-full bg-bg" />
                   <span aria-hidden="true" className="absolute -bottom-3 -left-3 hidden sm:block w-6 h-6 rounded-full bg-bg" />
+
+                  {/* Nomor Kursi */}
                   <div>
                     <p className="font-mono text-[11px] uppercase tracking-wider text-muted">Kursi</p>
                     <p className={`mt-1 font-mono text-3xl font-bold leading-none tabular-nums whitespace-nowrap ${SEAT_COLOR[activeSeat.split("-")[0]] ?? "text-gold"}`}>
                       {activeSeat}
                     </p>
                   </div>
+
+                  {/* QR Code Verifikasi */}
+                  <div className="flex flex-col items-center sm:items-start my-auto">
+                    <div className="p-1.5 rounded-xl bg-white shadow-md shadow-black/40">
+                      <QRCodeSVG
+                        value={qrVerificationData}
+                        size={64}
+                        level="M"
+                        bgColor="#FFFFFF"
+                        fgColor="#0B0F19"
+                      />
+                    </div>
+                    <span className="mt-1 font-mono text-[8px] uppercase tracking-widest text-muted/70">
+                      Scan to verify
+                    </span>
+                  </div>
+
+                  {/* Info Area & Boarding */}
                   <div className="text-right sm:text-left">
                     <p className="font-mono text-[11px] uppercase tracking-wider text-muted">Area</p>
                     <p className="text-sm font-semibold leading-snug">{activeDivisionName}</p>
-                    <p className="mt-3 font-mono text-[11px] uppercase tracking-wider text-muted">Boarding</p>
+                    <p className="mt-2.5 font-mono text-[11px] uppercase tracking-wider text-muted">Boarding</p>
                     <p className="text-sm font-semibold tabular-nums">09.00 WIB</p>
                   </div>
                 </div>
