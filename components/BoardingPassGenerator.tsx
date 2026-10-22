@@ -5,7 +5,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { Plane, Download, Loader2, Check } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
-import { toPng } from "html-to-image";
 import confetti from "canvas-confetti";
 import { QRCodeSVG } from "qrcode.react";
 
@@ -288,6 +287,7 @@ export default function BoardingPassGenerator() {
     try {
       await new Promise((r) => setTimeout(r, 120));
 
+      const { toPng } = await import("html-to-image");
       const dataUrl = await toPng(ticketRef.current, {
         pixelRatio: 3,
         cacheBust: true,
@@ -359,7 +359,7 @@ export default function BoardingPassGenerator() {
   ];
 
   return (
-    <section id="boarding-pass" className="px-4 sm:px-6 py-20 sm:py-28">
+    <section id="boarding-pass" className="px-4 sm:px-6 py-20 sm:py-28 content-auto">
       <div className="max-w-6xl mx-auto">
         <SectionHeading index="04" label="Boarding pass" title="Ambil tiketmu">
           Pilih namamu, nomor kursi sudah diacak per divisi. Screenshot tiketnya
@@ -465,7 +465,7 @@ export default function BoardingPassGenerator() {
                 ref={ticketRef}
                 className="relative flex flex-col sm:flex-row rounded-3xl overflow-hidden bg-gradient-to-br from-surface-2 via-surface to-bg border border-line shadow-2xl shadow-black/50"
               >
-                <div aria-hidden="true" className="absolute -top-20 -left-10 w-64 h-64 rounded-full bg-gold/10 blur-3xl" />
+                <div aria-hidden="true" className="absolute -top-20 -left-10 w-64 h-64 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.14)_0%,transparent_70%)] pointer-events-none" />
 
                 <div className="relative flex-1 p-6 sm:p-7">
                   <div className="flex items-center justify-between">

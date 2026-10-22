@@ -116,7 +116,6 @@ function Shape({ shape }: { shape: StatSlide["shape"] }) {
 export default function RistekWrapped() {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [elapsed, setElapsed] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { amount: 0.5 });
   const reduce = useReducedMotion();
@@ -124,33 +123,21 @@ export default function RistekWrapped() {
 
   const go = useCallback((delta: number) => {
     setIndex((i) => (i + delta + SLIDES.length) % SLIDES.length);
-    setElapsed(0);
   }, []);
 
   useEffect(() => {
     if (!playing) return;
-    const start = performance.now() - elapsed;
-    let raf = 0;
-    const tick = (t: number) => {
-      const e = t - start;
-      if (e >= SLIDE_MS) {
-        go(1);
-        return;
-      }
-      setElapsed(e);
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-    // elapsed sengaja tidak jadi dependency: hanya dibaca saat (re)mulai.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const timer = setTimeout(() => {
+      go(1);
+    }, SLIDE_MS);
+    return () => clearTimeout(timer);
   }, [playing, index, go]);
 
   const slide = SLIDES[index];
   const isStat = slide.kind === "stat";
 
   return (
-    <section id="wrapped" className="px-4 sm:px-6 py-20 sm:py-28">
+    <section id="wrapped" className="px-4 sm:px-6 py-20 sm:py-28 content-auto">
       <div className="max-w-6xl mx-auto">
         <SectionHeading index="01" label="Wrapped" title={<>Ristek Wrapped <span className="text-gold">2026</span></>}>
           Setahun kepengurusan, diputar ulang. Tap kanan untuk lanjut, kiri untuk kembali.
@@ -172,13 +159,18 @@ export default function RistekWrapped() {
           className={`relative mx-auto max-w-4xl h-[560px] sm:h-[520px] rounded-[2rem] overflow-hidden select-none shadow-2xl shadow-black/60 transition-colors duration-500 ${isStat ? slide.bg : "bg-surface"
             }`}
         >
-          {/* Progress */}
+          {/* Progress (dijalankan via CSS animation agar 0 re-render React) */}
           <div className="absolute top-4 inset-x-4 sm:inset-x-6 z-20 flex gap-1.5">
             {SLIDES.map((_, i) => (
               <div key={i} className="h-1 flex-1 rounded-full bg-white/25 overflow-hidden">
                 <div
-                  className="h-full bg-white"
-                  style={{ width: i < index ? "100%" : i === index ? `${(elapsed / SLIDE_MS) * 100}%` : "0%" }}
+                  key={`${i}-${index}`}
+                  className="h-full bg-white origin-left"
+                  style={{
+                    width: i < index ? "100%" : i === index ? "100%" : "0%",
+                    animation: i === index && playing ? `progressFill ${SLIDE_MS}ms linear forwards` : "none",
+                    animationPlayState: paused ? "paused" : "running",
+                  }}
                 />
               </div>
             ))}
@@ -210,7 +202,7 @@ export default function RistekWrapped() {
             >
               {slide.kind === "intro" && (
                 <div className="relative h-full flex flex-col justify-end p-7 sm:p-12 overflow-hidden">
-                  <div aria-hidden="true" className="absolute -top-32 -right-32 w-[30rem] h-[30rem] rounded-full bg-gold/20 blur-3xl" />
+                  <div aria-hidden="true" className="absolute -top-32 -right-32 w-[30rem] h-[30rem] rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18)_0%,transparent_70%)] pointer-events-none" />
                   <motion.div
                     initial={{ rotate: -8, scale: 0.8, opacity: 0 }}
                     animate={{ rotate: -6, scale: 1, opacity: 1 }}

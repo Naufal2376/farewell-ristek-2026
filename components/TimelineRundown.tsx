@@ -31,8 +31,8 @@ const schedule: ScheduleItem[] = [
   },
   {
     time: "11.00 – 11.30",
-    title: "Appreciation time",
-    description: "Sesi pembacaan secret appreciation dan pesan anonim yang masuk di website.",
+    title: "Pembacaan pesan anonim",
+    description: "Sesi pembacaan pesan anonim yang masuk di website.",
     highlight: "Isi form sebelum Jumat malam",
   },
   {
@@ -52,8 +52,8 @@ const schedule: ScheduleItem[] = [
   },
   {
     time: "13.45 – 14.30",
-    title: "Tukar surat desc atau hadiah kecil (tukar kado max 10 rb)",
-    description: "Saling tukar surat deskripsi rekan kerja dan kado kecil yang dibawa dari rumah.",
+    title: "Tukar kado (maks. 10 rb)",
+    description: "Saling tukar kado kecil yang dibawa dari rumah.",
     highlight: "Bawa dari rumah · Maks 10 rb",
   },
   {
@@ -70,18 +70,13 @@ const schedule: ScheduleItem[] = [
 
 const checklistItems = [
   {
-    id: "surat",
-    label: "Surat deskripsi / apresiasi",
-    sub: "Tulis tangan atau cetak untuk rekan RISTEK.",
-  },
-  {
     id: "kado",
     label: "Hadiah tukar kado (maks. Rp10.000)",
     sub: "Kado kecil yang dibungkus rapi dari rumah.",
   },
   {
     id: "pesan",
-    label: "Sudah kirim secret appreciation",
+    label: "Sudah kirim pesan anonim",
     sub: "Kirim pesan lewat form di website sebelum acara.",
   },
   {
@@ -117,7 +112,7 @@ export default function TimelineRundown() {
   };
 
   return (
-    <section id="rundown" className="px-4 sm:px-6 py-20 sm:py-28">
+    <section id="rundown" className="px-4 sm:px-6 py-20 sm:py-28 content-auto">
       <div className="max-w-6xl mx-auto">
         <SectionHeading index="02" label="Rundown" title="Rundown acara">
           Sabtu, 24 Oktober 2026 · 09.00–15.05 WIB. Dua sesi bertanda emas butuh persiapan dari rumah.
@@ -147,7 +142,7 @@ export default function TimelineRundown() {
                 <div className="mt-5 pt-4 border-t border-line text-xs text-muted leading-relaxed space-y-2">
                   <p className="flex items-start gap-2">
                     <span className="text-gold">✦</span>
-                    <span>Jangan lupa siapkan surat deskripsi dan kado kecil (maks. 10 rb) dari rumah.</span>
+                    <span>Jangan lupa siapkan kado kecil (maks. 10 rb) dari rumah.</span>
                   </p>
                   <p className="flex items-start gap-2">
                     <span className="text-gold">✦</span>

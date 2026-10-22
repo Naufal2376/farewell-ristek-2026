@@ -158,7 +158,7 @@ export default function HeroCountdown() {
           className="lg:col-span-5 order-1 lg:order-2 flex justify-center"
         >
           <figure className="relative w-full max-w-[420px]">
-            <div aria-hidden="true" className="absolute -inset-6 rounded-[2rem] bg-gold/15 blur-3xl" />
+            <div aria-hidden="true" className="absolute -inset-6 rounded-[2rem] bg-[radial-gradient(ellipse_at_center,rgba(251,191,36,0.18)_0%,transparent_70%)] pointer-events-none" />
             <div className="ring-orbit relative rounded-3xl glass p-3">
               <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-surface-2">
                 <Image

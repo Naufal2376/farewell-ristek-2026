@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useInView } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, Film, Maximize2 } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 
@@ -57,6 +57,8 @@ function SprocketHoles() {
 
 export default function MemoriesFilmStrip() {
   const [selectedPhoto, setSelectedPhoto] = useState<KlisePhoto | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { margin: "250px" });
 
   // Bagi 26 foto ke 2 baris terpisah agar kedua baris menampilkan foto-foto yang berbeda
   const row1Items = KLISE_PHOTOS.slice(0, 13);
@@ -92,15 +94,19 @@ export default function MemoriesFilmStrip() {
   }, [selectedPhoto, handlePrev, handleNext]);
 
   return (
-    <section id="klise-kenangan" className="py-20 sm:py-28 overflow-hidden relative">
-      {/* Background ambient glow */}
+    <section
+      ref={sectionRef}
+      id="klise-kenangan"
+      className="py-20 sm:py-28 overflow-hidden relative content-auto"
+    >
+      {/* Background ambient glow - hardware accelerated without expensive blur */}
       <div
         aria-hidden="true"
-        className="absolute top-1/2 -left-40 w-96 h-96 rounded-full bg-gold/5 blur-[120px] pointer-events-none"
+        className="absolute top-1/2 -left-40 w-96 h-96 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.07)_0%,transparent_70%)] pointer-events-none"
       />
       <div
         aria-hidden="true"
-        className="absolute top-1/2 -right-40 w-96 h-96 rounded-full bg-blue/5 blur-[120px] pointer-events-none"
+        className="absolute top-1/2 -right-40 w-96 h-96 rounded-full bg-[radial-gradient(circle,rgba(96,165,250,0.07)_0%,transparent_70%)] pointer-events-none"
       />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-10">
@@ -114,14 +120,17 @@ export default function MemoriesFilmStrip() {
         </SectionHeading>
       </div>
 
-      {/* Film Reel Baris 1 (Bergerak ke Kiri via CSS GPU) */}
+      {/* Film Reel Baris 1 (Bergerak ke Kiri via CSS GPU, otomatis dijeda jika offscreen) */}
       <div className="relative w-full overflow-hidden select-none my-3">
-        <div className="flex gap-4 w-max animate-film-left">
+        <div
+          className="flex gap-4 w-max animate-film-left"
+          style={{ animationPlayState: isInView ? "running" : "paused" }}
+        >
           {photosRow1.map((item, idx) => (
             <div
               key={`row1-${item.id}-${idx}`}
               onClick={() => setSelectedPhoto(item)}
-              className="relative w-64 sm:w-72 shrink-0 rounded-2xl overflow-hidden bg-black/95 border-2 border-surface-2 shadow-xl shadow-black/60 cursor-pointer transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] group"
+              className="relative w-64 sm:w-72 shrink-0 rounded-2xl overflow-hidden bg-black/95 border border-surface-2/80 shadow-md shadow-black/40 cursor-pointer transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] group"
             >
               {/* Lubang sprocket atas */}
               <SprocketHoles />
@@ -140,6 +149,7 @@ export default function MemoriesFilmStrip() {
                   alt="Foto kenangan Ristek"
                   fill
                   sizes="(max-width: 768px) 256px, 288px"
+                  loading="lazy"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
@@ -157,14 +167,17 @@ export default function MemoriesFilmStrip() {
         </div>
       </div>
 
-      {/* Film Reel Baris 2 (Bergerak ke Kanan via CSS GPU) */}
+      {/* Film Reel Baris 2 (Bergerak ke Kanan via CSS GPU, otomatis dijeda jika offscreen) */}
       <div className="relative w-full overflow-hidden select-none my-3">
-        <div className="flex gap-4 w-max animate-film-right">
+        <div
+          className="flex gap-4 w-max animate-film-right"
+          style={{ animationPlayState: isInView ? "running" : "paused" }}
+        >
           {photosRow2.map((item, idx) => (
             <div
               key={`row2-${item.id}-${idx}`}
               onClick={() => setSelectedPhoto(item)}
-              className="relative w-64 sm:w-72 shrink-0 rounded-2xl overflow-hidden bg-black/95 border-2 border-surface-2 shadow-xl shadow-black/60 cursor-pointer transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] group"
+              className="relative w-64 sm:w-72 shrink-0 rounded-2xl overflow-hidden bg-black/95 border border-surface-2/80 shadow-md shadow-black/40 cursor-pointer transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98] group"
             >
               {/* Lubang sprocket atas */}
               <SprocketHoles />
@@ -183,6 +196,7 @@ export default function MemoriesFilmStrip() {
                   alt="Foto kenangan Ristek"
                   fill
                   sizes="(max-width: 768px) 256px, 288px"
+                  loading="lazy"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">

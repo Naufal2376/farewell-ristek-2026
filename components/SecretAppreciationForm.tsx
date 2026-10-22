@@ -65,9 +65,9 @@ export default function SecretAppreciationForm() {
   };
 
   return (
-    <section id="secret-form" className="px-4 sm:px-6 py-20 sm:py-28">
+    <section id="secret-form" className="px-4 sm:px-6 py-20 sm:py-28 content-auto">
       <div className="max-w-3xl mx-auto">
-        <SectionHeading index="05" label="Secret appreciation" title="Pesan anonim untuk Ristek">
+        <SectionHeading index="05" label="Pesan anonim" title="Pesan anonim untuk Ristek">
           Tulis terima kasih, unek-unek, atau roasting kecil buat siapa pun. Tanpa
           nama pengirim, dan akan dibacakan di sesi 11.00. Boleh kirim lebih dari satu.
         </SectionHeading>

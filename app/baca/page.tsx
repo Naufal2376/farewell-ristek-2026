@@ -168,7 +168,7 @@ export default function LiveReadPage() {
           className="w-full max-w-sm"
         >
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">/baca · presenter</p>
-          <h1 className="mt-2 font-extrabold tracking-tight text-3xl">Secret appreciation</h1>
+          <h1 className="mt-2 font-extrabold tracking-tight text-3xl">Pesan anonim</h1>
           <p className="mt-2 text-muted">Halaman presenter. Masukkan passcode panitia.</p>
           <input
             type="password"
@@ -204,7 +204,7 @@ export default function LiveReadPage() {
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
-            <h1 className="font-extrabold tracking-tight text-xl">Secret appreciation</h1>
+            <h1 className="font-extrabold tracking-tight text-xl">Pesan anonim</h1>
             <p className="font-mono text-xs text-muted tabular-nums">
               {readCount} dari {messages.length} sudah dibaca
               {status === "error" && <span className="text-danger"> · {loadError}</span>}

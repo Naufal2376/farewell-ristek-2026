@@ -13,8 +13,8 @@ export default function Backdrop() {
           WebkitMaskImage: "radial-gradient(ellipse 80% 60% at 50% 0%, #000 30%, transparent 75%)",
         }}
       />
-      <div className="absolute -top-40 left-[10%] w-[560px] h-[560px] rounded-full bg-gold/10 blur-[140px]" />
-      <div className="absolute top-[30%] -right-40 w-[520px] h-[520px] rounded-full bg-blue/10 blur-[150px]" />
+      <div className="absolute -top-40 left-[10%] w-[560px] h-[560px] rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.12)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute top-[30%] -right-40 w-[520px] h-[520px] rounded-full bg-[radial-gradient(circle,rgba(96,165,250,0.10)_0%,transparent_70%)] pointer-events-none" />
     </div>
   );
 }

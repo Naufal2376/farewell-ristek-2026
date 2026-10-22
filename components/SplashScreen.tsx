@@ -50,7 +50,7 @@ export default function SplashScreen({ onOpen, isOpen }: SplashScreenProps) {
           transition={{ duration: 0.6, ease: "easeInOut" }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-bg p-4 sm:p-6 overflow-hidden"
         >
-          <div aria-hidden="true" className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[520px] h-[520px] rounded-full bg-gold/15 blur-[140px]" />
+          <div aria-hidden="true" className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[520px] h-[520px] rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.18)_0%,transparent_70%)] pointer-events-none" />
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}

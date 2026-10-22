@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     "Farewell Ristek",
     "HIMSI Fasilkom Unsri",
     "Ristek 2026",
-    "Secret Appreciation",
+    "Pesan Anonim",
   ],
   openGraph: {
     title: "Farewell Ristek 2026",

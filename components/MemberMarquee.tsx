@@ -1,12 +1,25 @@
-import React from "react";
+"use client";
+
+import React, { useRef } from "react";
+import { useInView } from "framer-motion";
 import { RISTEK_MEMBERS_2026 } from "@/components/BoardingPassGenerator";
 
 // Teks berjalan berisi 23 nama pengurus.
 export default function MemberMarquee() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { margin: "100px" });
   const names = RISTEK_MEMBERS_2026.map((m) => m.name);
+
   return (
-    <div className="relative border-y border-line bg-surface/40 py-4 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
-      <ul className="flex w-max animate-marquee" aria-label="Pengurus Ristek 2026">
+    <div
+      ref={ref}
+      className="relative border-y border-line bg-surface/40 py-4 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]"
+    >
+      <ul
+        className="flex w-max animate-marquee"
+        style={{ animationPlayState: isInView ? "running" : "paused" }}
+        aria-label="Pengurus Ristek 2026"
+      >
         {[...names, ...names].map((name, i) => (
           <li
             key={i}

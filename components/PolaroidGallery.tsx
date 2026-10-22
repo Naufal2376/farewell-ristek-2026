@@ -247,7 +247,7 @@ export default function PolaroidGallery() {
   const himsiEnd = log.length - 1 - [...log].reverse().findIndex((m) => HIMSI_LANE.has(m.id));
 
   return (
-    <section id="galeri" className="px-4 sm:px-6 py-20 sm:py-28">
+    <section id="galeri" className="px-4 sm:px-6 py-20 sm:py-28 content-auto">
       <div className="max-w-6xl mx-auto">
         <SectionHeading index="03" label="git log" title="24 momen Ristek & HIMSI">
           Satu periode sebagai riwayat commit. Jalur emas untuk kegiatan Ristek,
@@ -331,7 +331,7 @@ export default function PolaroidGallery() {
                             className="relative shrink-0 w-20 h-14 rounded-lg overflow-hidden border border-line cursor-zoom-in"
                             aria-label={`Lihat foto ${item.title}`}
                           >
-                            <Image src={item.photo} alt="" fill sizes="80px" className="object-cover" />
+                            <Image src={item.photo} alt="" fill sizes="80px" loading="lazy" className="object-cover" />
                           </button>
                         )}
                       </div>

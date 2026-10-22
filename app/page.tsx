@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { MotionConfig } from "framer-motion";
+import dynamic from "next/dynamic";
 import SplashScreen from "@/components/SplashScreen";
 import AudioPlayer from "@/components/AudioPlayer";
 import Navbar from "@/components/Navbar";
@@ -10,11 +11,16 @@ import RistekWrapped from "@/components/RistekWrapped";
 import TimelineRundown from "@/components/TimelineRundown";
 import PolaroidGallery from "@/components/PolaroidGallery";
 import MemoriesFilmStrip from "@/components/MemoriesFilmStrip";
-import BoardingPassGenerator from "@/components/BoardingPassGenerator";
-import SecretAppreciationForm from "@/components/SecretAppreciationForm";
 import Footer from "@/components/Footer";
 import Backdrop from "@/components/ui/Backdrop";
 import MemberMarquee from "@/components/MemberMarquee";
+
+const BoardingPassGenerator = dynamic(() => import("@/components/BoardingPassGenerator"), {
+  loading: () => <div className="min-h-[400px]" />,
+});
+const SecretAppreciationForm = dynamic(() => import("@/components/SecretAppreciationForm"), {
+  loading: () => <div className="min-h-[300px]" />,
+});
 
 export default function Home() {
   const [showSplash, setShowSplash] = useState(true);
