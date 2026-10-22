@@ -37,6 +37,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "Rapat Global HIMSI",
     tag: "Rapglo",
     month: "Februari",
+    photo: "/galeri/rapat-global.jpg",
     caption:
       "Rapat pleno gabungan pertama bersama semua departemen HIMSI untuk menyamakan rencana satu periode.",
   },
@@ -45,6 +46,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "Makrab HIMSI 2026",
     tag: "Makrab",
     month: "Maret",
+    photo: "/galeri/makrab.jpg",
     caption: "Malam keakraban seluruh pengurus. Games malam, api unggun, dan ketawa sampai larut.",
   },
   {
@@ -52,6 +54,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "SSMO",
     tag: "Proker HIMSI 01",
     month: "Maret",
+    photo: "/galeri/ssmo.jpg",
     caption:
       "Sharing Session Manajemen Organisasi: cerita dan bekal langsung dari para alumni.",
   },
@@ -60,6 +63,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "Bukber internal Ristek",
     tag: "Bukber",
     month: "Maret",
+    photo: "/galeri/bukber-ristek.jpg",
     caption: "Buka puasa khusus keluarga kecil Ristek. Rebutan es buah, dan tidak ada yang bahas proker.",
   },
   {
@@ -67,6 +71,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "Bukber akbar HIMSI",
     tag: "Bukber",
     month: "April",
+    photo: "/galeri/bukber-himsi.jpg",
     caption: "Satu himpunan kumpul: staf, BPH, dosen pembina, dan demisioner SI lintas angkatan.",
   },
   {
@@ -81,6 +86,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "Lebaran & halal bihalal",
     tag: "Lebaran",
     month: "April",
+    photo: "/galeri/lebaran.jpg",
     caption: "Spam stiker maaf lahir batin di grup, pamer baju lebaran, lalu halal bihalal sepulang libur.",
   },
   {
@@ -88,6 +94,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "Seminar Job Finding",
     tag: "Proker HIMSI 03",
     month: "Mei",
+    photo: "/galeri/sjf.jpg",
     caption: "Seminar karier, personal branding, dan networking bersama praktisi industri IT.",
   },
   {
@@ -102,6 +109,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "Evaluasi 3 bulan",
     tag: "Evaluasi",
     month: "Mei",
+    photo: "/galeri/eval-3-bulan.jpg",
     caption: "Review triwulan pertama. Jujur soal kendala, lalu saling menyemangati.",
   },
   {
@@ -109,6 +117,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "LADDER",
     tag: "Upgrading",
     month: "Mei",
+    photo: "/galeri/ladder.jpg",
     caption: "Upgrading internal: kepemimpinan, teknis, dan problem solving untuk staf Ristek.",
   },
   {
@@ -116,6 +125,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "Arcade, karaoke & take BTS Dies",
     tag: "Healing",
     month: "Mei",
+    photo: "/galeri/arcade.jpg",
     caption: "Main di Timezone, karaoke lagu galau, sambil ambil video BTS untuk Dies Natalis.",
   },
   {
@@ -124,6 +134,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     tag: "Dies Natalis",
     month: "Mei",
     date: "25 Mei",
+    photo: "/galeri/dies.jpg",
     caption: "Hari lahir HIMSI Fasilkom Unsri. Potong tumpeng dan pentas bareng.",
   },
   {
@@ -131,39 +142,43 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "SSMKP",
     tag: "Proker Ristek",
     month: "Juni – Juli",
+    photo: "/galeri/ssmkp.jpg",
     caption: "Sharing Magang & Kerja Praktik bareng alumni: CV, portofolio, dan tes teknis.",
   },
   {
     id: 16,
-    title: "Fun Day Ristek",
+    title: "Fun Day HIMSI",
     tag: "Funday",
     month: "Agustus",
-    caption: "Satu hari tanpa laptop. Main di lapangan, jajan, ketawa.",
+    photo: "/galeri/funday.jpg",
+    caption: "Satu hari seru tanpa laptop. Main games lapangan bareng seluruh pengurus HIMSI.",
   },
   {
     id: 17,
-    title: "Evaluasi 6 bulan + metu bareng",
+    title: "Evaluasi 6 bulan",
     tag: "Evaluasi",
     month: "Agustus",
-    caption: "Setengah jalan selesai. Ditutup dengan mie ayam dan es teh jumbo.",
+    photo: "/galeri/eval-6-bulan.jpg",
+    caption: "Setengah jalan selesai. Review kinerja paruh kedua periode dan refleksi bersama.",
   },
   {
     id: 18,
-    title: "Peringatan 17 Agustus",
-    tag: "Proker HIMSI 08",
+    title: "PKKMB Sistem Informasi 2026",
+    tag: "Proker HIMSI 07",
     month: "Agustus",
-    caption: "Lomba-lomba khas tujuhbelasan bersama pengurus HIMSI.",
+    photo: "/galeri/pkkmb.jpg",
+    caption: "Menyambut mahasiswa baru SI 2026. Ristek mengawal website dan sarana teknisnya.",
   },
   {
     id: 19,
-    title: "PKKMB Sistem Informasi",
-    tag: "Proker HIMSI 07",
+    title: "Peringatan 17 Agustus",
+    tag: "Proker HIMSI 08",
     month: "Agustus",
-    caption: "Menyambut maba SI 2026. Ristek mengawal website dan kebutuhan teknisnya.",
+    caption: "Lomba-lomba khas tujuhbelasan bersama keluarga besar pengurus HIMSI.",
   },
   {
     id: 20,
-    title: "Inagurasi 2026 + KI",
+    title: "INAGURASI 2026",
     tag: "Proker HIMSI 09",
     month: "September",
     caption: "Malam inagurasi yang mempertemukan maba SI kampus Indralaya dan Bukit.",
@@ -180,6 +195,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "Opening SI FEST 2026",
     tag: "SI FEST",
     month: "Oktober",
+    photo: "/galeri/opcer.jpg",
     caption: "Pembukaan SI FEST dan peluncuran web resmi buatan tim PTI.",
   },
   {
@@ -187,6 +203,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "SIKRAB",
     tag: "SIKRAB",
     month: "Oktober",
+    photo: "/galeri/sikrab.jpg",
     caption: "Malam keakraban satu jurusan menjelang akhir kepengurusan.",
   },
   {
@@ -199,7 +216,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
 ];
 
 // Momen yang dijalankan di level himpunan masuk jalur "himsi", sisanya "ristek".
-const HIMSI_LANE = new Set([2, 3, 4, 6, 7, 9, 14, 18, 19, 20, 21, 22, 23]);
+const HIMSI_LANE = new Set([2, 3, 4, 6, 7, 9, 14, 16, 18, 19, 20, 21, 22, 23]);
 
 // Hash pendek yang stabil per momen, biar terasa seperti git log.
 function shortHash(item: RistekMemoryItem): string {
@@ -351,8 +368,8 @@ export default function PolaroidGallery() {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-3xl rounded-3xl glass p-3"
             >
-              <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-surface-2">
-                <Image src={open.photo!} alt={open.title} fill sizes="90vw" className="object-contain" />
+              <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-2xl overflow-hidden bg-surface-2">
+                <Image src={open.photo!} alt={open.title} fill sizes="90vw" className="object-cover" />
               </div>
               <figcaption className="mt-3 px-2 pb-1 flex items-start justify-between gap-4">
                 <div>

@@ -9,6 +9,7 @@ import HeroCountdown from "@/components/HeroCountdown";
 import RistekWrapped from "@/components/RistekWrapped";
 import TimelineRundown from "@/components/TimelineRundown";
 import PolaroidGallery from "@/components/PolaroidGallery";
+import MemoriesFilmStrip from "@/components/MemoriesFilmStrip";
 import BoardingPassGenerator from "@/components/BoardingPassGenerator";
 import SecretAppreciationForm from "@/components/SecretAppreciationForm";
 import Footer from "@/components/Footer";
@@ -38,6 +39,7 @@ export default function Home() {
           <RistekWrapped />
           <TimelineRundown />
           <PolaroidGallery />
+          <MemoriesFilmStrip />
           <BoardingPassGenerator />
           <SecretAppreciationForm />
         </main>

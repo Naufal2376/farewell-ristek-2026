@@ -108,6 +108,18 @@ body {
   animation-play-state: paused;
 }
 
+@keyframes marquee-reverse {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+.animate-marquee-reverse {
+  animation: marquee-reverse 45s linear infinite;
+}
+.animate-marquee-reverse:hover {
+  animation-play-state: paused;
+}
+
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
@@ -124,6 +136,7 @@ body {
   .text-gold-shine,
   .ring-orbit::before,
   .animate-marquee,
+  .animate-marquee-reverse,
   .animate-blink {
     animation: none;
   }

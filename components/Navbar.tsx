@@ -8,6 +8,7 @@ const navLinks = [
   { label: "Wrapped", href: "#wrapped" },
   { label: "Rundown", href: "#rundown" },
   { label: "Galeri", href: "#galeri" },
+  { label: "Klise", href: "#klise-kenangan" },
   { label: "Tiket", href: "#boarding-pass" },
 ];
 
