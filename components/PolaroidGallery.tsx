@@ -176,6 +176,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "INAGURASI 2026",
     tag: "Proker HIMSI 09",
     month: "September",
+    photo: "/inagur.jpeg",
     caption: "Malam inagurasi yang mempertemukan maba SI kampus Indralaya dan Bukit.",
   },
   {
