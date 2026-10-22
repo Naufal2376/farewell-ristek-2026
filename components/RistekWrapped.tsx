@@ -284,8 +284,13 @@ export default function RistekWrapped() {
                         initial={{ y: 10, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.2 + i * 0.04 }}
-                        className={`px-2.5 py-1 rounded-full text-xs sm:text-sm font-semibold ${m.division === "pimpinan" ? "bg-[#1c1300] text-gold" : "bg-[#1c1300]/10"
-                          }`}
+                        className={`px-2.5 py-1 rounded-full text-xs sm:text-sm font-semibold ${
+                          m.division === "pimpinan"
+                            ? "bg-[#1c1300] text-gold"
+                            : m.division === "koordinator"
+                            ? "bg-[#1c1300] text-gold border border-gold/40"
+                            : "bg-[#1c1300]/10"
+                        }`}
                       >
                         {m.name}
                       </motion.li>

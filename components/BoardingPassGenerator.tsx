@@ -12,7 +12,7 @@ import { QRCodeSVG } from "qrcode.react";
 export interface RistekMember2026 {
   name: string;
   role: string;
-  division: "pimpinan" | "pti" | "akademik" | "tamu";
+  division: "pimpinan" | "koordinator" | "pti" | "akademik" | "tamu";
   divisionName: string;
   instagram: string;
   seat: string;
@@ -53,15 +53,25 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     seat: "LEAD-04",
   },
 
-  // --- 💻 Divisi PTI ---
+  // --- 🤝 Koordinator RISTEK ---
   {
     name: "Muhammad Alfin Alfian",
-    role: "Koordinator Divisi PTI · Staf PSDM",
-    division: "pti",
+    role: "Koordinator Divisi PTI",
+    division: "koordinator",
     divisionName: "Divisi PTI",
     instagram: "@alfinalfian31",
     seat: "PTI-08",
   },
+  {
+    name: "Amiratul Mufidah",
+    role: "Koordinator Divisi Akademik",
+    division: "koordinator",
+    divisionName: "Divisi Akademik",
+    instagram: "@amifdha_",
+    seat: "AKD-11",
+  },
+
+  // --- 💻 Divisi PTI ---
   {
     name: "DD Eikel Fison",
     role: "Staff Divisi PTI",
@@ -120,14 +130,6 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
   },
 
   // --- 🔬 Divisi Akademik ---
-  {
-    name: "Amiratul Mufidah",
-    role: "Koordinator Divisi Akademik · Staf PSDM",
-    division: "akademik",
-    divisionName: "Divisi Akademik",
-    instagram: "@amifdha_",
-    seat: "AKD-11",
-  },
   {
     name: "Siti Khairani Ramadona",
     role: "Staff Divisi Akademik",
@@ -217,11 +219,13 @@ function getSeatPrefix(division: Division): string {
   if (division === "pti") return "PTI";
   if (division === "akademik") return "AKD";
   if (division === "pimpinan") return "LEAD";
+  if (division === "koordinator") return "KRD";
   return "TMU";
 }
 
 const DIVISION_LABEL: Record<Division, string> = {
   pimpinan: "Pimpinan RISTEK",
+  koordinator: "Koordinator RISTEK",
   pti: "Divisi PTI",
   akademik: "Divisi Akademik",
   tamu: "Tamu",
@@ -231,6 +235,7 @@ const SEAT_COLOR: Record<string, string> = {
   PTI: "text-blue",
   AKD: "text-rose",
   LEAD: "text-gold",
+  KRD: "text-gold",
   TMU: "text-gold",
 };
 
@@ -348,6 +353,7 @@ export default function BoardingPassGenerator() {
 
   const groups: { label: string; division: Division }[] = [
     { label: "Pimpinan RISTEK", division: "pimpinan" },
+    { label: "Koordinator RISTEK", division: "koordinator" },
     { label: "Divisi PTI", division: "pti" },
     { label: "Divisi Akademik", division: "akademik" },
   ];
