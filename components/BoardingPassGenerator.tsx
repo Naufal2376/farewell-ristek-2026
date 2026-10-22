@@ -50,7 +50,15 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     seat: "LEAD-04",
   },
 
-  // --- 💻 Staff Divisi PTI ---
+  // --- 💻 Divisi PTI ---
+  {
+    name: "Muhammad Alfin Alfian",
+    role: "Koordinator Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
+    instagram: "@alfinalfian31",
+    seat: "PTI-08",
+  },
   {
     name: "DD Eikel Fison",
     role: "Staff Divisi PTI",
@@ -108,7 +116,15 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     seat: "PTI-02",
   },
 
-  // --- 🔬 Staff Divisi Akademik ---
+  // --- 🔬 Divisi Akademik ---
+  {
+    name: "Amiratul Mufidah",
+    role: "Koordinator Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@miwwh_",
+    seat: "AKD-11",
+  },
   {
     name: "Siti Khairani Ramadona",
     role: "Staff Divisi Akademik",
@@ -241,8 +257,8 @@ export default function BoardingPassGenerator() {
 
   const groups: { label: string; division: Division }[] = [
     { label: "Pimpinan RISTEK", division: "pimpinan" },
-    { label: "Staff Divisi PTI", division: "pti" },
-    { label: "Staff Divisi Akademik", division: "akademik" },
+    { label: "Divisi PTI", division: "pti" },
+    { label: "Divisi Akademik", division: "akademik" },
   ];
 
   return (

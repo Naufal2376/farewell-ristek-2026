@@ -209,7 +209,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     tag: "Formasi lengkap",
     month: "Oktober",
     photo: "/hero.jpeg",
-    caption: "Akhirnya 21 pengurus kumpul dan hangout bareng, lengkap.",
+    caption: "Akhirnya 23 pengurus kumpul dan hangout bareng, lengkap.",
   },
 ];
 

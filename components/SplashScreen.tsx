@@ -13,7 +13,7 @@ interface SplashScreenProps {
 
 const LINES = [
   { kind: "cmd", text: "git log --oneline ristek-2026 | wc -l" },
-  { kind: "out", text: "1 periode · 21 orang · 24 momen" },
+  { kind: "out", text: "1 periode · 23 orang · 24 momen" },
   { kind: "cmd", text: 'git tag -a farewell -m "terima kasih, Ristek"' },
   { kind: "ok", text: "undangan siap dibuka" },
 ] as const;
