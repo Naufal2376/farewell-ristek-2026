@@ -181,6 +181,14 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     instagram: "@strfarrell",
     seat: "AKD-09",
   },
+  {
+    name: "Muhammad Haris Al Fayyadh",
+    role: "Staff Divisi Akademik",
+    division: "akademik",
+    divisionName: "Divisi Akademik",
+    instagram: "@harisal2025",
+    seat: "AKD-10",
+  },
 ];
 
 type Division = RistekMember2026["division"];

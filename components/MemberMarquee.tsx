@@ -1,7 +1,7 @@
 import React from "react";
 import { RISTEK_MEMBERS_2026 } from "@/components/BoardingPassGenerator";
 
-// Teks berjalan berisi 20 nama pengurus.
+// Teks berjalan berisi 21 nama pengurus.
 export default function MemberMarquee() {
   const names = RISTEK_MEMBERS_2026.map((m) => m.name);
   return (

@@ -274,7 +274,9 @@ export default function RistekWrapped() {
               {slide.kind === "outro" && (
                 <div className="relative h-full flex flex-col justify-center p-7 sm:p-12 bg-gold text-[#1c1300] overflow-hidden">
                   <p className="text-xl sm:text-2xl font-bold">Dan yang paling penting,</p>
-                  <h3 className="mt-1 text-5xl sm:text-7xl font-black tracking-tight leading-none">20 orang ini.</h3>
+                  <h3 className="mt-1 text-5xl sm:text-7xl font-black tracking-tight leading-none">
+                    {RISTEK_MEMBERS_2026.length} orang ini.
+                  </h3>
                   <ul className="mt-6 flex flex-wrap gap-1.5 sm:gap-2 max-w-3xl">
                     {RISTEK_MEMBERS_2026.map((m, i) => (
                       <motion.li
