@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useSyncExternalStore, useMemo } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, CalendarDays, Clock, MapPin } from "lucide-react";
@@ -10,15 +10,14 @@ const TARGET = new Date("2026-10-24T09:00:00+07:00").getTime();
 
 type TimeLeft = { days: number; hours: number; minutes: number; seconds: number };
 
-function getTimeLeft(): TimeLeft | null {
+function subscribeSeconds(callback: () => void) {
+  const id = setInterval(callback, 1000);
+  return () => clearInterval(id);
+}
+
+function getSecondsLeft() {
   const diff = TARGET - Date.now();
-  if (diff <= 0) return null;
-  return {
-    days: Math.floor(diff / 86_400_000),
-    hours: Math.floor((diff % 86_400_000) / 3_600_000),
-    minutes: Math.floor((diff % 3_600_000) / 60_000),
-    seconds: Math.floor((diff % 60_000) / 1000),
-  };
+  return diff <= 0 ? 0 : Math.floor(diff / 1000);
 }
 
 // Satu digit yang bergulir ke atas setiap kali nilainya berubah.
@@ -48,15 +47,29 @@ const meta = [
 ];
 
 export default function HeroCountdown() {
-  const [isMounted, setIsMounted] = useState(false);
-  const [timeLeft, setTimeLeft] = useState<TimeLeft | null>(null);
+  const isClient = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
-  useEffect(() => {
-    setIsMounted(true);
-    setTimeLeft(getTimeLeft());
-    const interval = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
-    return () => clearInterval(interval);
-  }, []);
+  const secondsLeft = useSyncExternalStore(
+    subscribeSeconds,
+    getSecondsLeft,
+    () => -1
+  );
+
+  const timeLeft = useMemo<TimeLeft | null>(() => {
+    if (secondsLeft <= 0) return null;
+    return {
+      days: Math.floor(secondsLeft / 86400),
+      hours: Math.floor((secondsLeft % 86400) / 3600),
+      minutes: Math.floor((secondsLeft % 3600) / 60),
+      seconds: secondsLeft % 60,
+    };
+  }, [secondsLeft]);
+
+  const isExpired = isClient && secondsLeft === 0;
 
   const units = [
     { label: "Hari", value: timeLeft?.days },
@@ -100,7 +113,7 @@ export default function HeroCountdown() {
           </ul>
 
           <div className="mt-8 max-w-lg mx-auto lg:mx-0">
-            {isMounted && !timeLeft ? (
+            {isExpired ? (
               <div className="rounded-2xl glass p-5 text-xl font-bold text-gold">
                 Acaranya sedang berlangsung. Sampai ketemu di sana!
               </div>

@@ -55,7 +55,11 @@ export default function LiveReadPage() {
   // Passcode disimpan per tab supaya refresh halaman tidak minta ulang.
   useEffect(() => {
     const saved = sessionStorage.getItem(PASSCODE_KEY);
-    if (saved) loadMessages(saved);
+    if (saved) {
+      setTimeout(() => {
+        void loadMessages(saved);
+      }, 0);
+    }
   }, [loadMessages]);
 
   const filteredMessages = messages.filter((m) => {
@@ -63,31 +67,37 @@ export default function LiveReadPage() {
     return m.recipient.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
-  const currentMessage = filteredMessages[currentIndex] || null;
+  // Clamp index agar tidak out-of-bounds saat mencari / reload
+  const safeIndex =
+    filteredMessages.length > 0
+      ? Math.min(currentIndex, filteredMessages.length - 1)
+      : 0;
 
-  const handleNext = () => {
+  const currentMessage = filteredMessages[safeIndex] || null;
+
+  const handleNext = useCallback(() => {
     if (filteredMessages.length === 0) return;
     setCurrentIndex((prev) => (prev + 1) % filteredMessages.length);
-  };
+  }, [filteredMessages.length]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (filteredMessages.length === 0) return;
     setCurrentIndex((prev) => (prev - 1 + filteredMessages.length) % filteredMessages.length);
-  };
+  }, [filteredMessages.length]);
 
-  const handleShuffle = () => {
+  const handleShuffle = useCallback(() => {
     if (filteredMessages.length <= 1) return;
     let randomIndex = Math.floor(Math.random() * filteredMessages.length);
-    if (randomIndex === currentIndex) {
+    if (randomIndex === safeIndex) {
       randomIndex = (randomIndex + 1) % filteredMessages.length;
     }
     setCurrentIndex(randomIndex);
-  };
+  }, [filteredMessages.length, safeIndex]);
 
-  const setRead = (id: string, isRead: boolean) =>
-    setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, isRead } : m)));
+  const setRead = useCallback((id: string, isRead: boolean) =>
+    setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, isRead } : m))), []);
 
-  const toggleReadStatus = async () => {
+  const toggleReadStatus = useCallback(async () => {
     if (!currentMessage || !passcode) return;
     const { id, isRead } = currentMessage;
     setRead(id, !isRead);
@@ -101,9 +111,9 @@ export default function LiveReadPage() {
     } catch {
       setRead(id, isRead);
     }
-  };
+  }, [currentMessage, passcode, setRead]);
 
-  const toggleFullscreen = () => {
+  const toggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(() => { });
       setIsFullscreen(true);
@@ -111,7 +121,36 @@ export default function LiveReadPage() {
       document.exitFullscreen().catch(() => { });
       setIsFullscreen(false);
     }
-  };
+  }, []);
+
+  // Keyboard navigation untuk presenter di panggung
+  useEffect(() => {
+    if (!passcode) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Abaikan jika presenter sedang mengetik di kotak pencarian
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+      if (e.key === "ArrowRight" || e.key === " ") {
+        e.preventDefault();
+        handleNext();
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        handlePrev();
+      } else if (e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        handleShuffle();
+      } else if (e.key.toLowerCase() === "r") {
+        e.preventDefault();
+        void toggleReadStatus();
+      } else if (e.key.toLowerCase() === "f") {
+        e.preventDefault();
+        toggleFullscreen();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [passcode, handleNext, handlePrev, handleShuffle, toggleReadStatus, toggleFullscreen]);
 
   const readCount = messages.filter((m) => m.isRead).length;
   const btn =
@@ -178,6 +217,7 @@ export default function LiveReadPage() {
             <Search className="w-4 h-4 text-muted" />
             <input
               type="text"
+              aria-label="Cari penerima pesan"
               value={searchQuery}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
@@ -228,7 +268,7 @@ export default function LiveReadPage() {
                     <h2 className="mt-2 font-extrabold tracking-tight text-4xl sm:text-6xl leading-tight">{currentMessage.recipient}</h2>
                   </div>
                   <span className="font-mono whitespace-nowrap text-sm text-muted tabular-nums pt-1">
-                    {currentIndex + 1} / {filteredMessages.length}
+                    {safeIndex + 1} / {filteredMessages.length}
                   </span>
                 </div>
 

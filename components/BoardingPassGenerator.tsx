@@ -76,6 +76,14 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     seat: "PTI-06",
   },
   {
+    name: "Keisya Rizkyka",
+    role: "Staff Divisi PTI",
+    division: "pti",
+    divisionName: "Divisi PTI",
+    instagram: "@keisyarzkaa",
+    seat: "PTI-05",
+  },
+  {
     name: "Ayodya Zahzora Achtar",
     role: "Staff Divisi PTI",
     division: "pti",
@@ -98,14 +106,6 @@ export const RISTEK_MEMBERS_2026: RistekMember2026[] = [
     divisionName: "Divisi PTI",
     instagram: "@rafi.zz_42",
     seat: "PTI-02",
-  },
-  {
-    name: "Keisya Rizkyka",
-    role: "Staff Divisi PTI",
-    division: "pti",
-    divisionName: "Divisi PTI",
-    instagram: "@keisyarzkaa",
-    seat: "PTI-05",
   },
 
   // --- 🔬 Staff Divisi Akademik ---
@@ -205,8 +205,6 @@ const SEAT_COLOR: Record<string, string> = {
   AKD: "text-rose",
   LEAD: "text-gold",
   TMU: "text-gold",
-  PIM: "text-gold",
-  VIP: "text-gold",
 };
 
 const fieldClass =
@@ -388,11 +386,12 @@ export default function BoardingPassGenerator() {
 
                 {/* Sobekan */}
                 <div className="relative sm:w-44 p-6 flex sm:flex-col justify-between items-center sm:items-start gap-4 border-t sm:border-t-0 sm:border-l border-dashed border-line-strong bg-white/[0.02]">
-                  <span aria-hidden="true" className="absolute -top-3 -left-3 sm:-left-3 w-6 h-6 rounded-full bg-bg" />
+                  <span aria-hidden="true" className="absolute -top-3 -left-3 w-6 h-6 rounded-full bg-bg" />
+                  <span aria-hidden="true" className="absolute -top-3 -right-3 sm:hidden w-6 h-6 rounded-full bg-bg" />
                   <span aria-hidden="true" className="absolute -bottom-3 -left-3 hidden sm:block w-6 h-6 rounded-full bg-bg" />
                   <div>
                     <p className="font-mono text-[11px] uppercase tracking-wider text-muted">Kursi</p>
-                    <p className={`mt-1 font-mono text-3xl font-bold leading-none tabular-nums whitespace-nowrap ${SEAT_COLOR[activeSeat.slice(0, 3)] ?? "text-gold"}`}>
+                    <p className={`mt-1 font-mono text-3xl font-bold leading-none tabular-nums whitespace-nowrap ${SEAT_COLOR[activeSeat.split("-")[0]] ?? "text-gold"}`}>
                       {activeSeat}
                     </p>
                   </div>

@@ -217,7 +217,7 @@ export default function RistekWrapped() {
                     transition={{ type: "spring", stiffness: 120, damping: 14 }}
                     className="absolute right-6 sm:right-14 top-20 sm:top-16 w-40 sm:w-56 aspect-square rounded-3xl overflow-hidden border-4 border-gold shadow-2xl"
                   >
-                    <Image src="/hero.jpeg" alt="" fill sizes="224px" className="object-cover" />
+                    <Image src="/hero.jpeg" alt="Foto bersama pengurus Ristek HIMSI 2026" fill sizes="224px" className="object-cover" />
                   </motion.div>
                   <motion.p
                     initial={{ y: 20, opacity: 0 }}
@@ -255,10 +255,10 @@ export default function RistekWrapped() {
                     initial={{ scale: 0.6, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.3, type: "spring", stiffness: 160, damping: 13 }}
-                    className="relative mt-2 origin-left text-[6.5rem] sm:text-[11rem] font-black tracking-tighter leading-none tabular-nums"
+                    className="relative mt-2 origin-left text-6xl sm:text-[9rem] md:text-[11rem] font-black tracking-tighter leading-none tabular-nums flex flex-wrap items-baseline gap-x-3"
                   >
                     {slide.value}
-                    {slide.unit && <span className="ml-3 text-2xl sm:text-4xl font-bold tracking-normal">{slide.unit}</span>}
+                    {slide.unit && <span className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-normal">{slide.unit}</span>}
                   </motion.p>
                   <motion.p
                     initial={{ y: 16, opacity: 0 }}

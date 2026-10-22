@@ -28,6 +28,7 @@ export const RISTEK_MEMORIES: RistekMemoryItem[] = [
     title: "Rapat perdana Ristek 2026",
     tag: "Kickoff",
     month: "Februari",
+    photo: "/galeri/01.jpg",
     caption:
       "Pertemuan pertama BPH dan seluruh staf. Masih canggung, masih saling hafalin nama, tapi semangatnya sudah penuh.",
   },

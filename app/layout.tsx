@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://farewell-ristek-2026.vercel.app"),
   title: "Farewell Ristek 2026 | HIMSI Fasilkom Unsri",
   description:
     "Undangan farewell Departemen Riset dan Teknologi HIMSI Fasilkom Unsri 2026. Sabtu, 24 Oktober 2026, 09.00–15.00 WIB.",
@@ -26,6 +27,20 @@ export const metadata: Metadata = {
     title: "Farewell Ristek 2026",
     description: "Sabtu, 24 Oktober 2026 · Fasilkom Unsri Indralaya",
     type: "website",
+    images: [
+      {
+        url: "/hero.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Farewell Ristek HIMSI 2026",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Farewell Ristek 2026",
+    description: "Sabtu, 24 Oktober 2026 · Fasilkom Unsri Indralaya",
+    images: ["/hero.jpeg"],
   },
 };
 

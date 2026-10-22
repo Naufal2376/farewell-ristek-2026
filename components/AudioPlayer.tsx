@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Volume2, VolumeX, Play, Pause } from "lucide-react";
 
 interface AudioPlayerProps {
@@ -14,19 +14,19 @@ export default function AudioPlayer({ autoPlayTrigger }: AudioPlayerProps) {
 
   const videoId = "UjTkrPewesE"; // for real this time | ribs - gracie abrams & lorde (mashup)
 
-  const sendCommand = (func: string, args: unknown = "") => {
+  const sendCommand = useCallback((func: string, args: unknown = "") => {
     if (iframeRef.current && iframeRef.current.contentWindow) {
       iframeRef.current.contentWindow.postMessage(
         JSON.stringify({ event: "command", func, args }),
         "*"
       );
     }
-  };
+  }, []);
 
-  const playMusic = () => {
+  const playMusic = useCallback(() => {
     sendCommand("playVideo");
     setIsPlaying(true);
-  };
+  }, [sendCommand]);
 
   const pauseMusic = () => {
     sendCommand("pauseVideo");
@@ -59,7 +59,7 @@ export default function AudioPlayer({ autoPlayTrigger }: AudioPlayerProps) {
       }, 500);
       return () => clearTimeout(t);
     }
-  }, [autoPlayTrigger]);
+  }, [autoPlayTrigger, playMusic]);
 
   return (
     <>

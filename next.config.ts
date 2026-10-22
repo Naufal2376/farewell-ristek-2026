@@ -23,6 +23,12 @@ const nextConfig: NextConfig = {
       },
     },
   },
+  async redirects() {
+    return [
+      { source: "/present", destination: "/baca", permanent: false },
+      { source: "/read-mode", destination: "/baca", permanent: false },
+    ];
+  },
 };
 
 export default nextConfig;

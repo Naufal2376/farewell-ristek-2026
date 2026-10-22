@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
+import { RISTEK_MEMBERS_2026 } from "@/components/BoardingPassGenerator";
 
 const MAX_LENGTH = 1000;
 
@@ -88,6 +89,7 @@ export default function SecretAppreciationForm() {
                       <span className="block text-sm font-medium text-muted mb-1.5">Untuk</span>
                       <input
                         type="text"
+                        list="recipient-suggestions"
                         value={recipient}
                         onChange={(e) => setRecipient(e.target.value)}
                         placeholder="Pimpinan, Staff, Doi, Keluarga Ristek, Atau Siapapun..."
@@ -95,6 +97,15 @@ export default function SecretAppreciationForm() {
                         required
                         className="w-full px-4 py-3 rounded-xl bg-bg/60 border border-line focus:outline-none focus:border-gold/60 transition-colors placeholder:text-muted/60"
                       />
+                      <datalist id="recipient-suggestions">
+                        <option value="Semua Anak Ristek" />
+                        <option value="Pimpinan RISTEK" />
+                        <option value="Divisi PTI" />
+                        <option value="Divisi Akademik" />
+                        {RISTEK_MEMBERS_2026.map((m) => (
+                          <option key={m.name} value={m.name} />
+                        ))}
+                      </datalist>
                     </label>
 
                     <label className="block">

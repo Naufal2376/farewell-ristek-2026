@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ArrowUpRight, Check, MapPin } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import SpotlightCard from "@/components/ui/SpotlightCard";
@@ -84,16 +84,15 @@ const checklistItems = [
 const STORAGE_KEY = "ristek_farewell_checklist";
 
 export default function TimelineRundown() {
-  const [checklist, setChecklist] = useState<Record<string, boolean>>({});
-
-  useEffect(() => {
+  const [checklist, setChecklist] = useState<Record<string, boolean>>(() => {
+    if (typeof window === "undefined") return {};
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setChecklist(JSON.parse(saved));
+      return saved ? JSON.parse(saved) : {};
     } catch {
-      // ignore
+      return {};
     }
-  }, []);
+  });
 
   const toggleChecklist = (key: string) => {
     setChecklist((prev) => {
