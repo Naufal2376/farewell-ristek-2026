@@ -517,19 +517,16 @@ export default function BoardingPassGenerator() {
                   </div>
 
                   {/* QR Code Verifikasi */}
-                  <div className="flex flex-col items-center sm:items-start my-auto">
-                    <div className="p-1.5 rounded-xl bg-white shadow-md shadow-black/40">
+                  <div className="w-20 sm:w-full my-auto flex justify-center">
+                    <div className="w-full aspect-square p-2 sm:p-2.5 rounded-xl sm:rounded-2xl bg-white shadow-md shadow-black/40 flex items-center justify-center">
                       <QRCodeSVG
                         value={qrVerificationData}
-                        size={64}
+                        className="w-full h-full"
                         level="M"
                         bgColor="#FFFFFF"
                         fgColor="#0B0F19"
                       />
                     </div>
-                    <span className="mt-1 font-mono text-[8px] uppercase tracking-widest text-muted/70">
-                      Scan to verify
-                    </span>
                   </div>
 
                   {/* Info Area & Boarding */}
