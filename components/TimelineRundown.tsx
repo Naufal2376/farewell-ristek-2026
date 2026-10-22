@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Check, CalendarDays, Clock, Sparkles } from "lucide-react";
+import { Check, CalendarDays, Clock } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import SpotlightCard from "@/components/ui/SpotlightCard";
 import Reveal from "@/components/ui/Reveal";
@@ -128,12 +128,9 @@ export default function TimelineRundown() {
           <aside className="lg:col-span-5 space-y-5 lg:sticky lg:top-24">
             <Reveal>
               <SpotlightCard className="p-5 sm:p-6">
-                <div className="flex items-center gap-2 text-gold">
-                  <Sparkles className="w-5 h-5" />
-                  <h3 className="font-bold text-lg text-fg">Detail Acara</h3>
-                </div>
+                <h3 className="font-bold text-lg text-fg">Detail Acara</h3>
                 <p className="mt-2 text-xl font-extrabold text-gold-shine">
-                  FAREWELL PARTY DEPARTEMEN RISTEK 🫶🏻
+                  FAREWELL PARTY DEPARTEMEN RISTEK
                 </p>
 
                 <div className="mt-5 space-y-3 font-mono text-sm">
