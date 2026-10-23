@@ -7,7 +7,7 @@ import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import { RISTEK_MEMBERS_2026 } from "@/components/BoardingPassGenerator";
 
-const MAX_LENGTH = 1000;
+const MAX_LENGTH = 5000;
 
 export default function SecretAppreciationForm() {
   const [recipient, setRecipient] = useState("");

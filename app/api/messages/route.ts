@@ -3,7 +3,7 @@ import { getSupabaseAdmin } from "@/lib/supabase-server";
 import type { SecretMessage } from "@/lib/secret-message";
 
 const MAX_RECIPIENT = 100;
-const MAX_MESSAGE = 1000;
+const MAX_MESSAGE = 5000;
 
 type Row = {
   id: string;

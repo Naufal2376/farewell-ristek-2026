@@ -272,9 +272,19 @@ export default function LiveReadPage() {
                   </span>
                 </div>
 
-                <p className="mt-8 sm:mt-10 text-2xl sm:text-3xl md:text-4xl leading-snug whitespace-pre-line">
-                  {currentMessage.message}
-                </p>
+                <div className="mt-8 sm:mt-10 max-h-[50vh] overflow-y-auto pr-2">
+                  <p
+                    className={`leading-snug whitespace-pre-line ${
+                      currentMessage.message.length > 800
+                        ? "text-lg sm:text-xl md:text-2xl"
+                        : currentMessage.message.length > 300
+                          ? "text-xl sm:text-2xl md:text-3xl"
+                          : "text-2xl sm:text-3xl md:text-4xl"
+                    }`}
+                  >
+                    {currentMessage.message}
+                  </p>
+                </div>
 
                 <div className="mt-10 pt-5 border-t border-line flex items-center justify-between gap-4 font-mono text-xs text-muted">
                   <span>Dari: seseorang di Ristek</span>
