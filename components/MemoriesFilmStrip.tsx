@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useInView } from "framer-motion";
+import { createPortal } from "react-dom";
 import { X, ChevronLeft, ChevronRight, Film, Maximize2 } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 
@@ -93,11 +94,16 @@ export default function MemoriesFilmStrip() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedPhoto, handlePrev, handleNext]);
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <section
       ref={sectionRef}
       id="klise-kenangan"
-      className="py-20 sm:py-28 overflow-hidden relative content-auto"
+      className="py-20 sm:py-28 overflow-hidden relative"
     >
       {/* Background ambient glow - hardware accelerated without expensive blur */}
       <div
@@ -215,74 +221,78 @@ export default function MemoriesFilmStrip() {
       </div>
 
       {/* Lightbox Modal Interaktif (Hanya Foto Murni & Tombol Tutup/Navigasi) */}
-      <AnimatePresence>
-        {selectedPhoto && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md"
-            onClick={() => setSelectedPhoto(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.92, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.92, opacity: 0 }}
-              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl rounded-3xl overflow-hidden bg-surface border border-line-strong shadow-2xl shadow-black/90 flex flex-col"
-            >
-              {/* Header Modal Bersih */}
-              <div className="flex items-center justify-between px-5 py-3 border-b border-line bg-surface-2/60">
-                <div className="flex items-center gap-2">
-                  <Film className="w-4 h-4 text-gold" />
-                  <span className="font-mono text-xs uppercase tracking-wider text-muted">
-                    Klise Kenangan · {selectedPhoto.frameCode}
-                  </span>
-                </div>
-                <button
-                  onClick={() => setSelectedPhoto(null)}
-                  className="p-1.5 rounded-full hover:bg-white/10 text-muted hover:text-fg transition-colors cursor-pointer"
-                  aria-label="Tutup pratinjau"
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {selectedPhoto && (
+              <div
+                className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/90 backdrop-blur-md"
+                onClick={() => setSelectedPhoto(null)}
+              >
+                <motion.div
+                  initial={{ scale: 0.92, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.92, opacity: 0 }}
+                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative w-full max-w-4xl rounded-3xl overflow-hidden bg-surface border border-line-strong shadow-2xl shadow-black/90 flex flex-col"
                 >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
+                  {/* Header Modal Bersih */}
+                  <div className="flex items-center justify-between px-5 py-3 border-b border-line bg-surface-2/60">
+                    <div className="flex items-center gap-2">
+                      <Film className="w-4 h-4 text-gold" />
+                      <span className="font-mono text-xs uppercase tracking-wider text-muted">
+                        Klise Kenangan · {selectedPhoto.frameCode}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => setSelectedPhoto(null)}
+                      className="p-1.5 rounded-full hover:bg-white/10 text-muted hover:text-fg transition-colors cursor-pointer"
+                      aria-label="Tutup pratinjau"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
 
-              {/* Foto Utama Murni (Sesuai Ukuran Cover) */}
-              <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full bg-black/80 flex items-center justify-center overflow-hidden">
-                <Image
-                  src={selectedPhoto.src}
-                  alt="Foto kenangan"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 960px"
-                  className="object-cover"
-                  priority
-                />
+                  {/* Foto Utama Murni (Sesuai Ukuran Cover) */}
+                  <div className="relative aspect-[4/3] sm:aspect-[16/10] w-full bg-black/80 flex items-center justify-center overflow-hidden">
+                    <Image
+                      src={selectedPhoto.src}
+                      alt="Foto kenangan"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 960px"
+                      className="object-cover"
+                      priority
+                    />
 
-                {/* Tombol Navigasi Kiri & Kanan */}
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handlePrev();
-                  }}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full glass bg-black/50 hover:bg-black/80 text-fg transition-colors cursor-pointer"
-                  aria-label="Foto sebelumnya"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleNext();
-                  }}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full glass bg-black/50 hover:bg-black/80 text-fg transition-colors cursor-pointer"
-                  aria-label="Foto berikutnya"
-                >
-                  <ChevronRight className="w-5 h-5" />
-                </button>
+                    {/* Tombol Navigasi Kiri & Kanan */}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handlePrev();
+                      }}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full glass bg-black/50 hover:bg-black/80 text-fg transition-colors cursor-pointer"
+                      aria-label="Foto sebelumnya"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleNext();
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2.5 rounded-full glass bg-black/50 hover:bg-black/80 text-fg transition-colors cursor-pointer"
+                      aria-label="Foto berikutnya"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
-          </div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </section>
   );
 }

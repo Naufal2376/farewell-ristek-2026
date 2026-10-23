@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { createPortal } from "react-dom";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
@@ -236,6 +237,22 @@ export default function PolaroidGallery() {
   const step = (delta: number) =>
     setOpenIndex((i) => (i === null ? i : (i + delta + withPhoto.length) % withPhoto.length));
 
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpenIndex(null);
+      if (e.key === "ArrowLeft") step(-1);
+      if (e.key === "ArrowRight") step(1);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [open]);
+
   // git log: terbaru di atas.
   const log = [...RISTEK_MEMORIES].reverse();
   // Tag bulan dipasang di commit terbaru tiap bulan, jadi muncul di awal kelompoknya.
@@ -247,7 +264,7 @@ export default function PolaroidGallery() {
   const himsiEnd = log.length - 1 - [...log].reverse().findIndex((m) => HIMSI_LANE.has(m.id));
 
   return (
-    <section id="galeri" className="px-4 sm:px-6 py-20 sm:py-28 content-auto">
+    <section id="galeri" className="px-4 sm:px-6 py-20 sm:py-28">
       <div className="max-w-6xl mx-auto">
         <SectionHeading index="03" label="git log" title="24 momen Ristek & HIMSI">
           Satu periode sebagai riwayat commit. Jalur emas untuk kegiatan Ristek,
@@ -348,52 +365,56 @@ export default function PolaroidGallery() {
         </Reveal>
       </div>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setOpenIndex(null)}
-            className="fixed inset-0 z-50 bg-bg/90 backdrop-blur-md flex items-center justify-center p-4"
-            role="dialog"
-            aria-modal="true"
-            aria-label={open.title}
-          >
-            <motion.figure
-              initial={{ scale: 0.95, y: 10 }}
-              animate={{ scale: 1, y: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-3xl rounded-3xl glass p-3"
-            >
-              <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-2xl overflow-hidden bg-surface-2">
-                <Image src={open.photo!} alt={open.title} fill sizes="90vw" className="object-cover" />
-              </div>
-              <figcaption className="mt-3 px-2 pb-1 flex items-start justify-between gap-4">
-                <div>
-                  <p className="font-bold">{open.title}</p>
-                  <p className="text-sm text-muted">{open.caption}</p>
-                </div>
-                <div className="flex gap-1 shrink-0">
-                  {withPhoto.length > 1 && (
-                    <>
-                      <button onClick={() => step(-1)} className="p-2 rounded-lg hover:bg-white/5" aria-label="Foto sebelumnya">
-                        <ChevronLeft className="w-5 h-5" />
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {open && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setOpenIndex(null)}
+                className="fixed inset-0 z-50 bg-bg/90 backdrop-blur-md flex items-center justify-center p-4"
+                role="dialog"
+                aria-modal="true"
+                aria-label={open.title}
+              >
+                <motion.figure
+                  initial={{ scale: 0.95, y: 10 }}
+                  animate={{ scale: 1, y: 0 }}
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative w-full max-w-3xl rounded-3xl glass p-3"
+                >
+                  <div className="relative w-full aspect-[4/3] sm:aspect-[16/10] rounded-2xl overflow-hidden bg-surface-2">
+                    <Image src={open.photo!} alt={open.title} fill sizes="90vw" className="object-cover" />
+                  </div>
+                  <figcaption className="mt-3 px-2 pb-1 flex items-start justify-between gap-4">
+                    <div>
+                      <p className="font-bold">{open.title}</p>
+                      <p className="text-sm text-muted">{open.caption}</p>
+                    </div>
+                    <div className="flex gap-1 shrink-0">
+                      {withPhoto.length > 1 && (
+                        <>
+                          <button onClick={() => step(-1)} className="p-2 rounded-lg hover:bg-white/5" aria-label="Foto sebelumnya">
+                            <ChevronLeft className="w-5 h-5" />
+                          </button>
+                          <button onClick={() => step(1)} className="p-2 rounded-lg hover:bg-white/5" aria-label="Foto berikutnya">
+                            <ChevronRight className="w-5 h-5" />
+                          </button>
+                        </>
+                      )}
+                      <button onClick={() => setOpenIndex(null)} className="p-2 rounded-lg hover:bg-white/5" aria-label="Tutup">
+                        <X className="w-5 h-5" />
                       </button>
-                      <button onClick={() => step(1)} className="p-2 rounded-lg hover:bg-white/5" aria-label="Foto berikutnya">
-                        <ChevronRight className="w-5 h-5" />
-                      </button>
-                    </>
-                  )}
-                  <button onClick={() => setOpenIndex(null)} className="p-2 rounded-lg hover:bg-white/5" aria-label="Tutup">
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-              </figcaption>
-            </motion.figure>
-          </motion.div>
+                    </div>
+                  </figcaption>
+                </motion.figure>
+              </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body
         )}
-      </AnimatePresence>
     </section>
   );
 }
